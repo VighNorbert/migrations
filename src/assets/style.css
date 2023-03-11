@@ -1,0 +1,58 @@
+
+
+.header {
+    max-height: 100%;
+    display: inline-block;
+    width: 100%;
+    margin: auto;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 12%, rgba(85, 189, 155, 1) 40%, rgba(76, 153, 128, 1) 88%);
+}
+
+nav {
+    width: 100%;
+}
+
+nav ul {
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+nav ul li {
+    width: 50%;
+    float: left;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-size: 30px;
+    padding: 20px 0;
+    display: block;
+    width: 100%;
+    background-color: lightskyblue;
+}
+
+nav ul li a:hover {
+    text-decoration: none;
+    background-color: cornflowerblue;
+}
+
+main {
+    width: 80%;
+    margin: 3rem auto;
+}
+
+h1 {
+    height: 34px;
+    font-size: 28px;
+}
+
+.map-canvas {
+    width: 100%;
+    height: calc(100vh - 5rem - 85px);
+    background-color: ghostwhite;
+}
