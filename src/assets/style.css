@@ -53,6 +53,6 @@ h1 {
 
 .map-canvas {
     width: 100%;
-    height: calc(100vh - 5rem - 85px);
+    height: 50%;
     background-color: ghostwhite;
 }

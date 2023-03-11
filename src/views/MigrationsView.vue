@@ -1,6 +1,6 @@
 <template>
   <h1>Migrations</h1>
-  <ForceDirectedGraph />
+  <ForceDirectedGraph></ForceDirectedGraph>
 </template>
 
 <script>
