@@ -1,0 +1,37 @@
+{
+    "Europe" : {
+        "x":500,
+        "y":100,
+        "radius":200
+    },
+    "Africa" : {
+        "x":500,
+        "y":600,
+        "radius":200
+    },
+    "North America" : {
+        "x":100,
+        "y":100,
+        "radius":200
+    },
+    "South America" : {
+        "x":100,
+        "y":600,
+        "radius":200
+    },
+    "Asia" : {
+        "x":1000,
+        "y":100,
+        "radius":200
+    },
+    "Oceania" : {
+        "x":1000,
+        "y":600,
+        "radius":200
+    },
+    "Antarctica" : {
+        "x":500,
+        "y":1200,
+        "radius":200
+    }
+}
