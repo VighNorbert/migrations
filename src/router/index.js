@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import AboutView from "@/views/AboutView.vue";
 import MigrationsView from "@/views/MigrationsView.vue";
+import HybridView from "@/views/HybridView.vue";
 
 const routes = [
     {
@@ -12,6 +13,11 @@ const routes = [
         path: '/migrations',
         name: 'migrations',
         component: MigrationsView
+    },
+    {
+        path: '/hybrid',
+        name: 'hybrid',
+        component: HybridView
     }
 ]
 
