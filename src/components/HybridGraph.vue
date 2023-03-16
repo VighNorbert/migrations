@@ -18,7 +18,7 @@
         return d;
       },
       HybridGraph(diagram) {
-        console.log(diagram);
+        // console.log(diagram);
 
         let diameter = 500;
         let radius = diameter / 2;
@@ -26,15 +26,18 @@
           
         this.cluster = d3.cluster().size([360, innerRadius]);
 
-        this.svg = d3.select("body").append("svg")
+        this.svg = d3.create("svg")
+            .attr("viewBox", [0, 0, 1920, 1080])
           .attr("width", 1920)
           .attr("height", 1080)
           .attr("id", "chordlink")
           .append("g")
           .attr("transform", "translate(" + radius + "," + radius + ")");
 
+        document.querySelector(".map-canvas").appendChild(this.svg.node().parentNode);
+
         d3.select("#chordlink").append("g").attr("id","externalLinks")
-          .attr("transform", "translate(5,-300)"); 
+          .attr("transform", "translate(-200,-177)");
 
         this.line = d3.radialLine()
           .curve(d3.curveBundle.beta(0.85))
@@ -49,7 +52,7 @@
         this.drawExternalLinks(diagram.externalLinks);
       },
       drawChordDiagrams(chordDiagrams) {
-        console.log(chordDiagrams);
+        // console.log(chordDiagrams);
         
         let link = {};
         let node = {};
@@ -62,7 +65,7 @@
 
         Object.keys(chordDiagrams).forEach(function(zone) {
 
-          console.log("Zone: " + zone);
+          // console.log("Zone: " + zone);
 
           node[zone] = svg.append("g")
             .attr("id", "g-" + zone)
@@ -82,7 +85,7 @@
           
           let zoneCountries = hierarchy(arr);
 
-          console.log(zoneCountries);
+          // console.log(zoneCountries);
 
           cluster(zoneCountries);
 

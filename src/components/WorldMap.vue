@@ -87,12 +87,12 @@ export default {
       c.map(d => {
         d.group = d.region;
       });
-      console.log(c);
+      // console.log(c);
       return c;
     },
     async loadLinks() {
       let c = await d3.json("../../data/migration.json");
-      console.log(c);
+      // console.log(c);
       c = c.filter(d => d.total[5] > 10000);
       return c;
     },
@@ -105,10 +105,10 @@ export default {
   },
   async mounted() {
     let nodes = await this.loadCapitals();
-    let links = await this.loadLinks();
+    // let links = await this.loadLinks();
 
-    console.log(nodes);
-    console.log(links);
+    // console.log(nodes);
+    // console.log(links);
 
     this.g
       .selectAll(".country")
@@ -128,7 +128,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .country {
   fill: WhiteSmoke;
   stroke: Gainsboro;

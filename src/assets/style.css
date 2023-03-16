@@ -21,7 +21,7 @@ nav ul {
 }
 
 nav ul li {
-    width: 50%;
+    width: calc(100% / 3);
     float: left;
 }
 

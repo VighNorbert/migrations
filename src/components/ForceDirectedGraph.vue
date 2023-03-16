@@ -21,12 +21,12 @@ export default {
       c.map(d => {
         d.group = d.region;
       });
-      console.log(c);
+      // console.log(c);
       return c;
     },
     async loadLinks() {
       let c = await d3.json("../../data/migration.json");
-      console.log(c);
+      // console.log(c);
       c = c.filter(d => d.total[5] > 10000);
       return c;
     },
