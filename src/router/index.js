@@ -7,7 +7,10 @@ const routes = [
     {
         path: '/',
         name: 'about',
-        component: AboutView
+        component: AboutView,
+        meta: {
+          title: 'About'
+        },
     },
     {
         path: '/migrations',
@@ -17,13 +20,26 @@ const routes = [
     {
         path: '/hybrid',
         name: 'hybrid',
-        component: HybridView
+        component: HybridView,
+        meta: {
+          title: 'Hybrid'
+        },
     }
 ]
 
 const router = createRouter({
     history: createWebHistory(),
     routes
+})
+
+router.beforeEach((to, from, next) => {
+    const title = to.meta.title;
+    if (title) {
+        document.title = 'MigVis - ' + title;
+    } else {
+        document.title = 'MigVis';
+    }
+    next();
 })
 
 export default router
