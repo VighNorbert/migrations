@@ -48,3 +48,20 @@
   .link--target {
     stroke: #2ca02c;
   }
+
+  .container {
+    width: 100%;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 25%; /* Set the width of the sidebar */
+    background-color: #f1f1f1;
+  }
+
+  .main-content {
+    margin-right: 25%;
+  }

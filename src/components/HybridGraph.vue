@@ -1,22 +1,55 @@
 <template>
   <div class="sliderDiv">
-    <input type="range" min="1960" max="2010" step="10" v-model="sliderValue" id="yearSlider" @change="sliderChange"> 
-    <input type="range" min="0" max="10000000" step="10000" v-model="sliderValue" id="filterSlider" @change="SliderChange"> 
+    <input type="range" min="1960" max="2010" step="10" v-model="sliderValue" id="yearSlider" @change="updateDiagram"> 
+    <input type="range" min="0" max="1000000" step="5000" v-model="sliderValue" id="filterSlider" @change="updateDiagram"> 
   </div>
     <div class="map-canvas">
     </div>
+    <div class="container">
+    <div id="sidebar" class="sidebar" style="">
+      <!-- Sidebar content goes here -->
+      <span id="close-sidebar" style="padding: 10px; float: left; cursor:pointer;" @click="closeSidebar()">X</span>
+      <h2>Migrations</h2>
+      
+      <!--
+
+        two buttons: immigration and emigrations views
+
+      -->
+
+      <div>
+      <button v-on:click="showImmigration">Show immigration</button>
+      <button v-on:click="showEmigration">Show emigration</button>
+      <button>Show difference</button>
+      </div>
+
+      <!--
+
+        selected country migration details
+
+      -->
+
+      <div id="selected-country-details">
+        <h2>Details</h2>
+        <div id="details-list-div">
+          <ul id="details-list">
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
   </template>
 
   <!-- TODO
-    1d
   - option to show colors for the flows: red=more immigrants than emigrants, blue viceversa
-    3d
-  - two different views for immigration and emigration
-    show on the sidebar how flows are distributed among countries
-    
-  - filter migrations by amount
+  - fix multiple selection
+
+    Possibility to create new clusters -- DROP OUT
+
+    End: Aestetically beautiful!
+
   - (animations) 
-  - opacity based on route number of immigrants
 
   -->
   
@@ -28,14 +61,16 @@
   var selectedCountries = [];
   let multipleSelectionActive = false;
   let migrationsFlowsDetails = {};
+  let ctrlPressed = false;
   let data = {};
+  let viewOption = "emigration";
 
   export default {
     name: 'HybridGraph',
     async mounted() {
       let dataAsync = await this.loadData();
       data = dataAsync;
-      let summData = this.summarizeData(data,0,1970,0);
+      let summData = this.summarizeData(data,0,2000,100000);
       //summData = this.summarizeData(data,0,1970,0);
 
       //let diagram = await this.loadDiagram();
@@ -68,7 +103,7 @@
         
         let diagramDataStructure = {};
         diagramDataStructure.chordDiagrams = {};
-        diagramDataStructure.externalLinks = [];
+        diagramDataStructure.externalLinks = {};
         diagramDataStructure.isolatedNodes = {};
 
         // now I have to build the skeleton data structure
@@ -90,7 +125,7 @@
 
           diagramDataStructure.chordDiagrams[continent]["nodes"][country] = {};
           diagramDataStructure.chordDiagrams[continent]["nodes"][country]["name"] = country;
-          diagramDataStructure.chordDiagrams[continent]["nodes"][country]["links"] = [];
+          diagramDataStructure.chordDiagrams[continent]["nodes"][country]["links"] = {};
         });
 
         this.country2continent_dict = country2continent_dict;
@@ -110,23 +145,49 @@
 
           if(country2continent_dict[sourceCountry] !== undefined && country2continent_dict[targetCountry] !== undefined) {
             if(country2continent_dict[sourceCountry] === country2continent_dict[targetCountry]) {   
-              // insert as internal migration         
-              diagramDataStructure.chordDiagrams[country2continent_dict[sourceCountry]]["nodes"][sourceCountry]["links"].push(
-                {"country":targetCountry, "quantity":flowQuantities}
-              );
+              // insert as internal migration
+              if(!(targetCountry in diagramDataStructure.chordDiagrams[country2continent_dict[sourceCountry]]["nodes"][sourceCountry]["links"])) {
+                diagramDataStructure.chordDiagrams[country2continent_dict[sourceCountry]]["nodes"][sourceCountry]["links"][targetCountry]
+                  = {"in":{},"out":{}};
+              }
+
+              if(!(sourceCountry in diagramDataStructure.chordDiagrams[country2continent_dict[targetCountry]]["nodes"][targetCountry]["links"])) {
+                diagramDataStructure.chordDiagrams[country2continent_dict[targetCountry]]["nodes"][targetCountry]["links"][sourceCountry]
+                  = {"in":{},"out":{}};
+              }
+
+              diagramDataStructure.chordDiagrams[country2continent_dict[sourceCountry]]["nodes"][sourceCountry]["links"][targetCountry].out = flowQuantities;
+              diagramDataStructure.chordDiagrams[country2continent_dict[targetCountry]]["nodes"][targetCountry]["links"][sourceCountry].in = flowQuantities;
             } else {
               // insert as external migration
-              diagramDataStructure["externalLinks"].push({"from":sourceCountry,"to":targetCountry,"weight":flowQuantities});
+              if(!(normalizeExternalLinkKey(sourceCountry,targetCountry) in diagramDataStructure.externalLinks)) {
+                diagramDataStructure["externalLinks"][normalizeExternalLinkKey(sourceCountry,targetCountry)]
+                  = {"from":sourceCountry,"to":targetCountry,"peso":{"in":{},"out":{}},"weight":{}};
+              }
+              
+              if(!(normalizeExternalLinkKey(targetCountry,sourceCountry) in diagramDataStructure.externalLinks)) {
+                diagramDataStructure["externalLinks"][normalizeExternalLinkKey(targetCountry,sourceCountry)]
+                  = {"from":targetCountry,"to":sourceCountry,"peso":{"in":{},"out":{}},"weight":{}};
+              }
+
+              diagramDataStructure["externalLinks"][normalizeExternalLinkKey(sourceCountry,targetCountry)].peso.out = flowQuantities;
+              diagramDataStructure["externalLinks"][normalizeExternalLinkKey(targetCountry,sourceCountry)].peso.in = flowQuantities;
             }
           }
         });
 
+        function normalizeExternalLinkKey(from,to) {
+          return from + "-" + to;
+        }
+
         return diagramDataStructure;
       },
-      sliderChange() {
+      normalizeExternalLinkKey(from,to) {
+        return from + "-" + to;
+      },
+      updateDiagram() {
         let year = document.getElementById("yearSlider").value;
         let minFilter = document.getElementById("filterSlider").value;
-        migrationsFlowsDetails = {};
 
         let summData = this.summarizeData(data,0,year,minFilter);
 
@@ -138,9 +199,18 @@
 
         this.HybridGraph(diagram, iso3166);
       },
-      summarizeData(fullDiagramData,fromYear,toYear,minFilter) {
-        let fullDiagramDataCopy = {};
-        fullDiagramDataCopy = JSON.parse(JSON.stringify(fullDiagramData));
+      showImmigration() {
+        viewOption = "immigration";
+        this.updateDiagram();
+      },
+      showEmigration() {
+        viewOption = "emigration";
+        this.updateDiagram();
+      },
+      summarizeData(fullDiagramData,fromYear,toYear,minFilter) {        
+        let fullDiagramDataCopy = fullDiagramData;
+        migrationsFlowsDetails = {};
+        //fullDiagramDataCopy = JSON.parse(JSON.stringify(fullDiagramData));
 
         // work on internal migrations
         Object.keys(fullDiagramDataCopy.chordDiagrams).forEach(function(zone) {
@@ -152,29 +222,35 @@
             let nodeLinks = diagramNode.links;
 
             let quantitySum = 0;
-            nodeLinks.forEach(function(nodeLink) {
-              let nodeLinkCountry = nodeLink.country;
-              let nodeLinkQuantities = nodeLink.quantity;
+            Object.keys(nodeLinks).forEach(function(nodeLink) {
 
-              Object.keys(nodeLinkQuantities).forEach(function(y) {
-                if(y >= fromYear && y <= toYear) {
-                  quantitySum += nodeLinkQuantities[y];
-                }
-              });
+              let nodeLinkCountry = nodeLink;
+              let nodeLinkQuantities = {};
+              if(viewOption === "emigration")
+                nodeLinkQuantities = nodeLinks[nodeLink].out;
+              else if(viewOption == "immigration")
+                nodeLinkQuantities = nodeLinks[nodeLink].in;
 
-              nodeLink.quantity = quantitySum;
+              if(nodeLinkQuantities !== undefined) {
+                quantitySum = nodeLinkQuantities[toYear];
+              }
+
+              if(quantitySum > minFilter)
+                nodeLinks[nodeLink].quantity = quantitySum;
+              else
+                nodeLinks[nodeLink].quantity = 0;
 
               if(!(diagramNodeName in migrationsFlowsDetails)) {
                 migrationsFlowsDetails[diagramNodeName] = {"in":0,"out":0,"max":0};
               }
 
-              migrationsFlowsDetails[diagramNodeName].out = quantitySum;
-              if(quantitySum > migrationsFlowsDetails[diagramNodeName].max) {
-                migrationsFlowsDetails[diagramNodeName].max = quantitySum;
-              }
-
               if(!(nodeLinkCountry in migrationsFlowsDetails)) {
                 migrationsFlowsDetails[nodeLinkCountry] = {"in":0,"out":0,"max":0};
+              }
+
+              migrationsFlowsDetails[diagramNodeName].out = quantitySum;              
+              if(quantitySum > migrationsFlowsDetails[diagramNodeName].max) {
+                migrationsFlowsDetails[diagramNodeName].max = quantitySum;
               }
 
               migrationsFlowsDetails[nodeLinkCountry].in = quantitySum;
@@ -184,30 +260,28 @@
         });
 
         // work on external migrations
-        fullDiagramDataCopy.externalLinks.forEach(function(externalLink,index) {
-          let from = externalLink.from;
-          let to = externalLink.to;
-          let weights = externalLink.weight;
+        Object.keys(fullDiagramDataCopy.externalLinks).forEach(function(externalLink) {
+          let from = fullDiagramDataCopy.externalLinks[externalLink].from;
+          let to = fullDiagramDataCopy.externalLinks[externalLink].to;
+          let weights = fullDiagramDataCopy.externalLinks[externalLink];
 
           let sumWeights = 0;
-          Object.keys(weights).forEach(function(y) {
-            if(y >= fromYear && y <= toYear) {
-              sumWeights += weights[y];
-            }
-          });
 
-          fullDiagramDataCopy.externalLinks[index].weight = sumWeights;
-          
-          // update migration flow details
-          migrationsFlowsDetails[to].in += sumWeights;
-          migrationsFlowsDetails[from].out += sumWeights;
+          sumWeights = weights[toYear];
 
-          if(sumWeights > migrationsFlowsDetails[from].max) {
+          if(sumWeights > minFilter)
+            fullDiagramDataCopy.externalLinks[externalLink].weight = sumWeights;
+          else
+            fullDiagramDataCopy.externalLinks[externalLink].weight = 0;
+        
+          if(migrationsFlowsDetails[from] !== undefined) {
+            if(sumWeights > migrationsFlowsDetails[from].max) {
               migrationsFlowsDetails[from].max = sumWeights;
             }
+          }
 
         });
-
+        
         return fullDiagramDataCopy;
       },
       HybridGraph(diagram, iso3166) {
@@ -223,13 +297,21 @@
           .attr("height", 1080)
           .attr("id", "chordlink")
           .append("g")
-          .attr("transform", "translate(" + radius + "," + radius + ")");
+          .attr("transform", "translate(" + radius + "," + radius + ")")
+          ;
 
         document.querySelector(".map-canvas").appendChild(this.svg.node().parentNode);
 
         d3.select("#chordlink").append("g").attr("id","externalLinks")
           .attr("transform", "translate(-200,-177)");
 
+        d3.select("body")
+        .on("keydown", function(event) {
+            ctrlPressed = true;
+        })
+        .on("keyup", function(event) {
+            ctrlPressed = false;
+        });
         
         this.tooltip = d3.select(".map-canvas")
           .append("div")
@@ -253,18 +335,34 @@
           });
         
         this.drawChordDiagrams(diagram, iso3166);
+
+        let reduceOpacityOfAllCountriesFlags = this.reduceOpacityOfAllCountriesFlags;
+        let highlightSelectedCountries = this.highlightSelectedCountries;
+        let reduceOpacityOfAllCountriesLinks = this.reduceOpacityOfAllCountriesLinks;
+        let increaseLinksOpacityOfSelectedCountries = this.increaseLinksOpacityOfSelectedCountries;
+        let drawExternalLinksOfSelectedCountries = this.drawExternalLinksOfSelectedCountries;
+
+        if(multipleSelectionActive) {
+          // highlight selected countries
+
+          // remove highlight on everything
+          reduceOpacityOfAllCountriesFlags(0.1);
+          reduceOpacityOfAllCountriesLinks(0.05);
+
+          highlightSelectedCountries();
+          increaseLinksOpacityOfSelectedCountries(selectedCountries,0.7);
+
+          drawExternalLinksOfSelectedCountries(selectedCountries);
+        }
       },
       drawChordDiagrams(diagram, iso3166) {
         
         this.link = {};
         this.node = {};
 
-        let diagramCopy = {};
-        Object.assign(diagramCopy,diagram);
-
-        this.chordDiagrams = diagramCopy.chordDiagrams;
-        this.externalLinks = diagramCopy.externalLinks;
-        this.isolatedNodes = diagramCopy.isolatedNodes;
+        this.chordDiagrams = diagram.chordDiagrams;
+        this.externalLinks = diagram.externalLinks;
+        this.isolatedNodes = diagram.isolatedNodes;
         
         let drawChordDiagram = this.drawChordDiagram;
         
@@ -334,7 +432,10 @@
         let pushExternalLink = this.pushExternalLink;
         let drawChordDiagram = this.drawChordDiagram;
         let country2continent_dict = this.country2continent_dict;
+        let normalizeExternalLinkKey = this.normalizeExternalLinkKey;
         let highlightSelectedCountries = this.highlightSelectedCountries;
+        let getIsolatedNodes = this.getIsolatedNodes;
+        let moveCountryToZone = this.moveCountryToZone;
 
         // delete old node
         removeElement("node-" + normalizeClassName(countryName));
@@ -359,8 +460,7 @@
             .on('start', isolatedNodeDragStart)
             .on('drag', isolatedNodeDragging)
             .on('end', isolatedNodeDragEnd)
-          )
-          ;
+          );
 
           function isolatedNodeDragStart(){
               d3.select(this).style("stroke", "");
@@ -374,36 +474,7 @@
           }
           
           function isolatedNodeDragEnd() {
-            // move node from isolated nodes to chordLink diagram
-            chordDiagrams[overedChordDiagramZoneName]["nodes"][countryName] = isolatedNodes[countryName];
-            
-            externalLinks.forEach(function(externalLink) {
-              let from = externalLink.from;
-              let to = externalLink.to;
-              let quantity = externalLink.quantity;
-              
-              if(from===countryName) {
-                chordDiagrams[overedChordDiagramZoneName]["nodes"][countryName].links
-                  .push({"country":to,"quantity":quantity});
-                  deleteExternalLink(from,to);
-              }
-            });
-
-            country2continent_dict[countryName] = overedChordDiagramZoneName;
-            
-            externalLinks = externalLinks.filter(externalLink => externalLink.from!==countryName);
-
-            isolatedNodes[countryName].links.forEach(function(link) {
-              pushExternalLink(countryName,link.country,link.quantity);
-            });
-
-            delete isolatedNodes[countryName];
-
-            deleteChordDiagram(overedChordDiagramZoneName);
-            removeElement("node-"+normalizeClassName(countryName));
-
-            drawChordDiagram(overedChordDiagramZoneName);
-          
+            moveCountryToZone(countryName,overedChordDiagramZoneName);
           }
 
           function isolatedNodeMouseovered(d) {
@@ -529,6 +600,7 @@
         let normalizeClassName = this.normalizeClassName;
         let showTooltipCountry = this.showTooltipCountry;
         let hideTooltipCountry = this.hideTooltipCountry;
+        let showMigrationDetailsList = this.showMigrationDetailsList;
 
         /** Draw all the flags */
         this.node[chordDiagramZone] = this.node[chordDiagramZone]
@@ -555,40 +627,44 @@
               .on("mouseover", flagMouseOvered)
               .on("mouseout", flagMouseOuted)
               .on("click", flagMouseClick)
-              .on("contextmenu", function (d, i) {
-                let countryName = d.target.__data__.data.name;
-
-                // if country in set then remove it, otherwise insert it
-                let elementIndex = selectedCountries.indexOf(countryName);
-                if(elementIndex == -1) {
-                  selectedCountries.push(countryName);
-                  multipleSelectionActive = true;
-                } else {
-                  selectedCountries.splice(elementIndex,1);
-                  if(selectedCountries.length == 0)
-                    multipleSelectionActive = false;
-                }
-
-                reduceOpacityOfAllCountriesLinks(0.05);
-                reduceOpacityOfAllCountriesFlags(0.1);
-
-                increaseLinksOpacityOfSelectedCountries(selectedCountries,0.7);
-                increaseFlagOpacityOfSelectedCountries(selectedCountries,1);
-
-              });
+              ;
 
               /** CHORD DIAGRAMS FLAGS EVENTS */
               function flagMouseClick(d) {
-                let clickedCountryName = d.target.__data__.data.key;
-                
-                createIsolatedNode(clickedCountryName,iso3166_dict,countryNames);  
 
-                deleteChordDiagram(country2zone_dict[clickedCountryName]);     
-                
-                moveCountryToIsolatedNodes(clickedCountryName);
-                
-                // draw new chord diagram
-                drawChordDiagram(chordDiagramZone);
+                if(ctrlPressed) {
+                  let countryName = d.target.__data__.data.name;
+
+                  // if country in set then remove it, otherwise insert it
+                  let elementIndex = selectedCountries.indexOf(countryName);
+                  if(elementIndex == -1) {
+                    selectedCountries.push(countryName);
+                    multipleSelectionActive = true;
+                  } else {
+                    selectedCountries.splice(elementIndex,1);
+                    if(selectedCountries.length == 0)
+                      multipleSelectionActive = false;
+                  }
+
+                  reduceOpacityOfAllCountriesLinks(0.05);
+                  reduceOpacityOfAllCountriesFlags(0.1);
+
+                  increaseLinksOpacityOfSelectedCountries(selectedCountries,0.7);
+                  let selectedCountriesComposed = [];
+                  selectedCountries.forEach(function(countryName) {
+                    selectedCountriesComposed.push({"country":countryName});
+                  });
+                  increaseFlagOpacityOfSelectedCountries(selectedCountriesComposed,1);
+                } else {
+                  let clickedCountryName = d.target.__data__.data.key;
+
+                  createIsolatedNode(clickedCountryName,iso3166_dict,countryNames);
+                  deleteChordDiagram(country2zone_dict[clickedCountryName]);
+                  moveCountryToIsolatedNodes(clickedCountryName);
+
+                  // draw new chord diagram
+                  drawChordDiagram(chordDiagramZone);                  
+                }
               }
 
               function flagMouseOvered(d,event) {
@@ -596,19 +672,19 @@
                 
                 highlightLinksFromCountry(overedCountryName);   
                 highlightSelectedCountries();
-
-                // get migrations out from country
-
-                // get migrations in to country
-
+                
                 showTooltipCountry(overedCountryName,migrationsFlowsDetails[overedCountryName].in,
                                   migrationsFlowsDetails[overedCountryName].out,event);
+                
+                showMigrationDetailsList(overedCountryName);
               }
 
               function flagMouseOuted(d) {
                 let overedCountryName = d.target.__data__.data.key;
                 
                 hideTooltipCountry();
+
+                document.getElementById("details-list").innerHTML = "";
 
                 if(!multipleSelectionActive)
                   removeHighlightsLinksFromCountry(overedCountryName);
@@ -631,9 +707,9 @@
                     
                     let countryNode = chordDiagrams[chordDiagramZone].nodes[d.source.data.name];
                     
-                    countryNode.links.forEach(function(link) {
-                      if(link.country === d.target.data.name)
-                        d.weight = link.quantity;
+                    Object.keys(countryNode.links).forEach(function(link) {
+                      if(link === d.target.data.name)
+                        d.weight = countryNode.links[link].quantity;
                     });                  
                   })
                   .attr("class", function(d) {
@@ -646,7 +722,8 @@
                   .attr("style", function(d) {
                     let from = d.source.data.name;
                     let to = d.target.data.name;
-                    return "fill-opacity:" + 0.3*(d.weight/migrationsFlowsDetails[to].max) + ";stroke-opacity:"+0.3*(d.weight/migrationsFlowsDetails[to].max)+";z-index:-1;";
+
+                    return "fill-opacity:" + 0.8*(d.weight/migrationsFlowsDetails[from].max) + ";stroke-opacity:"+0.8*(d.weight/migrationsFlowsDetails[from].max)+";z-index:-1;";
                   })
                   .attr("d", this.line);
       },
@@ -654,6 +731,21 @@
       deleteChordDiagram(zone) {
         let normalizeClassName = this.normalizeClassName;
         this.removeElement("g-" + normalizeClassName(zone));
+      },
+
+      showMigrationDetailsList(countryName) {
+        let findLinksOfCountry = this.findLinksOfCountry;
+
+        let detailsListElement = document.getElementById("details-list");
+        findLinksOfCountry(countryName).forEach(function(link) {
+          let country = link.country;
+          let quantity = link.quantity;
+
+          if(quantity > 0) {
+            detailsListElement.innerHTML +=
+              "<li>" + country + ": " + quantity + "</li>";
+          }
+        });
       },
 
       /** **************************************
@@ -667,11 +759,14 @@
         let isolatedNode = this.isolatedNodes[overedCountryName];
         let externalLinks = this.externalLinks;
 
-        externalLinks.forEach(function(d) {
-          var from = document.getElementById('node-' + normalizeClassName(d.from));
-          var to = document.getElementById('node-' + normalizeClassName(d.to));
+        Object.keys(externalLinks).forEach(function(d) {
+          let fromCountryName = externalLinks[d].from;
+          let toCountryName = externalLinks[d].to;
 
-          if(overedCountryName==d.from && !(from == null || to == null)) {
+          var from = document.getElementById('node-' + normalizeClassName(fromCountryName));
+          var to = document.getElementById('node-' + normalizeClassName(toCountryName));
+
+          if(overedCountryName==fromCountryName && !(from == null || to == null)) {
             var fromLocation = from.getBoundingClientRect();
             var toLocation = to.getBoundingClientRect();
 
@@ -682,11 +777,11 @@
 
             d3.select("#externalLinks")
               .append("path")
-              .attr("id", "external-path-" + normalizeZoneName(d.from) + "-" + normalizeZoneName(d.to))
+              .attr("id", "external-path-" + normalizeZoneName(fromCountryName) + "-" + normalizeZoneName(toCountryName))
               .attr("class",function() {
-                let from = d.from;
-                let to = d.to;
-                return "link-path link external-path link-"+normalizeZoneName(from)+" link-"+normalizeZoneName(to);
+                return "link-path link external-path link-"+normalizeZoneName(fromCountryName)+" link-"+normalizeZoneName(toCountryName)
+                        + " link-" + normalizeClassName(fromCountryName) + " link-" + normalizeClassName(toCountryName)
+                        + " link-from-" + normalizeClassName(fromCountryName) + " link-to-" + normalizeClassName(toCountryName);
               })
               .attr("d", qPath)
               .attr("stroke", "black")
@@ -695,9 +790,11 @@
           }
         });
 
-        isolatedNode.links.forEach(function(d) {
+        Object.keys(isolatedNode.links).forEach(function(d) {
+          let toCountryName = d;
+
           var from = document.getElementById('node-' + normalizeClassName(overedCountryName));
-          var to = document.getElementById('node-' + normalizeClassName(d.country));
+          var to = document.getElementById('node-' + normalizeClassName(toCountryName));
           
           if(!(from == null || to == null)) {
             var fromLocation = from.getBoundingClientRect();
@@ -710,10 +807,10 @@
 
             d3.select("#externalLinks")
               .append("path")
-              .attr("id", "external-path-" + normalizeClassName(overedCountryName) + "-" + normalizeClassName(d.country))
+              .attr("id", "external-path-" + normalizeClassName(overedCountryName) + "-" + normalizeClassName(toCountryName))
               .attr("class",function() {
-                return "link-path link external-path link-"+normalizeClassName(overedCountryName)+" link-"+normalizeClassName(d.country)
-                  + " link-from-"+normalizeClassName(overedCountryName)+" link-to-"+normalizeClassName(d.country);
+                return "link-path link external-path link-"+normalizeClassName(overedCountryName)+" link-"+normalizeClassName(toCountryName)
+                  + " link-from-"+normalizeClassName(overedCountryName)+" link-to-"+normalizeClassName(toCountryName);
               })
               .attr("d", qPath)
               .attr("stroke", "black")
@@ -739,11 +836,14 @@
           triangles[i] = document.getElementById("triangle-" + normalizeClassName(zone) + "-"+i);
         }
 
-        externalLinks.forEach(function(d) {
-          var from = document.getElementById('node-' + normalizeClassName(d.from));
-          var to = document.getElementById('node-' + normalizeClassName(d.to));
+        Object.keys(externalLinks).forEach(function(d) {
+          var from = document.getElementById('node-' + normalizeClassName(externalLinks[d].from));
+          var to = document.getElementById('node-' + normalizeClassName(externalLinks[d].to));
 
-          if(overedCountryName==d.from && !(from == null || to == null)) {
+          let fromCountryName = externalLinks[d].from;
+          let toCountryName = externalLinks[d].to;
+
+          if(overedCountryName==fromCountryName && !(from == null || to == null)) {
             var fromLocation = triangles[1].getBoundingClientRect();
             var toLocation = to.getBoundingClientRect();
             
@@ -756,23 +856,24 @@
               }
             }
 
-            if(country2zone_dict[d.from] !== country2zone_dict[d.to]) {
+            if(country2zone_dict[fromCountryName] !== country2zone_dict[toCountryName]) {
               var qCP = [(fromLocation.x + toLocation.x) /2, (fromLocation.y + toLocation.y) / 2];
               var qPath = d3.path();
               qPath.moveTo(fromLocation.x, fromLocation.y);
               qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y-yOffset);
 
+
               d3.select("#externalLinks")
                 .append("path")
                 .attr("class",function() {
-                  let from = d.from;
-                  let to = d.to;
+                  let from = fromCountryName;
+                  let to = toCountryName;
                   return "link-path link external-path link-"+normalizeZoneName(from)+" link-"+normalizeZoneName(to)
                     + " link-from-"+normalizeZoneName(from)+" link-to-"+normalizeZoneName(to);
                 })
                 .attr("id",function() {
-                  let from = d.from;
-                  let to = d.to;
+                  let from = fromCountryName;
+                  let to = toCountryName;
                   return "external-path-"+normalizeZoneName(from)+"-"+normalizeZoneName(to);
                 })
                 .attr("d", qPath)
@@ -822,9 +923,9 @@
         });
 
         nodes.forEach(function(d) {
-          if (d.data.links) d.data.links.forEach(function(i) {
-            if(map[i.country] !== undefined)
-              imports.push(map[d.data.name].path(map[i.country]));
+          if (d.data.links) Object.keys(d.data.links).forEach(function(i) {
+            if(map[i] !== undefined)
+              imports.push(map[d.data.name].path(map[i]));
           });
         });
         
@@ -871,25 +972,49 @@
       findLinksOfCountry(country) {
         let findInternalLinksOfCountry = this.findInternalLinksOfCountry;
         let findExternalLinksOfCountry = this.findExternalLinksOfCountry;
+        let findLinksOfIsolatedCountry = this.findLinksOfIsolatedCountry;
 
         return findInternalLinksOfCountry(country)
-          .concat(findExternalLinksOfCountry(country));
+          .concat(findExternalLinksOfCountry(country))
+          .concat(findLinksOfIsolatedCountry(country));
       },
       findInternalLinksOfCountry(country) {
         let chordDiagrams = this.chordDiagrams;
         let country2continent_dict = this.country2continent_dict;
-        return chordDiagrams[country2continent_dict[country]].nodes[country].links;
+
+        let internalLinks = [];
+
+        if(country in chordDiagrams[country2continent_dict[country]].nodes)
+          Object.keys(chordDiagrams[country2continent_dict[country]].nodes[country].links).forEach(function(countryTo) {
+            let link = chordDiagrams[country2continent_dict[country]].nodes[country].links[countryTo];
+            internalLinks.push({"country":countryTo,"quantity":link.quantity});
+          });
+
+        return internalLinks;
       },
       findExternalLinksOfCountry(country) {
         let links = [];
         let externalLinks = this.externalLinks;
-        externalLinks.forEach(function(externalLink) {
-          if(externalLink.from === country)
-          links.push({"country":externalLink.to,"quantity":externalLink.quantity});
+        Object.keys(externalLinks).forEach(function(externalLink) {
+          if(externalLinks[externalLink].from === country)
+            links.push({"country":externalLinks[externalLink].to,"quantity":externalLinks[externalLink].quantity});
         });
-
         return links;
       },
+      findLinksOfIsolatedCountry(country) {
+        let isolatedNodes = this.isolatedNodes;
+        let links = [];
+
+        if(isolatedNodes[country] !== undefined) {
+          Object.keys(isolatedNodes[country].links).forEach(function(linkKey) {
+            let countryTo = linkKey;
+            let linkQuantity = isolatedNodes[country].links[linkKey].quantities;
+            links.push({"country":countryTo,"quantity":linkQuantity});
+          });
+        }
+
+        return links;
+      },     
       reduceOpacityOfAllCountriesLinks(opacity) {
         let cssSelector = "path.link";
         let elements = document.querySelectorAll(cssSelector);
@@ -904,9 +1029,15 @@
           let cssSelector = ".link-from-" + normalizeClassName(country);
           let elements = document.querySelectorAll(cssSelector);
           elements.forEach((el) => {
-            el.style.opacity = opacity
+            el.style.opacity = opacity;
           })
         });
+      },
+      drawExternalLinksOfSelectedCountries(selectedCountries) {
+        let drawExternalLinks = this.drawExternalLinks;
+        selectedCountries.forEach(function(countryName) {
+          drawExternalLinks(countryName);
+        }); 
       },
       reduceOpacityOfAllCountriesFlags(opacity) {
         let cssSelector = ".flag";
@@ -918,11 +1049,14 @@
       increaseFlagOpacityOfSelectedCountries(countries,opacity) {
         let normalizeClassName = this.normalizeClassName;
         countries.forEach(function(country) {
-          let cssSelector = "#node-" + normalizeClassName(country.country);
-          let elements = document.querySelectorAll(cssSelector);
-          elements.forEach((el) => {
-            el.style.opacity = opacity
-          });
+
+          if(country.country !== undefined) {
+            let cssSelector = "#node-" + normalizeClassName(country.country);
+            let elements = document.querySelectorAll(cssSelector);
+            elements.forEach((el) => {
+              el.style.opacity = opacity
+            });
+          }
         });
       },
       moveCountryToIsolatedNodes(country) {
@@ -931,24 +1065,33 @@
         let externalLinks = this.externalLinks;
         let isolatedNodes = this.isolatedNodes;
         let clickedCountryName = country;
+        let normalizeExternalLinkKey = this.normalizeExternalLinkKey;
 
         let zoneCountriesNodes = chordDiagrams[country2zone_dict[clickedCountryName]]["nodes"];
 
-        isolatedNodes[clickedCountryName] = zoneCountriesNodes[clickedCountryName];                
+        isolatedNodes[clickedCountryName] = zoneCountriesNodes[clickedCountryName];   // should i create a copy             
         delete chordDiagrams[country2zone_dict[clickedCountryName]]["nodes"][clickedCountryName];
-        country2zone_dict[clickedCountryName] = "";
-      
-        Object.keys(zoneCountriesNodes).forEach(function(country) {
-          zoneCountriesNodes[country]["links"].forEach(function(link) {
-            if(link === clickedCountryName) {
-              externalLinks.push({"from":clickedCountryName,"to":country,"weight":1000});
-            }
-          });
-          zoneCountriesNodes[country]["links"] = zoneCountriesNodes[country]["links"].filter(function (e) {
-              let linkCountryName = e.value;
-              return linkCountryName !== clickedCountryName;
-          });
+        country2zone_dict[clickedCountryName] = ""; // node belongs to no zone
+                
+        // have to create external links
+        Object.keys(zoneCountriesNodes).forEach(function(countryNameKey) { // for each node of the original zone/diagram
+          // i have to check if the current country has the link to the selected country that will go to isolated nodes
+          let zoneNode = zoneCountriesNodes[countryNameKey];
+          let zoneNodeLinks = zoneNode.links;
+          let internalLink = zoneNodeLinks[clickedCountryName];
+
+          // devo creare due external links (uno from e l'altro to)
+          externalLinks[normalizeExternalLinkKey(clickedCountryName,country)]
+            = {"from":clickedCountryName,"to":countryNameKey,"quantity":internalLink};
+          
+          externalLinks[normalizeExternalLinkKey(clickedCountryName,country)]
+            = {"from":countryNameKey,"to":clickedCountryName,"quantity":internalLink};
+
+          // delete internal link
+          delete zoneCountriesNodes[countryNameKey].links[clickedCountryName];
         });
+
+
       },
       highlightLinksFromCountry(country) {
         let overedCountryName = country;
@@ -972,7 +1115,6 @@
         
         reduceOpacityOfAllCountriesLinks(0.02);
         reduceOpacityOfAllCountriesFlags(0.1);
-
 
         increaseLinksOpacityOfSelectedCountries([country],0.7);
 
@@ -1002,6 +1144,78 @@
           el.style.opacity = '1'
         });
       },
+      moveCountryToZone(countryName,zoneTo) {
+        let chordDiagrams = this.chordDiagrams;
+        let isolatedNodes = this.isolatedNodes;
+        let externalLinks = this.externalLinks;
+        let normalizeExternalLinkKey = this.normalizeExternalLinkKey;
+        let country2continent_dict = this.country2continent_dict;
+        let deleteExternalLink = this.deleteExternalLink;
+        let deleteChordDiagram = this.deleteChordDiagram;
+        let removeElement = this.removeElement;
+        let normalizeClassName = this.normalizeClassName;
+        let drawChordDiagram = this.drawChordDiagram;
+
+        let originalZone = country2continent_dict[countryName];
+
+        // move node from isolated nodes to chordLink diagram
+        chordDiagrams[zoneTo]["nodes"][countryName] = isolatedNodes[countryName];
+        
+        country2continent_dict[countryName] = zoneTo;
+
+        // rimuovi tutti gli internal link: devono diventare external
+        let draggedCountryInternalLinks = chordDiagrams[zoneTo]["nodes"][countryName].links;
+        Object.keys(draggedCountryInternalLinks).forEach(function(internalLinkKey) {
+          let from = countryName;
+          let to = internalLinkKey;
+          let quantity = draggedCountryInternalLinks[to];
+
+          externalLinks[normalizeExternalLinkKey(from,to)] = {"from": from, "to": to, "quantity": quantity};
+        });
+        chordDiagrams[zoneTo].nodes[countryName].links = {};
+
+        // work on the countries of the same zone
+        // delete the country from the original zone links form other countries
+        Object.keys(chordDiagrams[originalZone].nodes).forEach(function(countryName) {
+          let countryNode = chordDiagrams[originalZone].nodes[countryName];
+
+          let countryNodeLinks = countryNode.links;
+          Object.keys(countryNodeLinks).forEach(function(linkKey) {
+            if(linkKey === countryName)
+              delete countryNodeLinks[linkKey];
+          });
+        });
+
+        // external links related to the isolated node must be deleted, but only those related to same region
+        Object.keys(externalLinks).forEach(function(externalLinkKey) {
+        let from = externalLinks[externalLinkKey].from;
+        let fromRegionName = country2continent_dict[from];
+        let to = externalLinks[externalLinkKey].to;
+        let toRegionName = country2continent_dict[to];
+        let quantity = externalLinks[externalLinkKey].peso;
+
+        // move external link to internal link
+        // if the external link is now from and to the same region
+        if(from===countryName && zoneTo == toRegionName) {
+          chordDiagrams[zoneTo].nodes[from].links[to] =
+            {"in":quantity.in,"out":quantity.out,"quantity":quantity};
+          deleteExternalLink(from,to);
+          delete externalLinks[normalizeExternalLinkKey(from,to)];
+        }
+      });
+
+      delete isolatedNodes[countryName];
+      
+      deleteChordDiagram(zoneTo);
+      removeElement("node-"+normalizeClassName(countryName));
+
+      drawChordDiagram(zoneTo);
+
+      },
+      closeSidebar() {
+        console.log("close sidebar");
+        document.getElementById("sidebar").style.display = "none";
+      },
       showTooltipCountry(countryName,migrationsIn,migrationsOut,event) {
         this.tooltip.style("opacity", 1);
         this.tooltip
@@ -1023,6 +1237,12 @@
         return elem.parentNode.removeChild(elem);
       },
       mouseOverWithCtrl() {
+      },
+      getIsolatedNodes() {
+        return this.isolatedNodes;
+      },
+      insertCountryInRegion(node) {
+
       },
       highlightSelectedCountries() {
         let highlightCountryFlag = this.highlightCountryFlag;
