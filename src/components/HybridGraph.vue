@@ -1,6 +1,7 @@
 <template>
   <div class="sliderDiv">
     <input type="range" min="1960" max="2010" step="10" v-model="sliderValue" id="yearSlider" @change="sliderChange"> 
+    <input type="range" min="0" max="10000000" step="10000" v-model="sliderValue" id="filterSlider" @change="SliderChange"> 
   </div>
     <div class="map-canvas">
     </div>
@@ -11,10 +12,11 @@
   - option to show colors for the flows: red=more immigrants than emigrants, blue viceversa
     3d
   - two different views for immigration and emigration
-    show on the popup how flows are distributed among countries
+    show on the sidebar how flows are distributed among countries
     
   - filter migrations by amount
   - (animations) 
+  - opacity based on route number of immigrants
 
   -->
   
@@ -123,9 +125,10 @@
       },
       sliderChange() {
         let year = document.getElementById("yearSlider").value;
+        let minFilter = document.getElementById("filterSlider").value;
         migrationsFlowsDetails = {};
 
-        let summData = this.summarizeData(data,0,year,0);
+        let summData = this.summarizeData(data,0,year,minFilter);
 
         //let diagram = await this.loadDiagram();
         let diagram = summData;
@@ -162,13 +165,16 @@
               nodeLink.quantity = quantitySum;
 
               if(!(diagramNodeName in migrationsFlowsDetails)) {
-                migrationsFlowsDetails[diagramNodeName] = {"in":0,"out":0};
+                migrationsFlowsDetails[diagramNodeName] = {"in":0,"out":0,"max":0};
               }
 
               migrationsFlowsDetails[diagramNodeName].out = quantitySum;
+              if(quantitySum > migrationsFlowsDetails[diagramNodeName].max) {
+                migrationsFlowsDetails[diagramNodeName].max = quantitySum;
+              }
 
               if(!(nodeLinkCountry in migrationsFlowsDetails)) {
-                migrationsFlowsDetails[nodeLinkCountry] = {"in":0,"out":0};
+                migrationsFlowsDetails[nodeLinkCountry] = {"in":0,"out":0,"max":0};
               }
 
               migrationsFlowsDetails[nodeLinkCountry].in = quantitySum;
@@ -190,7 +196,16 @@
             }
           });
 
-          fullDiagramDataCopy.externalLinks[index].weight = sumWeights;    
+          fullDiagramDataCopy.externalLinks[index].weight = sumWeights;
+          
+          // update migration flow details
+          migrationsFlowsDetails[to].in += sumWeights;
+          migrationsFlowsDetails[from].out += sumWeights;
+
+          if(sumWeights > migrationsFlowsDetails[from].max) {
+              migrationsFlowsDetails[from].max = sumWeights;
+            }
+
         });
 
         return fullDiagramDataCopy;
@@ -436,7 +451,6 @@
         drawGuidePoints(chordDiagramZone);
         drawChordDiagramInternalLinks(chordDiagramZone, zoneCountries);
        },
-
       drawChordDiagramCanvas(chordDiagramZone) {
             let chordDiagrams = this.chordDiagrams;
             let chorDiagramMouseoveredGlob = this.chorDiagramMouseoveredGlob;
@@ -495,7 +509,6 @@
             .attr("fill","white")
             .style('opacity', 1);
       },
-
 
       drawChordDiagramFlags(chordDiagramZone, zoneCountries) {
 
@@ -604,6 +617,8 @@
 
       drawChordDiagramInternalLinks(chordDiagramZone, zoneCountries) {
               let normalizeClassName = this.normalizeClassName;
+              let country2continent_dict = this.country2continent_dict;
+              let chordDiagrams = this.chordDiagrams;
 
               this.link[chordDiagramZone] = this.svg.select("#g-" + normalizeClassName(chordDiagramZone)).append("g").selectAll(".link");
           
@@ -613,6 +628,13 @@
                   .each(function(d) {
                     d.source = d[0],
                     d.target = d[d.length - 1];
+                    
+                    let countryNode = chordDiagrams[chordDiagramZone].nodes[d.source.data.name];
+                    
+                    countryNode.links.forEach(function(link) {
+                      if(link.country === d.target.data.name)
+                        d.weight = link.quantity;
+                    });                  
                   })
                   .attr("class", function(d) {
                     let from = d.source.data.name;
@@ -620,6 +642,11 @@
                     return "link link-internal link-internal-" + normalizeClassName(from) + " link-internal-" + normalizeClassName(to)
                             + " link-" + normalizeClassName(from) + " link-" + normalizeClassName(to)
                             + " link-from-" + normalizeClassName(from) + " link-to-" + normalizeClassName(to);
+                  })
+                  .attr("style", function(d) {
+                    let from = d.source.data.name;
+                    let to = d.target.data.name;
+                    return "fill-opacity:" + 0.3*(d.weight/migrationsFlowsDetails[to].max) + ";stroke-opacity:"+0.3*(d.weight/migrationsFlowsDetails[to].max)+";z-index:-1;";
                   })
                   .attr("d", this.line);
       },
