@@ -2,11 +2,12 @@
   <div class="sliderDiv">
     <input type="range" min="1960" max="2010" step="10" v-model="sliderValue" id="yearSlider" @change="updateDiagram"> 
     <input type="range" min="0" max="1000000" step="5000" v-model="sliderValue" id="filterSlider" @change="updateDiagram"> 
+    <button @click="showSidebar()">Show sidebar</button>
   </div>
     <div class="map-canvas">
     </div>
     <div class="container">
-    <div id="sidebar" class="sidebar" style="">
+    <div id="sidebar" class="sidebar" style="display: none;">
       <!-- Sidebar content goes here -->
       <span id="close-sidebar" style="padding: 10px; float: left; cursor:pointer;" @click="closeSidebar()">X</span>
       <h2>Migrations</h2>
@@ -688,6 +689,8 @@
 
                 if(!multipleSelectionActive)
                   removeHighlightsLinksFromCountry(overedCountryName);
+              
+                // if multiple selection is active then i should show links in the sidebar, except local countries
               }
       },
 
@@ -995,9 +998,12 @@
       findExternalLinksOfCountry(country) {
         let links = [];
         let externalLinks = this.externalLinks;
+        let selectedYear = document.getElementById("yearSlider").value;
+
         Object.keys(externalLinks).forEach(function(externalLink) {
+          console.log(externalLinks[externalLink]);
           if(externalLinks[externalLink].from === country)
-            links.push({"country":externalLinks[externalLink].to,"quantity":externalLinks[externalLink].quantity});
+            links.push({"country":externalLinks[externalLink].to,"quantity":externalLinks[externalLink].peso.in[selectedYear]});
         });
         return links;
       },
@@ -1212,8 +1218,10 @@
       drawChordDiagram(zoneTo);
 
       },
+      showSidebar() {
+        document.getElementById("sidebar").style.display = "block";
+      },
       closeSidebar() {
-        console.log("close sidebar");
         document.getElementById("sidebar").style.display = "none";
       },
       showTooltipCountry(countryName,migrationsIn,migrationsOut,event) {
