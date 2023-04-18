@@ -57,6 +57,10 @@ h1 {
     background-color: ghostwhite;
 }
 
+.canvas {
+  background-color: rgb(0, 20, 56);
+}
+
 body {
     background-color: white;
     text-align: center;
