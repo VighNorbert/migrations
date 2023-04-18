@@ -1,1203 +1,4140 @@
 {
     "chordDiagrams": {
      "Europe": {
-      "x": 550,
+      "x": 500,
       "y": 100,
       "radius": 200,
       "nodes": {
        "Albania": {
         "name": "Albania",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 111550.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 212596.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 9752.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 11253.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 494.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 12980.0
+         },
+         {
+          "country": "France",
+          "quantity": 330358.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 1373911.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 8633580.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 9107.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 2354.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 2716.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 14886759.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 115.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 15144.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 45550.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 29976.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 2045.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 715.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 3636.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 80700.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 85890.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 56330.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 519786.0
+         }
         ]
        },
        "Andorra": {
         "name": "Andorra",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 113.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 568.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 6.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 25.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 9.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 28.0
+         },
+         {
+          "country": "France",
+          "quantity": 20151.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 904.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 0.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 16.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 31.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 2.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 1034.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 0.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 234.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 231.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 143.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 0.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 99.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 3.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 137057.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 75.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 1218.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 5.0
+         }
         ]
        },
        "Austria": {
         "name": "Austria",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 0.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 85706.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 104484.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 55096.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 3518.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 21399.0
+         },
+         {
+          "country": "France",
+          "quantity": 208160.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 7494935.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 14081.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 239471.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 4966.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 5417.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 357341.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 1821.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 25497.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 252880.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 53108.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 16796.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 10815.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 99553.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 362211.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 197854.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 1607554.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 434525.0
+         }
         ]
        },
        "Belarus": {
         "name": "Belarus",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 63355.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 25738.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 161049.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 18647.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 122902.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 14692.0
+         },
+         {
+          "country": "France",
+          "quantity": 87451.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 829767.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 5210.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 7917.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 1392.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 5130.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 454286.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 628029.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 4232.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 18262.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 28575.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 287312.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 14018.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 3910.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 151980.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 73719.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 29695.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 3560.0
+         }
         ]
        },
        "Belgium": {
         "name": "Belgium",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 92411.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 0.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 15801.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 39779.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 4311.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 18297.0
+         },
+         {
+          "country": "France",
+          "quantity": 3598102.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 1067416.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 21877.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 43535.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 4166.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 9561.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 720517.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 1935.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 577735.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 1772627.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 42130.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 1998.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 47421.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 8046.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 1660990.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 74921.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 460836.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 692382.0
+         }
         ]
        },
        "Bosnia and Herzegovina": {
         "name": "Bosnia and Herzegovina",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 5272116.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 39457.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 68041.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 617629.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 47.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 50330.0
+         },
+         {
+          "country": "France",
+          "quantity": 315611.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 7531554.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 1707.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 13209.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 4550.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 4746.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 703763.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 47.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 45293.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 68359.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 416121.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 3807.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 908.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 2986678.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 78937.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 1543576.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 1510069.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 6587.0
+         }
         ]
        },
        "Bulgaria": {
         "name": "Bulgaria",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 764459.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 832213.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 328414.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 205479.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 5914.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 58377.0
+         },
+         {
+          "country": "France",
+          "quantity": 519993.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 6579227.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 763985.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 55879.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 10350.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 9948.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 1626180.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 8131.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 29712.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 752762.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 158728.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 17772.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 141553.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 60435.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 5066090.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 234086.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 207374.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 1654135.0
+         }
         ]
        },
        "Croatia": {
         "name": "Croatia",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 2365508.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 30980.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 59960.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 44687.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 811.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 12760.0
+         },
+         {
+          "country": "France",
+          "quantity": 161369.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 10811070.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 1585.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 51081.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 10771.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 13004.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 680459.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 859.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 15314.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 54181.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 117065.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 3229.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 2398.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 1299130.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 78621.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 285506.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 1056956.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 28534.0
+         }
         ]
        },
        "Czech Republic": {
         "name": "Czech Republic",
         "links": [
-         "Austria",
-         "Belgium",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 1155398.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 57682.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 44232.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 5665.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 13017.0
+         },
+         {
+          "country": "France",
+          "quantity": 161547.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 2950814.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 29568.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 27268.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 14980.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 32478.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 225900.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 2667.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 22442.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 81089.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 59833.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 14032.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 5079.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 11478.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 303266.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 57386.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 316835.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 983780.0
+         }
         ]
        },
        "Denmark": {
         "name": "Denmark",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 51738.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 104796.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 8207.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 0.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 4454.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 37061.0
+         },
+         {
+          "country": "France",
+          "quantity": 131706.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 848894.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 8222.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 12192.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 92860.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 6202.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 90098.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 4468.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 60166.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 156672.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 1040646.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 5297.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 10732.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 1536.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 477823.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 1798270.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 169596.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 611532.0
+         }
         ]
        },
        "Estonia": {
         "name": "Estonia",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 17683.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 23761.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 3091.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 41175.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 1345590.0
+         },
+         {
+          "country": "France",
+          "quantity": 22280.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 307531.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 230.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 3883.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 4973.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 11955.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 34316.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 49247.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 13934.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 20085.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 131200.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 786.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 1838.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 642.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 66207.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 299058.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 20554.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 6451.0
+         }
         ]
        },
        "Finland": {
         "name": "Finland",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 68246.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 104401.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 5674.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 140747.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 116723.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 0.0
+         },
+         {
+          "country": "France",
+          "quantity": 80729.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 641859.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 10784.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 22357.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 7418.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 6980.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 77028.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 6063.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 33506.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 142472.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 314114.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 2561.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 10683.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 1169.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 479945.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 5525955.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 146118.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 328714.0
+         }
         ]
        },
        "France": {
         "name": "France",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 326287.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 7089527.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 88855.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 249962.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 17894.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 84374.0
+         },
+         {
+          "country": "France",
+          "quantity": 5.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 4964788.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 59573.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 122365.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 21330.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 74594.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 2362365.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 7319.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 1084415.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 1027592.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 221364.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 52988.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 442446.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 36110.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 6694547.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 347607.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 4305845.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 4942191.0
+         }
         ]
        },
        "Germany": {
         "name": "Germany",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 7515342.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 2683903.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 521715.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 1099490.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 47932.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 206708.0
+         },
+         {
+          "country": "France",
+          "quantity": 4523818.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 0.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 326982.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 961116.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 63638.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 86325.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 3638293.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 47866.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 408034.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 4417727.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 939353.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 283100.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 321908.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 237127.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 7687167.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 1633798.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 9816040.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 6707622.0
+         }
         ]
        },
        "Greece": {
         "name": "Greece",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 196422.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 730425.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 25385.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 73878.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 2544.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 37523.0
+         },
+         {
+          "country": "France",
+          "quantity": 273505.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 11955435.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 0.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 43818.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 2458.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 4757.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 396827.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 928.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 67291.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 570372.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 74857.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 9183.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 4779.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 2411.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 158599.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 463295.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 362063.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 1609171.0
+         }
         ]
        },
        "Hungary": {
         "name": "Hungary",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 2142282.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 181638.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 75236.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 129577.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 4945.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 68140.0
+         },
+         {
+          "country": "France",
+          "quantity": 204302.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 5880134.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 15270.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 0.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 11312.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 37826.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 316721.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 2725.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 35290.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 448178.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 104977.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 7135.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 7742.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 16949.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 303274.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 458758.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 533858.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 1708547.0
+         }
         ]
        },
        "Iceland": {
         "name": "Iceland",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 8023.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 5841.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 538.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 372433.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 643.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 6409.0
+         },
+         {
+          "country": "France",
+          "quantity": 5976.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 48824.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 1.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 3349.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 0.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 1.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 5910.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 322.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 7882.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 24238.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 289948.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 57.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 841.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 264.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 47460.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 217075.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 11357.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 4199.0
+         }
         ]
        },
        "Ireland": {
         "name": "Ireland",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 47411.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 135166.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 12336.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 59278.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 3296.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 21132.0
+         },
+         {
+          "country": "France",
+          "quantity": 222460.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 550495.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 10773.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 26611.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 3587.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 11.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 110165.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 9392.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 44483.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 248236.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 38168.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 10546.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 17317.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 1474.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 586595.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 92363.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 120208.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 12946986.0
+         }
         ]
        },
        "Italy": {
         "name": "Italy",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 1082768.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 6465672.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 101906.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 275147.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 21306.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 84667.0
+         },
+         {
+          "country": "France",
+          "quantity": 7890198.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 21252527.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 73722.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 118615.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 15342.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 56928.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 0.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 7939.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 593323.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 1197733.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 144510.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 19947.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 215340.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 123324.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 5804842.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 363298.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 10286319.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 5485420.0
+         }
         ]
        },
        "Latvia": {
         "name": "Latvia",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 44436.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 41961.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 11319.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 133438.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 92131.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 55953.0
+         },
+         {
+          "country": "France",
+          "quantity": 59211.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 997749.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 654.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 3865.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 35048.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 112879.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 79970.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 881.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 14390.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 68712.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 253070.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 4405.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 5631.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 1095.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 132768.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 195195.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 60543.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 1977133.0
+         }
         ]
        },
        "Liechtenstein": {
         "name": "Liechtenstein",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 14477.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 222.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 25.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 230.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 9.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 23.0
+         },
+         {
+          "country": "France",
+          "quantity": 438.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 5485.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 3103.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 121.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 14.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 0.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 2613.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 0.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 107.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 188.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 382.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 3.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 64.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 296.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 3673.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 189.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 69898.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 10.0
+         }
         ]
        },
        "Lithuania": {
         "name": "Lithuania",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 46607.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 56631.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 14917.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 309529.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 40924.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 37730.0
+         },
+         {
+          "country": "France",
+          "quantity": 66981.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 1478332.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 4735.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 5235.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 78906.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 195630.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 141541.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 254699.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 18014.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 93559.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 925807.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 143626.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 8850.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 1184.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 689521.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 329965.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 52806.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 3677280.0
+         }
         ]
        },
        "Luxembourg": {
         "name": "Luxembourg",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 32064.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 364083.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 362.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 2731.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 216.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 1827.0
+         },
+         {
+          "country": "France",
+          "quantity": 261900.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 626107.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 2684.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 2876.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 2551.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 867.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 67108.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 105.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 0.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 37655.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 3246.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 248.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 9652.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 836.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 42507.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 5813.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 59534.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 2112.0
+         }
         ]
        },
        "Malta": {
         "name": "Malta",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 3453.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 12720.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 274.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 2219.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 156.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 1054.0
+         },
+         {
+          "country": "France",
+          "quantity": 9055.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 13840.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 3068.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 1788.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 196.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 1479.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 42818.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 297.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 5463.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 12679.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 2442.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 73.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 363.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 233.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 11177.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 4879.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 7082.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 420171.0
+         }
         ]
        },
        "Moldova": {
         "name": "Moldova",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 70901.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 37405.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 244415.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 12445.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 9763.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 6418.0
+         },
+         {
+          "country": "France",
+          "quantity": 303575.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 863621.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 69388.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 11665.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 772.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 20469.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 3934598.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 23899.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 4182.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 8028.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 16816.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 13242.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 278451.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 9420.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 640278.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 17012.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 31326.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 35657.0
+         }
         ]
        },
        "Monaco": {
         "name": "Monaco",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 445.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 1558.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 55.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 96.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 4.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 86.0
+         },
+         {
+          "country": "France",
+          "quantity": 364410.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 433.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 0.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 70.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 14.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 0.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 22128.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 0.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 250.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 1545.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 216.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 0.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 2.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 6.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 3335.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 647.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 3391.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 6.0
+         }
         ]
        },
        "Montenegro": {
         "name": "Montenegro",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 41934.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 5160.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 1913.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 7895.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 52.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 431.0
+         },
+         {
+          "country": "France",
+          "quantity": 36845.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 606977.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 43.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 1880.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 160.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 8.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 56713.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 10.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 62095.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 3979.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 8172.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 284.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 132.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 49991.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 5566.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 20524.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 58171.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 393.0
+         }
         ]
        },
        "Netherlands": {
         "name": "Netherlands",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 321922.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 5663718.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 73827.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 283299.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 6134.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 54458.0
+         },
+         {
+          "country": "France",
+          "quantity": 1110317.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 5285720.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 40746.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 92570.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 10130.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 32894.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 352067.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 3316.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 121539.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 25.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 312400.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 8979.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 150257.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 9917.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 1971220.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 374548.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 721956.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 2195721.0
+         }
         ]
        },
        "North Macedonia": {
         "name": "North Macedonia",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 855802.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 94555.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 57734.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 111853.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 171.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 6736.0
+         },
+         {
+          "country": "France",
+          "quantity": 123938.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 3113295.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 7132.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 6275.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 1364.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 126.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 2166440.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 79.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 10902.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 13051.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 61661.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 1398.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 444.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 478228.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 20108.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 160211.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 2136138.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 1093.0
+         }
         ]
        },
        "Norway": {
         "name": "Norway",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 33458.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 33393.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 4325.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 711444.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 6033.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 50746.0
+         },
+         {
+          "country": "France",
+          "quantity": 65077.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 259934.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 1749.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 38944.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 30626.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 2030.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 44837.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 5447.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 4925.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 121157.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 0.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 3467.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 8989.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 643.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 641548.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 1798470.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 70492.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 411098.0
+         }
         ]
        },
        "Poland": {
         "name": "Poland",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 2354847.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 2217673.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 672520.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 1127670.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 14476.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 125756.0
+         },
+         {
+          "country": "France",
+          "quantity": 2244304.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 36277049.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 310917.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 125542.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 471880.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 613789.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 3274920.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 17627.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 94063.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 3454423.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 2513260.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 1.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 22667.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 11642.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 2569382.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 2372313.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 788402.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 19746729.0
+         }
         ]
        },
        "Portugal": {
         "name": "Portugal",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 99914.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 1485831.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 7944.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 70927.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 4543.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 18962.0
+         },
+         {
+          "country": "France",
+          "quantity": 16818426.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 4852924.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 7786.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 13933.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 31133.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 18262.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 207954.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 1526.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 2361907.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 745194.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 97344.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 3578.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 1625.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 4642143.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 114990.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 7403409.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 4152280.0
+         }
         ]
        },
        "Romania": {
         "name": "Romania",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 3109403.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 2041745.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 248328.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 574245.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 7720.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 86397.0
+         },
+         {
+          "country": "France",
+          "quantity": 2363221.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 18016434.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 563895.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 5320728.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 24747.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 127054.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 29777655.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 4438.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 85381.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 643054.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 326254.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 11782.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 595137.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 14227.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 24493595.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 686343.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 462575.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 5247501.0
+         }
         ]
        },
        "San Marino": {
         "name": "San Marino",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 45.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 325.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 10.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 38.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 7.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 5.0
+         },
+         {
+          "country": "France",
+          "quantity": 2572.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 605.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 1.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 47.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 19.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 0.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 64666.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 0.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 29.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 36.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 35.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 0.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 5.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 10.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 893.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 98.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 540.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 5.0
+         }
         ]
        },
        "Serbia": {
         "name": "Serbia",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 3717812.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 61237.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 74158.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 35726.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 554.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 14394.0
+         },
+         {
+          "country": "France",
+          "quantity": 1790340.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 6269373.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 6501.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 491766.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 7842.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 2562.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 1042838.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 213.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 41219.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 34122.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 122790.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 2303.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 2688.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 695327.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 110669.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 266468.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 2542786.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 5431.0
+         }
         ]
        },
        "Slovenia": {
         "name": "Slovenia",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 703493.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 17245.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 8076.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 10916.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 813.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 2517.0
+         },
+         {
+          "country": "France",
+          "quantity": 41680.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 1115198.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 3606.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 9477.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 1559.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 1245.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 115930.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 180.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 14387.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 18546.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 9372.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 746.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 1195.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 5811.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 48235.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 38967.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 154630.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 4395.0
+         }
         ]
        },
        "Spain": {
         "name": "Spain",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 214629.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 2128394.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 27502.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 211106.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 13099.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 79970.0
+         },
+         {
+          "country": "France",
+          "quantity": 6541250.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 5215992.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 9445.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 46636.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 20869.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 58908.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 896800.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 4155.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 141566.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 1110600.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 200713.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 10201.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 340527.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 6275.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 0.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 331466.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 2626885.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 3368850.0
+         }
         ]
        },
        "Sweden": {
         "name": "Sweden",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 132303.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 147735.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 15476.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 627377.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 17431.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 881222.0
+         },
+         {
+          "country": "France",
+          "quantity": 207112.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 776253.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 20803.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 44016.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 52022.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 12603.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 157227.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 9589.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 49729.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 203911.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 1848156.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 17332.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 32299.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 9121.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 856891.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 0.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 298194.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 922656.0
+         }
         ]
        },
        "Switzerland": {
         "name": "Switzerland",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 444114.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 90915.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 13597.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 67250.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 1746.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 30438.0
+         },
+         {
+          "country": "France",
+          "quantity": 2016315.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 1688381.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 15779.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 58420.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 4792.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 3863.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 2723950.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 668.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 16377.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 207740.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 71642.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 1862.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 52627.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 28017.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 1717424.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 115803.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 0.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 463576.0
+         }
         ]
        },
        "Ukraine": {
         "name": "Ukraine",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 357724.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 93143.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 3959934.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 272921.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 302188.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 92352.0
+         },
+         {
+          "country": "France",
+          "quantity": 451818.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 6634293.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 269539.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 995737.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 8356.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 18380.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 6115698.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 496044.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 19138.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 100745.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 119395.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 1251040.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 1004095.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 63363.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 3397164.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 195495.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 175031.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 535604.0
+         }
         ]
        },
        "United Kingdom": {
         "name": "United Kingdom",
         "links": [
-         "Austria",
-         "Belgium",
-         "Czech Republic",
-         "Denmark",
-         "Estonia",
-         "Finland",
-         "France",
-         "Germany",
-         "Greece",
-         "Hungary",
-         "Iceland",
-         "Ireland",
-         "Italy",
-         "Latvia",
-         "Luxembourg",
-         "Netherlands",
-         "Norway",
-         "Poland",
-         "Portugal",
-         "Slovenia",
-         "Spain",
-         "Sweden",
-         "Switzerland",
-         "United Kingdom"
+         {
+          "country": "Austria",
+          "quantity": 409718.0
+         },
+         {
+          "country": "Belgium",
+          "quantity": 1125141.0
+         },
+         {
+          "country": "Czech Republic",
+          "quantity": 170515.0
+         },
+         {
+          "country": "Denmark",
+          "quantity": 646920.0
+         },
+         {
+          "country": "Estonia",
+          "quantity": 18915.0
+         },
+         {
+          "country": "Finland",
+          "quantity": 189665.0
+         },
+         {
+          "country": "France",
+          "quantity": 4515854.0
+         },
+         {
+          "country": "Germany",
+          "quantity": 4218233.0
+         },
+         {
+          "country": "Greece",
+          "quantity": 172181.0
+         },
+         {
+          "country": "Hungary",
+          "quantity": 186143.0
+         },
+         {
+          "country": "Iceland",
+          "quantity": 43432.0
+         },
+         {
+          "country": "Ireland",
+          "quantity": 3076722.0
+         },
+         {
+          "country": "Italy",
+          "quantity": 1449829.0
+         },
+         {
+          "country": "Latvia",
+          "quantity": 35039.0
+         },
+         {
+          "country": "Luxembourg",
+          "quantity": 169532.0
+         },
+         {
+          "country": "Netherlands",
+          "quantity": 2241392.0
+         },
+         {
+          "country": "Norway",
+          "quantity": 719417.0
+         },
+         {
+          "country": "Poland",
+          "quantity": 60153.0
+         },
+         {
+          "country": "Portugal",
+          "quantity": 525987.0
+         },
+         {
+          "country": "Slovenia",
+          "quantity": 19780.0
+         },
+         {
+          "country": "Spain",
+          "quantity": 12359040.0
+         },
+         {
+          "country": "Sweden",
+          "quantity": 898532.0
+         },
+         {
+          "country": "Switzerland",
+          "quantity": 1371303.0
+         },
+         {
+          "country": "United Kingdom",
+          "quantity": 125000.0
+         }
         ]
        }
       }
-     },
-     "Africa": {
-      "x": 500,
-      "y": 600,
-      "radius": 200,
-      "nodes": {}
      },
      "North America": {
       "x": 100,
@@ -1207,201 +4144,426 @@
        "Antigua and Barbuda": {
         "name": "Antigua and Barbuda",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 8782.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 127.0
+         },
+         {
+          "country": "United States",
+          "quantity": 414192.0
+         }
         ]
        },
        "Bahamas": {
         "name": "Bahamas",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 6913.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 266.0
+         },
+         {
+          "country": "United States",
+          "quantity": 893873.0
+         }
         ]
        },
        "Barbados": {
         "name": "Barbados",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 53041.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 94.0
+         },
+         {
+          "country": "United States",
+          "quantity": 1342359.0
+         }
         ]
        },
        "Belize": {
         "name": "Belize",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 7104.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 15981.0
+         },
+         {
+          "country": "United States",
+          "quantity": 1286627.0
+         }
         ]
        },
        "Bermuda": {
         "name": "Bermuda",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 6541.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 31.0
+         },
+         {
+          "country": "United States",
+          "quantity": 172820.0
+         }
         ]
        },
        "Canada": {
         "name": "Canada",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 2976.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 200408.0
+         },
+         {
+          "country": "United States",
+          "quantity": 23990882.0
+         }
         ]
        },
        "Costa Rica": {
         "name": "Costa Rica",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 16635.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 37968.0
+         },
+         {
+          "country": "United States",
+          "quantity": 2466913.0
+         }
         ]
        },
        "Cuba": {
         "name": "Cuba",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 69558.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 274204.0
+         },
+         {
+          "country": "United States",
+          "quantity": 31224968.0
+         }
         ]
        },
        "Dominica": {
         "name": "Dominica",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 11022.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 392.0
+         },
+         {
+          "country": "United States",
+          "quantity": 928536.0
+         }
         ]
        },
        "Dominican Republic": {
         "name": "Dominican Republic",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 38936.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 34276.0
+         },
+         {
+          "country": "United States",
+          "quantity": 27036325.0
+         }
         ]
        },
        "El Salvador": {
         "name": "El Salvador",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 207914.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 148562.0
+         },
+         {
+          "country": "United States",
+          "quantity": 37332346.0
+         }
         ]
        },
        "Grenada": {
         "name": "Grenada",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 38580.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 447.0
+         },
+         {
+          "country": "United States",
+          "quantity": 858962.0
+         }
         ]
        },
        "Guatemala": {
         "name": "Guatemala",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 60410.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 348840.0
+         },
+         {
+          "country": "United States",
+          "quantity": 25858588.0
+         }
         ]
        },
        "Haiti": {
         "name": "Haiti",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 415929.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 20098.0
+         },
+         {
+          "country": "United States",
+          "quantity": 17077950.0
+         }
         ]
        },
        "Honduras": {
         "name": "Honduras",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 27891.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 193179.0
+         },
+         {
+          "country": "United States",
+          "quantity": 16488185.0
+         }
         ]
        },
        "Jamaica": {
         "name": "Jamaica",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 642086.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 1506.0
+         },
+         {
+          "country": "United States",
+          "quantity": 18457647.0
+         }
         ]
        },
        "Mexico": {
         "name": "Mexico",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 376194.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 0.0
+         },
+         {
+          "country": "United States",
+          "quantity": 361921439.0
+         }
         ]
        },
        "Nicaragua": {
         "name": "Nicaragua",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 33336.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 45421.0
+         },
+         {
+          "country": "United States",
+          "quantity": 7115252.0
+         }
         ]
        },
        "Panama": {
         "name": "Panama",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 10247.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 20168.0
+         },
+         {
+          "country": "United States",
+          "quantity": 2692122.0
+         }
         ]
        },
        "Puerto Rico": {
         "name": "Puerto Rico",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 1137.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 4566.0
+         },
+         {
+          "country": "United States",
+          "quantity": 11.0
+         }
         ]
        },
        "Saint Kitts and Nevis": {
         "name": "Saint Kitts and Nevis",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 7842.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 48.0
+         },
+         {
+          "country": "United States",
+          "quantity": 117394.0
+         }
         ]
        },
        "Saint Lucia": {
         "name": "Saint Lucia",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 21920.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 186.0
+         },
+         {
+          "country": "United States",
+          "quantity": 335393.0
+         }
         ]
        },
        "Saint Vincent and the Grenadines": {
         "name": "Saint Vincent and the Grenadines",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 46441.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 274.0
+         },
+         {
+          "country": "United States",
+          "quantity": 550071.0
+         }
         ]
        },
        "Trinidad and Tobago": {
         "name": "Trinidad and Tobago",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 306599.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 681.0
+         },
+         {
+          "country": "United States",
+          "quantity": 6355897.0
+         }
         ]
        },
        "United States": {
         "name": "United States",
         "links": [
-         "Canada",
-         "Mexico",
-         "United States"
+         {
+          "country": "Canada",
+          "quantity": 1417155.0
+         },
+         {
+          "country": "Mexico",
+          "quantity": 4192601.0
+         },
+         {
+          "country": "United States",
+          "quantity": 2115.0
+         }
         ]
        }
       }
@@ -1414,73 +4576,109 @@
        "Argentina": {
         "name": "Argentina",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 1583636.0
+         }
         ]
        },
        "Bolivia": {
         "name": "Bolivia",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 1024866.0
+         }
         ]
        },
        "Brazil": {
         "name": "Brazil",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 184481.0
+         }
         ]
        },
        "Chile": {
         "name": "Chile",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 0.0
+         }
         ]
        },
        "Colombia": {
         "name": "Colombia",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 1088276.0
+         }
         ]
        },
        "Ecuador": {
         "name": "Ecuador",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 420229.0
+         }
         ]
        },
        "Guyana": {
         "name": "Guyana",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 33.0
+         }
         ]
        },
        "Paraguay": {
         "name": "Paraguay",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 39556.0
+         }
         ]
        },
        "Peru": {
         "name": "Peru",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 2582349.0
+         }
         ]
        },
        "Suriname": {
         "name": "Suriname",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 13.0
+         }
         ]
        },
        "Uruguay": {
         "name": "Uruguay",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 42780.0
+         }
         ]
        },
        "Venezuela": {
         "name": "Venezuela",
         "links": [
-         "Chile"
+         {
+          "country": "Chile",
+          "quantity": 2123800.0
+         }
         ]
        }
       }
@@ -1493,269 +4691,443 @@
        "Afghanistan": {
         "name": "Afghanistan",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 45410.0
+         }
         ]
        },
        "Armenia": {
         "name": "Armenia",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 2716.0
+         }
         ]
        },
        "Azerbaijan": {
         "name": "Azerbaijan",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 2351.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 3552.0
+         }
         ]
        },
        "Bahrain": {
         "name": "Bahrain",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 1798.0
+         }
         ]
        },
        "Bangladesh": {
         "name": "Bangladesh",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 281005.0
+         }
         ]
        },
        "Bhutan": {
         "name": "Bhutan",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 11489.0
+         }
         ]
        },
        "Cambodia": {
         "name": "Cambodia",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 155373.0
+         }
         ]
        },
        "China": {
         "name": "China",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 12190.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 16649580.0
+         }
         ]
        },
        "Cyprus": {
         "name": "Cyprus",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 16090.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 693.0
+         }
         ]
        },
        "Georgia": {
         "name": "Georgia",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 3989.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 3540.0
+         }
         ]
        },
        "India": {
         "name": "India",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 395180.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 634390.0
+         }
         ]
        },
        "Indonesia": {
         "name": "Indonesia",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 1.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 1179418.0
+         }
         ]
        },
        "Iran": {
         "name": "Iran",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 1043036.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 76318.0
+         }
         ]
        },
        "Iraq": {
         "name": "Iraq",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 1351104.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 11236.0
+         }
         ]
        },
        "Israel": {
         "name": "Israel",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 16002.0
+         }
         ]
        },
        "Japan": {
         "name": "Japan",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 0.0
+         }
         ]
        },
        "Jordan": {
         "name": "Jordan",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 7547.0
+         }
         ]
        },
        "Kazakhstan": {
         "name": "Kazakhstan",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 2652.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 10598.0
+         }
         ]
        },
        "Kuwait": {
         "name": "Kuwait",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 2915.0
+         }
         ]
        },
        "Kyrgyzstan": {
         "name": "Kyrgyzstan",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 13.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 11952.0
+         }
         ]
        },
        "Laos": {
         "name": "Laos",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 66522.0
+         }
         ]
        },
        "Lebanon": {
         "name": "Lebanon",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 25040.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 2642.0
+         }
         ]
        },
        "Malaysia": {
         "name": "Malaysia",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 254455.0
+         }
         ]
        },
        "Maldives": {
         "name": "Maldives",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 2854.0
+         }
         ]
        },
        "Mongolia": {
         "name": "Mongolia",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 152804.0
+         }
         ]
        },
        "Myanmar": {
         "name": "Myanmar",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 304707.0
+         }
         ]
        },
        "Nepal": {
         "name": "Nepal",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 795910.0
+         }
         ]
        },
        "Oman": {
         "name": "Oman",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 2851.0
+         }
         ]
        },
        "Pakistan": {
         "name": "Pakistan",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 271412.0
+         }
         ]
        },
        "Philippines": {
         "name": "Philippines",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 30060.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 6064679.0
+         }
         ]
        },
        "Qatar": {
         "name": "Qatar",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 3617.0
+         }
         ]
        },
        "Saudi Arabia": {
         "name": "Saudi Arabia",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 24350.0
+         }
         ]
        },
        "Singapore": {
         "name": "Singapore",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 54086.0
+         }
         ]
        },
        "Sri Lanka": {
         "name": "Sri Lanka",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 316499.0
+         }
         ]
        },
        "Syria": {
         "name": "Syria",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 77620.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 8686.0
+         }
         ]
        },
        "Tajikistan": {
         "name": "Tajikistan",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 5092.0
+         }
         ]
        },
        "Thailand": {
         "name": "Thailand",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 1338443.0
+         }
         ]
        },
        "Turkey": {
         "name": "Turkey",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 559456.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 79556.0
+         }
         ]
        },
        "Turkmenistan": {
         "name": "Turkmenistan",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 2465.0
+         }
         ]
        },
        "United Arab Emirates": {
         "name": "United Arab Emirates",
         "links": [
-         "Japan"
+         {
+          "country": "Japan",
+          "quantity": 3223.0
+         }
         ]
        },
        "Uzbekistan": {
         "name": "Uzbekistan",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 7060.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 39618.0
+         }
         ]
        },
        "Yemen": {
         "name": "Yemen",
         "links": [
-         "Israel",
-         "Japan"
+         {
+          "country": "Israel",
+          "quantity": 613652.0
+         },
+         {
+          "country": "Japan",
+          "quantity": 2276.0
+         }
         ]
        }
       }
@@ -1768,121 +5140,208 @@
        "Australia": {
         "name": "Australia",
         "links": [
-         "New Zealand"
+         {
+          "country": "New Zealand",
+          "quantity": 466729.0
+         }
         ]
        },
        "Cook Islands": {
         "name": "Cook Islands",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 148093.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 55010.0
+         }
         ]
        },
        "Guam": {
         "name": "Guam",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 2132.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 118.0
+         }
         ]
        },
        "Kiribati": {
         "name": "Kiribati",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 13764.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 9714.0
+         }
         ]
        },
        "Marshall Islands": {
         "name": "Marshall Islands",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 724.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 154.0
+         }
         ]
        },
        "Nauru": {
         "name": "Nauru",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 14584.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 1206.0
+         }
         ]
        },
        "New Zealand": {
         "name": "New Zealand",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 11788687.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 3624.0
+         }
         ]
        },
        "Niue": {
         "name": "Niue",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 16885.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 18368.0
+         }
         ]
        },
        "Palau": {
         "name": "Palau",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 345.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 61.0
+         }
         ]
        },
        "Papua New Guinea": {
         "name": "Papua New Guinea",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 682690.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 9968.0
+         }
         ]
        },
        "Samoa": {
         "name": "Samoa",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 502319.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 313473.0
+         }
         ]
        },
        "Solomon Islands": {
         "name": "Solomon Islands",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 45371.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 5098.0
+         }
         ]
        },
        "Tokelau": {
         "name": "Tokelau",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 12166.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 5847.0
+         }
         ]
        },
        "Tonga": {
         "name": "Tonga",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 239947.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 137189.0
+         }
         ]
        },
        "Tuvalu": {
         "name": "Tuvalu",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 3552.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 9962.0
+         }
         ]
        },
        "Vanuatu": {
         "name": "Vanuatu",
         "links": [
-         "Australia",
-         "New Zealand"
+         {
+          "country": "Australia",
+          "quantity": 32311.0
+         },
+         {
+          "country": "New Zealand",
+          "quantity": 5545.0
+         }
         ]
        }
       }
-     },
-     "Antarctica": {
-      "x": 500,
-      "y": 1200,
-      "radius": 200,
-      "nodes": {}
      }
     },
     "externalLinks": [
@@ -25176,5 +28635,8 @@
       "to": "United States",
       "weight": 449874.0
      }
-    ]
+    ],
+    "isolatedNodes" : {
+        
+    }
    }
