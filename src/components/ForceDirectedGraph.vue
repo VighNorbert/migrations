@@ -1,6 +1,16 @@
 <template>
-<!--    <button :disabled="layout === 'force'">Incoming</button>-->
-<!--    <button :disabled="layout === 'force'">Outgoing</button>-->
+    <div class="btn-group mb-4">
+        <button :disabled="layout === 'force'"
+                :class="'btn btn-primary ' + (direction ? 'active' : '')"
+                @click="changeDirection(true)">
+            Show Emigration
+        </button>
+        <button :disabled="layout === 'force'"
+                :class="'btn btn-primary ' + (!direction ? 'active' : '')"
+                @click="changeDirection(false)">
+            Show Immigration
+        </button>
+    </div>
     <div class="map-canvas">
     </div>
 </template>
@@ -15,11 +25,13 @@ export default {
   data() {
     return {
       layout: 'force',
+      direction: false,
       nodesData: null,
       linksData: null,
       nodes: null,
       links: null,
       G: null,
+      forceLink: null,
       simulationRunning: true,
       simulation: null,
       svg: null,
@@ -125,12 +137,11 @@ export default {
       let colors = d3.schemeTableau10;
 
       const color = d3.scaleOrdinal(d3.sort(d3.map(this.nodesData, d => d.group)), colors);
-      const forceLink = d3.forceLink(this.linksData).id(({index: i}) => d3.map(this.nodesData, d => d.code)[i]);
+      this.forceLink = d3.forceLink(this.linksData).id(({index: i}) => d3.map(this.nodesData, d => d.code)[i]);
 
-      forceLink.strength(link => Math.log10(link.total[5]) / 100);
+      this.forceLink.strength(link => Math.log10(link.total[5]) / 100);
 
       this.createSvg(width, height);
-
 
       const links = this.svg.append("g")
           .attr("fill", "none")
@@ -154,7 +165,7 @@ export default {
       this.nodes = nodes;
 
       this.simulation = d3.forceSimulation(this.nodesData)
-          .force("link", forceLink)
+          .force("link", this.forceLink)
           .force("charge", d3.forceManyBody().strength(-50))
           .force("x", d3.forceX().strength(0.05))
           .force("y", d3.forceY().strength(0.05))
@@ -167,57 +178,12 @@ export default {
                 .attr("cx", d => d.x).attr("cy", d => d.y);
           });
 
-
       this.nodes
           .attr("fill", d => color(d.group))
           .attr("data-bs-toggle", "tooltip").attr("title", d => d.name)
           .attr("r", d => Math.log10(d.population) - 1)
           .call(drag(this.simulation, this.layout === "force"))
-          .on("click", (event, d) => {
-            if (d.code === this.root || this.layout === "force") {
-              this.toggleLayout();
-            }
-            if (this.layout === "force") {
-              this.root = null;
-              this.links.attr("stroke-opacity", 0.2)
-                  .attr("marker-end", `url(${new URL(`#arrow`, location)})`);
-              this.simulation
-                  .force("link", forceLink)
-                  .force("x", d3.forceX().strength(0.05))
-                  .force("y", d3.forceY().strength(0.05))
-                  .force("radial", null);
-            } else {
-              this.root = d.code;
-              let {layers, tree} = this.buildTree(d.code);
-              this.links
-                  .attr("stroke-opacity", i => {
-                    if (tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code)) {
-                      return 1;
-                    }
-                    return 0.05;
-                  })
-                  .attr("marker-end", i => {
-                    if (tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code)) {
-                      return `url(${new URL(`#arrow-full`, location)})`;
-                    }
-                    return `url(${new URL(`#arrow-faded`, location)})`;
-                  });
-              this.simulation
-                  .force("link", d3.forceLink(this.linksData)
-                      .id(({index: i}) => d3.map(this.nodesData, d => d.code)[i])
-                      .strength(link =>
-                          (tree.has(link.source.code) && tree.get(link.source.code).includes(link.target.code)) ? 0.5 : 0
-                      ))
-                  .force("x", d3.forceX().strength(i => (i.code === d.code) ? 1 : 0))
-                  .force("y", d3.forceY().strength(i => (i.code === d.code) ? 1 : 0))
-                  .force("radial", d3.forceRadial().strength(5).radius(i => {
-                    let n = layers.findIndex(e => e.includes(i.code));
-                    (n === -1) ? n = layers.length : n;
-                    return n * 100;
-                  }));
-            }
-          });
-
+          .on("click", (event, node) => this.nodeClicked(node.code));
 
       function linkArc(d) {
         const r = 2 * Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
@@ -258,6 +224,72 @@ export default {
       return Object.assign(this.svg.node(), {scales: {color}});
     },
 
+    nodeClicked(nodeCode, changeLayout = true) {
+        if (changeLayout && (nodeCode === this.root || this.layout === "force")) {
+            this.toggleLayout();
+        }
+        if (this.layout === "force") {
+            this.root = null;
+            this.links.attr("stroke-opacity", 0.2)
+                .attr("marker-end", `url(${new URL(`#arrow`, location)})`);
+            this.simulation
+                .force("link", this.forceLink)
+                .force("x", d3.forceX().strength(0.05))
+                .force("y", d3.forceY().strength(0.05))
+                .force("radial", null);
+        } else {
+            this.root = nodeCode;
+            let {layers, tree} = this.buildTree(nodeCode);
+            this.links
+                .attr("stroke-opacity", i => (
+                        (this.direction && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
+                        || (!this.direction && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
+                    ) ? 1 : 0.05
+                )
+                .attr("marker-end", i => {
+                    if (
+                        (this.direction && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
+                        || (!this.direction && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
+                    ) {
+                        return `url(${new URL(`#arrow-full`, location)})`;
+                    }
+                    return `url(${new URL(`#arrow-faded`, location)})`;
+                });
+            this.simulation
+                .force("link", d3.forceLink(this.linksData)
+                    .id(({index: i}) => d3.map(this.nodesData, d => d.code)[i])
+                    .strength(link => (
+                            (this.direction && tree.has(link.source.code) && tree.get(link.source.code).includes(link.target.code))
+                            || (!this.direction && tree.has(link.target.code) && tree.get(link.target.code).includes(link.source.code))
+                        ) ? 0.5 : 0
+                    ))
+                .force("x", d3.forceX().strength(i => (i.code === nodeCode) ? 1 : 0))
+                .force("y", d3.forceY().strength(i => (i.code === nodeCode) ? 1 : 0))
+                .force("radial", d3.forceRadial().strength(5).radius(i => {
+                    let n = layers.findIndex(e => e.includes(i.code));
+                    (n === -1) ? n = layers.length : n;
+                    return n * 100;
+                }));
+        }
+    },
+
+    changeDirection(direction) {
+      this.direction = direction;
+      this.nodeClicked(this.root, false);
+    },
+
+    getNeighbors(node) {
+      let neighbors = [];
+      for (let link of this.G.edges()) {
+        if (!this.direction && link[1] === node) {
+          neighbors.push(link[0]);
+        } else if (this.direction && link[0] === node) {
+          neighbors.push(link[1]);
+        }
+      }
+      return neighbors;
+    },
+
     buildTree(root) {
       let tree = new Map();
       let layers = [];
@@ -270,7 +302,7 @@ export default {
         for (let node of queue) {
           visited.add(node);
           layers[currentLayer].push(node);
-          for (let neighbor of this.G.neighbors(node)) {
+          for (let neighbor of this.getNeighbors(node)) {
             if (!visited.has(neighbor) && !nextQueue.includes(neighbor) && !queue.includes(neighbor)) {
               if (tree.has(node)) {
                 tree.get(node).push(neighbor);
