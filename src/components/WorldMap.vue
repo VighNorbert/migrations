@@ -241,7 +241,7 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style>
 .country {
   fill: WhiteSmoke;
   stroke: Gainsboro;
