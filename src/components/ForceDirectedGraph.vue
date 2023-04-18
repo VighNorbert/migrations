@@ -1,19 +1,41 @@
 <template>
-  <div class="map-canvas">
-  </div>
+<!--    <button :disabled="layout === 'force'">Incoming</button>-->
+<!--    <button :disabled="layout === 'force'">Outgoing</button>-->
+    <div class="map-canvas">
+    </div>
 </template>
 
 <script>
 import * as d3 from 'd3';
+import * as jsnx from 'jsnetworkx';
 import * as bootstrap from 'bootstrap';
 
 export default {
   name: 'ForceDirectedGraph',
+  data() {
+    return {
+      layout: 'force',
+      nodesData: null,
+      linksData: null,
+      nodes: null,
+      links: null,
+      G: null,
+      simulationRunning: true,
+      simulation: null,
+      svg: null,
+      root: null
+    };
+  },
   async mounted() {
-    let nodes = await this.loadNodes();
-    let links = await this.loadLinks();
+    this.G = new jsnx.DiGraph();
 
-    this.drawGraph(nodes, links);
+    this.nodesData = await this.loadNodes();
+    this.linksData = await this.loadLinks();
+
+    this.G.addNodesFrom(this.nodesData.map(d => [d.code, d]));
+    this.G.addEdgesFrom(this.linksData.map(d => [d.source, d.target, d]));
+
+    this.drawGraph();
   },
   methods: {
     async loadNodes() {
@@ -21,17 +43,17 @@ export default {
       c.map(d => {
         d.group = d.region;
       });
-      // console.log(c);
       return c;
     },
+
     async loadLinks() {
       let c = await d3.json("../../data/migration.json");
-      // console.log(c);
       c = c.filter(d => d.total[5] > 10000);
       return c;
     },
-    drawGraph(nodes, links) {
-      let chart = this.ForceGraph(nodes, links, undefined);
+
+    drawGraph() {
+      let chart = this.ForceGraph();
 
       document.querySelector(".map-canvas").appendChild(chart);
 
@@ -41,68 +63,190 @@ export default {
         delay: {show: 300, hide: 0}
       }));
     },
-    ForceGraph(nodes, links, linkStrength) {
-      let width = 1200, height = 600;
-      let colors = d3.schemeTableau10;
 
-      const color = d3.scaleOrdinal(d3.sort(d3.map(nodes, d => d.group)), colors);
-      const forceLink = d3.forceLink(links).id(({index: i}) => d3.map(nodes, d => d.code)[i]);
+    toggleLayout() {
+      if (this.layout === 'force') {
+        this.layout = 'radial';
+      } else {
+        this.layout = 'force';
+      }
+    },
 
-      if (linkStrength !== undefined) forceLink.strength(linkStrength);
-
-      const simulation = d3.forceSimulation(nodes)
-          .force("link", forceLink)
-          .force("charge", d3.forceManyBody())
-          .force("center", d3.forceCenter())
-          .on("tick", function () {
-            link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-                .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
-            node.attr("cx", d => d.x).attr("cy", d => d.y);
-          });
-
-      const svg = d3.create("svg")
+    createSvg(width, height) {
+      this.svg = d3.create("svg")
           .attr("width", width)
           .attr("height", height)
           .attr("viewBox", [-width / 2, -height / 2, width, height])
           .attr("style", "width: 100%; height: 50%;");
 
-      const link = svg.append("g")
-          .attr("stroke-opacity", 0.3)
-          .attr("stroke-linecap", "round")
-          .attr("stroke-width", 1)
-          .attr("stroke", "#000")
-          .selectAll("line")
-          .data(links)
-          .join("line");
+      const defs = this.svg.append("defs");
+      defs.append("marker")
+          .attr("id", "arrow")
+          .attr("viewBox", "0 -5 10 10")
+          .attr("refX", 15)
+          .attr("refY", -0.5)
+          .attr("markerWidth", 5)
+          .attr("markerHeight", 5)
+          .attr("orient", "auto")
+          .append("path")
+          .attr("fill", "#000")
+          .attr("fill-opacity", 0.2)
+          .attr("d", "M0,-5L10,0L0,5");
 
-      const node = svg.append("g")
+      defs.append("marker")
+          .attr("id", "arrow-faded")
+          .attr("viewBox", "0 -5 10 10")
+          .attr("refX", 15)
+          .attr("refY", -0.5)
+          .attr("markerWidth", 5)
+          .attr("markerHeight", 5)
+          .attr("orient", "auto")
+          .append("path")
+          .attr("fill", "#000")
+          .attr("fill-opacity", 0.05)
+          .attr("d", "M0,-5L10,0L0,5");
+
+      defs.append("marker")
+          .attr("id", "arrow-full")
+          .attr("viewBox", "0 -5 10 10")
+          .attr("refX", 15)
+          .attr("refY", -0.5)
+          .attr("markerWidth", 5)
+          .attr("markerHeight", 5)
+          .attr("orient", "auto")
+          .append("path")
+          .attr("fill", "#000")
+          .attr("fill-opacity", 1)
+          .attr("d", "M0,-5L10,0L0,5");
+    },
+
+    ForceGraph() {
+      let width = 1200, height = 800;
+      let colors = d3.schemeTableau10;
+
+      const color = d3.scaleOrdinal(d3.sort(d3.map(this.nodesData, d => d.group)), colors);
+      const forceLink = d3.forceLink(this.linksData).id(({index: i}) => d3.map(this.nodesData, d => d.code)[i]);
+
+      forceLink.strength(link => Math.log10(link.total[5]) / 100);
+
+      this.createSvg(width, height);
+
+
+      const links = this.svg.append("g")
+          .attr("fill", "none")
+          .attr("stroke-width", 1.5)
+          .selectAll("path")
+          .data(this.linksData)
+          .join("path")
+          .attr("stroke", "#000")
+          .attr("stroke-opacity", 0.2)
+          .attr("stroke-width", d => Math.log10(d.total[5]) - 3)
+          .attr("marker-end", `url(${new URL(`#arrow`, location)})`);
+      this.links = links;
+
+      const nodes = this.svg.append("g")
           .attr("fill", color)
           .attr("stroke", "#000")
+          .attr("stroke-width", .5)
           .selectAll("circle")
-          .data(nodes)
-          .join("circle")
-          .attr("r", 4)
-          .call(drag(simulation));
+          .data(this.nodesData)
+          .join("circle");
+      this.nodes = nodes;
 
-      node.attr("fill", d => color(d.group));
-      node.attr("data-bs-toggle", "tooltip").attr("title", d => d.name);
+      this.simulation = d3.forceSimulation(this.nodesData)
+          .force("link", forceLink)
+          .force("charge", d3.forceManyBody().strength(-50))
+          .force("x", d3.forceX().strength(0.05))
+          .force("y", d3.forceY().strength(0.05))
+          .on("tick", function () {
+            links
+                .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x).attr("y2", d => d.target.y)
+                .attr("d", linkArc);
+            nodes
+                .attr("cx", d => d.x).attr("cy", d => d.y);
+          });
 
-      function drag(simulation) {
+
+      this.nodes
+          .attr("fill", d => color(d.group))
+          .attr("data-bs-toggle", "tooltip").attr("title", d => d.name)
+          .attr("r", d => Math.log10(d.population) - 1)
+          .call(drag(this.simulation, this.layout === "force"))
+          .on("click", (event, d) => {
+            if (d.code === this.root || this.layout === "force") {
+              this.toggleLayout();
+            }
+            if (this.layout === "force") {
+              this.root = null;
+              this.links.attr("stroke-opacity", 0.2)
+                  .attr("marker-end", `url(${new URL(`#arrow`, location)})`);
+              this.simulation
+                  .force("link", forceLink)
+                  .force("x", d3.forceX().strength(0.05))
+                  .force("y", d3.forceY().strength(0.05))
+                  .force("radial", null);
+            } else {
+              this.root = d.code;
+              let {layers, tree} = this.buildTree(d.code);
+              this.links
+                  .attr("stroke-opacity", i => {
+                    if (tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code)) {
+                      return 1;
+                    }
+                    return 0.05;
+                  })
+                  .attr("marker-end", i => {
+                    if (tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code)) {
+                      return `url(${new URL(`#arrow-full`, location)})`;
+                    }
+                    return `url(${new URL(`#arrow-faded`, location)})`;
+                  });
+              this.simulation
+                  .force("link", d3.forceLink(this.linksData)
+                      .id(({index: i}) => d3.map(this.nodesData, d => d.code)[i])
+                      .strength(link =>
+                          (tree.has(link.source.code) && tree.get(link.source.code).includes(link.target.code)) ? 0.5 : 0
+                      ))
+                  .force("x", d3.forceX().strength(i => (i.code === d.code) ? 1 : 0))
+                  .force("y", d3.forceY().strength(i => (i.code === d.code) ? 1 : 0))
+                  .force("radial", d3.forceRadial().strength(5).radius(i => {
+                    let n = layers.findIndex(e => e.includes(i.code));
+                    (n === -1) ? n = layers.length : n;
+                    return n * 100;
+                  }));
+            }
+          });
+
+
+      function linkArc(d) {
+        const r = 2 * Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
+        return `M${d.source.x},${d.source.y}
+                A${r},${r} 0 0,1 ${d.target.x},${d.target.y}`;
+      }
+
+      function drag(simulation, enabled) {
         function dragstarted(event) {
-          if (!event.active) simulation.alphaTarget(0.3).restart();
-          event.subject.fx = event.subject.x;
-          event.subject.fy = event.subject.y;
+          if (enabled) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            event.subject.fx = event.subject.x;
+            event.subject.fy = event.subject.y;
+          }
         }
 
         function dragged(event) {
-          event.subject.fx = event.x;
-          event.subject.fy = event.y;
+          if (enabled) {
+            event.subject.fx = event.x;
+            event.subject.fy = event.y;
+          }
         }
 
         function dragended(event) {
-          if (!event.active) simulation.alphaTarget(0);
-          event.subject.fx = null;
-          event.subject.fy = null;
+          if (enabled) {
+            if (!event.active) simulation.alphaTarget(0);
+            event.subject.fx = null;
+            event.subject.fy = null;
+          }
         }
 
         return d3.drag()
@@ -111,7 +255,39 @@ export default {
             .on("end", dragended);
       }
 
-      return Object.assign(svg.node(), {scales: {color}});
+      return Object.assign(this.svg.node(), {scales: {color}});
+    },
+
+    buildTree(root) {
+      let tree = new Map();
+      let layers = [];
+      let visited = new Set();
+      let queue = [root];
+      let currentLayer = 0;
+      while (queue.length > 0) {
+        let nextQueue = [];
+        layers[currentLayer] = [];
+        for (let node of queue) {
+          visited.add(node);
+          layers[currentLayer].push(node);
+          for (let neighbor of this.G.neighbors(node)) {
+            if (!visited.has(neighbor) && !nextQueue.includes(neighbor) && !queue.includes(neighbor)) {
+              if (tree.has(node)) {
+                tree.get(node).push(neighbor);
+              } else {
+                tree.set(node, [neighbor]);
+              }
+              nextQueue.push(neighbor);
+            }
+          }
+        }
+        queue = nextQueue;
+        currentLayer++;
+      }
+      return {
+        layers,
+        tree
+      };
     },
   }
 }
