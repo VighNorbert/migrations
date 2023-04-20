@@ -13,6 +13,7 @@
     "bootstrap": "^5.2.3",
     "core-js": "^3.8.3",
     "d3": "^7.8.2",
+    "d3-simple-slider": "^1.10.4",
     "jsnetworkx": "^0.3.4",
     "sass-loader": "^13.2.0",
     "topojson-client": "^3.1.0",
