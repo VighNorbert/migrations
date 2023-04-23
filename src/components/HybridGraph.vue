@@ -222,43 +222,52 @@
 
             let nodeLinks = diagramNode.links;
 
-            let quantitySum = 0;
+            if(!(diagramNodeName in migrationsFlowsDetails)) {
+              migrationsFlowsDetails[diagramNodeName] = {"in":0,"out":0,"max":0};
+            }
+
             Object.keys(nodeLinks).forEach(function(nodeLink) {
 
               let nodeLinkCountry = nodeLink;
-              let nodeLinkQuantities = {};
-              if(viewOption === "emigration")
-                nodeLinkQuantities = nodeLinks[nodeLink].out;
-              else if(viewOption == "immigration")
-                nodeLinkQuantities = nodeLinks[nodeLink].in;
-
-              if(nodeLinkQuantities !== undefined) {
-                quantitySum = nodeLinkQuantities[toYear];
-              }
-
-              if(quantitySum > minFilter)
-                nodeLinks[nodeLink].quantity = quantitySum;
-              else
-                nodeLinks[nodeLink].quantity = 0;
-
-              if(!(diagramNodeName in migrationsFlowsDetails)) {
-                migrationsFlowsDetails[diagramNodeName] = {"in":0,"out":0,"max":0};
-              }
-
               if(!(nodeLinkCountry in migrationsFlowsDetails)) {
                 migrationsFlowsDetails[nodeLinkCountry] = {"in":0,"out":0,"max":0};
               }
 
-              migrationsFlowsDetails[diagramNodeName].out = quantitySum;              
-              if(quantitySum > migrationsFlowsDetails[diagramNodeName].max) {
-                migrationsFlowsDetails[diagramNodeName].max = quantitySum;
-              }
+              let migrationsOut = nodeLinks[nodeLink].out[toYear] !== undefined ? nodeLinks[nodeLink].out[toYear] : 0;
+              let migrationsIn = nodeLinks[nodeLink].in[toYear] !== undefined? nodeLinks[nodeLink].in[toYear] : 0;
 
-              migrationsFlowsDetails[nodeLinkCountry].in = quantitySum;
+              if(migrationsIn > minFilter) {
+                migrationsFlowsDetails[diagramNodeName].in += migrationsIn;
+              }
+              
+              if(migrationsOut > minFilter) {
+                migrationsFlowsDetails[diagramNodeName].out += migrationsOut;
+              }
+              
+              // update the max, according to viewoption
+              if(viewOption == "immigration") {
+                if(migrationsIn > minFilter) {
+                  nodeLinks[nodeLink].quantity = migrationsIn;
+                } else {
+                  nodeLinks[nodeLink].quantity = 0;
+                }                
+                if(migrationsIn > migrationsFlowsDetails[diagramNodeName].max)
+                  migrationsFlowsDetails[diagramNodeName].max = migrationsIn;
+              } else if(viewOption == "emigration") {
+                if(migrationsOut > minFilter) {
+                  nodeLinks[nodeLink].quantity = migrationsOut;
+                } else {
+                  nodeLinks[nodeLink].quantity = 0;
+                }
+                if(migrationsOut > migrationsFlowsDetails[diagramNodeName].max)
+                  migrationsFlowsDetails[diagramNodeName].max = migrationsOut;
+              }
             });
 
           });
         });
+
+        console.log(fullDiagramDataCopy);
 
         // work on external migrations
         Object.keys(fullDiagramDataCopy.externalLinks).forEach(function(externalLink) {
@@ -1001,7 +1010,6 @@
         let selectedYear = document.getElementById("yearSlider").value;
 
         Object.keys(externalLinks).forEach(function(externalLink) {
-          console.log(externalLinks[externalLink]);
           if(externalLinks[externalLink].from === country)
             links.push({"country":externalLinks[externalLink].to,"quantity":externalLinks[externalLink].peso.in[selectedYear]});
         });
