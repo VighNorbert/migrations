@@ -44,9 +44,8 @@
 
   <!-- TODO
     lunedì
-  - bug: external link not show after moving to cluster  
   - bug: etichetta sovrappone diagramma
-  - ridurre cluttering link esterni per multiple selection
+  - bug: mostra numeri corretti di in/out
     mercoledì
     End: Aestetically beautiful!
 
@@ -1254,7 +1253,7 @@
           
           let balance = migrationsIn - migrationsOut;
           if(balance>0) {
-            el.style.stroke = "green";
+            el.style.stroke = "lightblue";
           } else {
             el.style.stroke = "red";
           }
@@ -1334,6 +1333,16 @@
 
           let peso = {"in":{},"out":{}};
           externalLinks[normalizeExternalLinkKey(from,to)] = {"from": from, "to": to, "peso":peso, "quantity": quantity};
+          
+          // specular migration
+          if(viewOption == "immigration") {
+            quantity = draggedCountryInternalLinks[to].out[year];
+          } else if(viewOption == "emigration") {
+            quantity = draggedCountryInternalLinks[to].in[year];
+          }     
+          
+          externalLinks[normalizeExternalLinkKey(to,from)] = {"from": to, "to": from, "peso":peso, "quantity": quantity};
+
         });
         chordDiagrams[zoneTo].nodes[countryName].links = {};
 
@@ -1373,6 +1382,9 @@
       removeElement("node-"+normalizeClassName(countryName));
 
       drawChordDiagram(zoneTo);
+
+      console.log(chordDiagrams);
+      console.log(externalLinks);
 
       },
       showSidebar() {
