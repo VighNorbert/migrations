@@ -43,6 +43,7 @@ export default {
 
     this.nodesData = await this.loadNodes();
     this.linksData = await this.loadLinks();
+    this.iso3166 = await this.loadIso3166();
 
     this.G.addNodesFrom(this.nodesData.map(d => [d.code, d]));
     this.G.addEdgesFrom(this.linksData.map(d => [d.source, d.target, d]));
@@ -56,6 +57,10 @@ export default {
         d.group = d.region;
       });
       return c;
+    },
+
+    async loadIso3166() {
+      return await d3.json("../../data/config/iso3166_dict.json");
     },
 
     async loadLinks() {
@@ -130,6 +135,22 @@ export default {
           .attr("fill", "#000")
           .attr("fill-opacity", 1)
           .attr("d", "M0,-5L10,0L0,5");
+
+      defs.selectAll("pattern")
+          .data(this.nodesData)
+          .join("pattern")
+          .attr("height", "100%")
+          .attr("width", "100%")
+          .attr("patternContentUnits", "objectBoundingBox")
+          .attr("id", d => `flag-${d.iso3316}`)
+          .append("image")
+          .attr("x", "0")
+          .attr("y", "0")
+          .attr("preserveAspectRatio", "none")
+          .attr("height", "1")
+          .attr("width", "1")
+          .attr("xlink:href", d => require('@/assets/img/w20/' + d.iso3316.toString().toLowerCase() + '.png'));
+
     },
 
     ForceGraph() {
@@ -156,9 +177,8 @@ export default {
       this.links = links;
 
       const nodes = this.svg.append("g")
-          .attr("fill", color)
           .attr("stroke", "#000")
-          .attr("stroke-width", .5)
+          .attr("stroke-width", 2)
           .selectAll("circle")
           .data(this.nodesData)
           .join("circle");
@@ -179,9 +199,10 @@ export default {
           });
 
       this.nodes
-          .attr("fill", d => color(d.group))
+          .attr("fill", d => `url(#flag-${d.iso3316})`)
+          .attr("stroke", d => color(d.group))
           .attr("data-bs-toggle", "tooltip").attr("title", d => d.name)
-          .attr("r", d => Math.log10(d.population) - 1)
+          .attr("r", d => Math.log10(d.population))
           .call(drag(this.simulation, this.layout === "force"))
           .on("click", (event, node) => this.nodeClicked(node.code));
 
@@ -225,52 +246,52 @@ export default {
     },
 
     nodeClicked(nodeCode, changeLayout = true) {
-        if (changeLayout && (nodeCode === this.root || this.layout === "force")) {
-            this.toggleLayout();
-        }
-        if (this.layout === "force") {
-            this.root = null;
-            this.links.attr("stroke-opacity", 0.2)
-                .attr("marker-end", `url(${new URL(`#arrow`, location)})`);
-            this.simulation
-                .force("link", this.forceLink)
-                .force("x", d3.forceX().strength(0.05))
-                .force("y", d3.forceY().strength(0.05))
-                .force("radial", null);
-        } else {
-            this.root = nodeCode;
-            let {layers, tree} = this.buildTree(nodeCode);
-            this.links
-                .attr("stroke-opacity", i => (
-                        (this.direction && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
-                        || (!this.direction && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
-                    ) ? 1 : 0.05
-                )
-                .attr("marker-end", i => {
-                    if (
-                        (this.direction && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
-                        || (!this.direction && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
-                    ) {
-                        return `url(${new URL(`#arrow-full`, location)})`;
-                    }
-                    return `url(${new URL(`#arrow-faded`, location)})`;
-                });
-            this.simulation
-                .force("link", d3.forceLink(this.linksData)
-                    .id(({index: i}) => d3.map(this.nodesData, d => d.code)[i])
-                    .strength(link => (
-                            (this.direction && tree.has(link.source.code) && tree.get(link.source.code).includes(link.target.code))
-                            || (!this.direction && tree.has(link.target.code) && tree.get(link.target.code).includes(link.source.code))
-                        ) ? 0.5 : 0
-                    ))
-                .force("x", d3.forceX().strength(i => (i.code === nodeCode) ? 1 : 0))
-                .force("y", d3.forceY().strength(i => (i.code === nodeCode) ? 1 : 0))
-                .force("radial", d3.forceRadial().strength(5).radius(i => {
-                    let n = layers.findIndex(e => e.includes(i.code));
-                    (n === -1) ? n = layers.length : n;
-                    return n * 100;
-                }));
-        }
+      if (changeLayout && (nodeCode === this.root || this.layout === "force")) {
+        this.toggleLayout();
+      }
+      if (this.layout === "force") {
+        this.root = null;
+        this.links.attr("stroke-opacity", 0.2)
+            .attr("marker-end", `url(${new URL(`#arrow`, location)})`);
+        this.simulation
+            .force("link", this.forceLink)
+            .force("x", d3.forceX().strength(0.05))
+            .force("y", d3.forceY().strength(0.05))
+            .force("radial", null);
+      } else {
+        this.root = nodeCode;
+        let {layers, tree} = this.buildTree(nodeCode);
+        this.links
+            .attr("stroke-opacity", i => (
+                    (this.direction && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
+                    || (!this.direction && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
+                ) ? 1 : 0.05
+            )
+            .attr("marker-end", i => {
+              if (
+                  (this.direction && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
+                  || (!this.direction && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
+              ) {
+                return `url(${new URL(`#arrow-full`, location)})`;
+              }
+              return `url(${new URL(`#arrow-faded`, location)})`;
+            });
+        this.simulation
+            .force("link", d3.forceLink(this.linksData)
+                .id(({index: i}) => d3.map(this.nodesData, d => d.code)[i])
+                .strength(link => (
+                        (this.direction && tree.has(link.source.code) && tree.get(link.source.code).includes(link.target.code))
+                        || (!this.direction && tree.has(link.target.code) && tree.get(link.target.code).includes(link.source.code))
+                    ) ? 0.5 : 0
+                ))
+            .force("x", d3.forceX().strength(i => (i.code === nodeCode) ? 1 : 0))
+            .force("y", d3.forceY().strength(i => (i.code === nodeCode) ? 1 : 0))
+            .force("radial", d3.forceRadial().strength(5).radius(i => {
+              let n = layers.findIndex(e => e.includes(i.code));
+              (n === -1) ? n = layers.length : n;
+              return n * 100;
+            }));
+      }
     },
 
     changeDirection(direction) {
