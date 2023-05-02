@@ -37,6 +37,9 @@
 
           </ul>
         </div>
+        <svg id="sidebarCountryDetailsBoxPlot" style="height: 900px;">
+          
+        </svg>
       </div>
     </div>
   </div>
@@ -638,7 +641,9 @@
         let hideTooltipCountry = this.hideTooltipCountry;
         let showMigrationDetailsList = this.showMigrationDetailsList;
         let setColorOffAllLinks = this.setColorOffAllLinks;
+        let hideMigrationDetails = this.hideMigrationDetails;
         let highlightSelectedLinkedCountries = this.highlightSelectedLinkedCountries;
+        let showMigrationBarChartForCountry = this.showMigrationBarChartForCountry;
 
         /** Draw all the flags */
         this.node[chordDiagramZone] = this.node[chordDiagramZone]
@@ -715,7 +720,8 @@
                 showTooltipCountry(overedCountryName,migrationsFlowsDetails[overedCountryName].in,
                                   migrationsFlowsDetails[overedCountryName].out,event);
                 
-                showMigrationDetailsList(overedCountryName);
+                //showMigrationDetailsList(overedCountryName);
+                showMigrationBarChartForCountry(overedCountryName);
               }
 
               function flagMouseOuted(d) {
@@ -733,6 +739,7 @@
                   setColorOffAllLinks("steelblue");
                   reduceOpacityOfAllCountriesLinks(0.05);
                 }
+                //hideMigrationDetails();
               }
       },
 
@@ -1395,6 +1402,9 @@
       },
       showTooltipCountry(countryName,migrationsIn,migrationsOut,event) {
         this.tooltip.style("opacity", 1);
+
+
+
         this.tooltip
           .html("<h4>" + countryName + "</h4>" + "In: " + migrationsIn + "<br>" + "Out: " + migrationsOut)
           .style("left", this.getFlagLocation(countryName).x + 20 + "px")
@@ -1414,6 +1424,17 @@
 
         var circleElement = document.getElementById('circle-' + normalizeClassName(zoneName));
         return circleElement.getBoundingClientRect();  
+      },
+      getDiagramCentreLocation(zoneName) {
+        let normalizeClassName = this.normalizeClassName; 
+
+        var diagramElement = document.getElementById('g-' + normalizeClassName(zoneName)).getBoundingClientRect();
+        let width = diagramElement.width;
+        let height = diagramElement.height;
+        let x = diagramElement.x;
+        let y = diagramElement.y;
+
+        return {"x" : x + width / 2, "y": y + height / 2};
       },
       removeElement(id) {
         let elem = document.getElementById(id);
@@ -1438,6 +1459,72 @@
         return false;
       },
       insertCountryInRegion(node) {
+
+      },
+      hideMigrationDetails() {
+        document.getElementById("sidebarCountryDetailsBoxPlot").innerHTML = "";
+      },
+      showMigrationBarChartForCountry(countryName) {
+        var margin = {top: 20, right: 30, bottom: 40, left: 90},
+        width = 460 - margin.left - margin.right,
+        height = 600;
+
+        let findLinksOfCountry = this.findLinksOfCountry;
+        let showTooltipCountry = this.showTooltipCountry;
+        let hideTooltipCountry = this.hideTooltipCountry;
+
+        let dataDetails = [];
+        let qtymax = 0;
+        findLinksOfCountry(countryName).forEach(function(link) {
+          let country = link.country;
+          let quantity = link.quantity;
+          if(quantity > qtymax) {
+            qtymax = quantity;
+          }
+          if(quantity > 1) {
+            dataDetails.push({"country":country,"quantity":quantity});
+          }
+        });
+
+        document.getElementById("sidebarCountryDetailsBoxPlot").innerHTML = "";
+        let detailsSvg = d3.select("#sidebarCountryDetailsBoxPlot");
+
+        var x = d3.scaleLinear()
+          .domain([0, qtymax])
+          .range([ 0, width]);
+        detailsSvg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x))
+          .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end");
+
+        // Y axis
+        var y = d3.scaleBand()
+          .range([ 0, height ])
+          .domain(dataDetails.map(function(d) { return d.country; }))
+          .padding(.1);
+        detailsSvg.append("g")
+          .call(d3.axisLeft(y));
+
+        detailsSvg.selectAll("rect")
+          .data(dataDetails)
+          .enter()
+          .append("rect")
+          .attr("x", x(0))
+          .attr("y", function(d) { return y(d.country); })
+          .attr("width", function(d) { return x(d.quantity); })
+          .attr("height", y.bandwidth() )
+          .attr("fill", "#69b3a2")          
+          .on("mouseover", function(d,event) {
+            let country_ = d.toElement.__data__.country;
+            showTooltipCountry(country_,migrationsFlowsDetails[country_].in,
+                                  migrationsFlowsDetails[country_].out,event);
+          })
+          .on("mouseout", function() {
+            hideTooltipCountry();
+          })
+          ;
 
       },
       highlightSelectedCountries() {
