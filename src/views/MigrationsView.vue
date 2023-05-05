@@ -1,18 +1,14 @@
 <template>
-  <h1>Migrations</h1>
-  <ForceDirectedGraph></ForceDirectedGraph>
-  <WorldMap></WorldMap>
+  <VisControls></VisControls>
 </template>
 
 <script>
-import ForceDirectedGraph from "@/components/ForceDirectedGraph.vue";
-import WorldMap from "@/components/WorldMap.vue";
+import VisControls from "@/components/VisControls.vue";
 
 export default {
   name: 'MigrationsView',
   components: {
-    ForceDirectedGraph,
-    WorldMap
+    VisControls,
   }
 }
 </script>
