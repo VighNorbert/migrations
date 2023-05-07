@@ -21,7 +21,7 @@
       <div>
       <button v-on:click="showImmigration">Show immigration</button>
       <button v-on:click="showEmigration">Show emigration</button>
-      <button>Show difference</button>
+      <button v-on:click="showDifference">Show difference</button>
       </div>
 
       <!--
@@ -37,17 +37,19 @@
 
           </ul>
         </div>
+        <svg id="sidebarCountryDetailsBoxPlot" style="height: 900px;">
+          
+        </svg>
       </div>
     </div>
   </div>
   </template>
 
   <!-- TODO
-  - option to show colors for the flows: red=more immigrants than emigrants, blue viceversa
-  - fix multiple selection
-
-    Possibility to create new clusters -- DROP OUT
-
+    lunedì
+  - bug: etichetta sovrappone diagramma
+  - bug: mostra numeri corretti di in/out
+    mercoledì
     End: Aestetically beautiful!
 
   - (animations) 
@@ -65,6 +67,8 @@
   let ctrlPressed = false;
   let data = {};
   let viewOption = "emigration";
+  let lastOveredZone = "";
+  let showDifferenceColors = false;
 
   export default {
     name: 'HybridGraph',
@@ -208,6 +212,12 @@
         viewOption = "emigration";
         this.updateDiagram();
       },
+      showDifference() {
+        showDifferenceColors = !showDifferenceColors;
+        // make internal links with opacity to 0
+        this.updateDiagram();
+        this.reduceOpacityOfAllCountriesLinks(0.05);
+      },
       summarizeData(fullDiagramData,fromYear,toYear,minFilter) {        
         let fullDiagramDataCopy = fullDiagramData;
         migrationsFlowsDetails = {};
@@ -222,39 +232,46 @@
 
             let nodeLinks = diagramNode.links;
 
-            let quantitySum = 0;
+            if(!(diagramNodeName in migrationsFlowsDetails)) {
+              migrationsFlowsDetails[diagramNodeName] = {"in":0,"out":0,"max":0};
+            }
+
             Object.keys(nodeLinks).forEach(function(nodeLink) {
 
               let nodeLinkCountry = nodeLink;
-              let nodeLinkQuantities = {};
-              if(viewOption === "emigration")
-                nodeLinkQuantities = nodeLinks[nodeLink].out;
-              else if(viewOption == "immigration")
-                nodeLinkQuantities = nodeLinks[nodeLink].in;
-
-              if(nodeLinkQuantities !== undefined) {
-                quantitySum = nodeLinkQuantities[toYear];
-              }
-
-              if(quantitySum > minFilter)
-                nodeLinks[nodeLink].quantity = quantitySum;
-              else
-                nodeLinks[nodeLink].quantity = 0;
-
-              if(!(diagramNodeName in migrationsFlowsDetails)) {
-                migrationsFlowsDetails[diagramNodeName] = {"in":0,"out":0,"max":0};
-              }
-
               if(!(nodeLinkCountry in migrationsFlowsDetails)) {
                 migrationsFlowsDetails[nodeLinkCountry] = {"in":0,"out":0,"max":0};
               }
 
-              migrationsFlowsDetails[diagramNodeName].out = quantitySum;              
-              if(quantitySum > migrationsFlowsDetails[diagramNodeName].max) {
-                migrationsFlowsDetails[diagramNodeName].max = quantitySum;
-              }
+              let migrationsOut = nodeLinks[nodeLink].out[toYear] !== undefined ? nodeLinks[nodeLink].out[toYear] : 0;
+              let migrationsIn = nodeLinks[nodeLink].in[toYear] !== undefined? nodeLinks[nodeLink].in[toYear] : 0;
 
-              migrationsFlowsDetails[nodeLinkCountry].in = quantitySum;
+              if(migrationsIn > minFilter) {
+                migrationsFlowsDetails[diagramNodeName].in += migrationsIn;
+              }
+              
+              if(migrationsOut > minFilter) {
+                migrationsFlowsDetails[diagramNodeName].out += migrationsOut;
+              }
+              
+              // update the max, according to viewoption
+              if(viewOption == "immigration") {
+                if(migrationsIn > minFilter) {
+                  nodeLinks[nodeLink].quantity = migrationsIn;
+                } else {
+                  nodeLinks[nodeLink].quantity = 0;
+                }                
+                if(migrationsIn > migrationsFlowsDetails[diagramNodeName].max)
+                  migrationsFlowsDetails[diagramNodeName].max = migrationsIn;
+              } else if(viewOption == "emigration") {
+                if(migrationsOut > minFilter) {
+                  nodeLinks[nodeLink].quantity = migrationsOut;
+                } else {
+                  nodeLinks[nodeLink].quantity = 0;
+                }
+                if(migrationsOut > migrationsFlowsDetails[diagramNodeName].max)
+                  migrationsFlowsDetails[diagramNodeName].max = migrationsOut;
+              }
             });
 
           });
@@ -342,9 +359,11 @@
         let reduceOpacityOfAllCountriesLinks = this.reduceOpacityOfAllCountriesLinks;
         let increaseLinksOpacityOfSelectedCountries = this.increaseLinksOpacityOfSelectedCountries;
         let drawExternalLinksOfSelectedCountries = this.drawExternalLinksOfSelectedCountries;
-
+        let highlightSelectedLinkedCountries = this.highlightSelectedLinkedCountries;
+        
         if(multipleSelectionActive) {
           // highlight selected countries
+          highlightSelectedLinkedCountries(selectedCountries, 0.45);
 
           // remove highlight on everything
           reduceOpacityOfAllCountriesFlags(0.1);
@@ -413,7 +432,7 @@
             .attr("d", sym)
             .attr("id", "triangle-"+normalizeZoneName(zoneName)+"-"+i)
             .attr("class", "triangle")
-            .attr("fill", "lightblue")
+            .attr("fill", "steelblue")
             .attr("transform", "translate(" + x + ", " + y + ")rotate(" + angle + ")");
             
           i++;
@@ -437,6 +456,10 @@
         let highlightSelectedCountries = this.highlightSelectedCountries;
         let getIsolatedNodes = this.getIsolatedNodes;
         let moveCountryToZone = this.moveCountryToZone;
+        let showTooltipCountry = this.showTooltipCountry;
+        let showMigrationDetailsList = this.showMigrationDetailsList;
+        let hideTooltipCountry = this.hideTooltipCountry;
+        let overlap = this.overlap;
 
         // delete old node
         removeElement("node-" + normalizeClassName(countryName));
@@ -475,16 +498,28 @@
           }
           
           function isolatedNodeDragEnd() {
-            moveCountryToZone(countryName,overedChordDiagramZoneName);
+            let currentCircle = document.getElementById("circle-" + normalizeClassName(lastOveredZone));
+            let isolatedFlag = document.getElementById("node-" + normalizeClassName(countryName));
+
+            if(overlap(currentCircle,isolatedFlag)) {
+              console.log("they overlap");
+              moveCountryToZone(countryName,overedChordDiagramZoneName);
+            }
           }
 
-          function isolatedNodeMouseovered(d) {
+          function isolatedNodeMouseovered(d,event) {
             let overedCountryName = d.target.dataset.country;
             highlightLinksFromCountry(overedCountryName);
+
+            showTooltipCountry(overedCountryName,migrationsFlowsDetails[overedCountryName].in,
+                                  migrationsFlowsDetails[overedCountryName].out,event);
+                
+            showMigrationDetailsList(overedCountryName);
           }
 
           function isolatedNodeMouseouted(d) {
             let overedCountryName = d.target.dataset.country;
+            hideTooltipCountry();
             removeHighlightsLinksFromCountry(overedCountryName);
           }
 
@@ -540,15 +575,15 @@
                 .on('drag', chordDiagramDragging)
                 .on('end', chordDiagramDragEnd)
               )
-              .on("mouseover", chorDiagramMouseovered)
-              .on("mouseout", chorDiagramMouseouted)
+              //.on("mouseover", chorDiagramMouseovered)
+              //.on("mouseout", chorDiagramMouseouted)
               .selectAll(".node");
             
             /** CHORD DIAGRAM EVENTS  */
             function chorDiagramMouseovered(e) {
-              chorDiagramMouseoveredGlob(chordDiagramZone);
-
               isChordDiagramOvered = true;
+              lastOveredZone = chordDiagramZone;
+              chorDiagramMouseoveredGlob(chordDiagramZone);
             }
 
             function chorDiagramMouseouted(e) {
@@ -577,7 +612,10 @@
 
             // append a circle to g for letting drag options
             d3.select("#g-" + this.normalizeClassName(chordDiagramZone)).append("circle")
+            .on("mouseover", chorDiagramMouseovered)
+            .on("mouseout", chorDiagramMouseouted)
             .attr("r", "170")
+            .attr("id","circle-" + this.normalizeClassName(chordDiagramZone))
             .attr("fill","white")
             .style('opacity', 1);
       },
@@ -602,6 +640,10 @@
         let showTooltipCountry = this.showTooltipCountry;
         let hideTooltipCountry = this.hideTooltipCountry;
         let showMigrationDetailsList = this.showMigrationDetailsList;
+        let setColorOffAllLinks = this.setColorOffAllLinks;
+        let hideMigrationDetails = this.hideMigrationDetails;
+        let highlightSelectedLinkedCountries = this.highlightSelectedLinkedCountries;
+        let showMigrationBarChartForCountry = this.showMigrationBarChartForCountry;
 
         /** Draw all the flags */
         this.node[chordDiagramZone] = this.node[chordDiagramZone]
@@ -651,6 +693,7 @@
                   reduceOpacityOfAllCountriesFlags(0.1);
 
                   increaseLinksOpacityOfSelectedCountries(selectedCountries,0.7);
+                  highlightSelectedLinkedCountries(selectedCountries,0.45);
                   let selectedCountriesComposed = [];
                   selectedCountries.forEach(function(countryName) {
                     selectedCountriesComposed.push({"country":countryName});
@@ -677,7 +720,8 @@
                 showTooltipCountry(overedCountryName,migrationsFlowsDetails[overedCountryName].in,
                                   migrationsFlowsDetails[overedCountryName].out,event);
                 
-                showMigrationDetailsList(overedCountryName);
+                //showMigrationDetailsList(overedCountryName);
+                showMigrationBarChartForCountry(overedCountryName);
               }
 
               function flagMouseOuted(d) {
@@ -689,8 +733,13 @@
 
                 if(!multipleSelectionActive)
                   removeHighlightsLinksFromCountry(overedCountryName);
-              
-                // if multiple selection is active then i should show links in the sidebar, except local countries
+
+                if(showDifferenceColors) {
+                  // restore link colors
+                  setColorOffAllLinks("steelblue");
+                  reduceOpacityOfAllCountriesLinks(0.05);
+                }
+                //hideMigrationDetails();
               }
       },
 
@@ -698,6 +747,7 @@
               let normalizeClassName = this.normalizeClassName;
               let country2continent_dict = this.country2continent_dict;
               let chordDiagrams = this.chordDiagrams;
+              let year = document.getElementById("yearSlider").value;
 
               this.link[chordDiagramZone] = this.svg.select("#g-" + normalizeClassName(chordDiagramZone)).append("g").selectAll(".link");
           
@@ -726,7 +776,24 @@
                     let from = d.source.data.name;
                     let to = d.target.data.name;
 
-                    return "fill-opacity:" + 0.8*(d.weight/migrationsFlowsDetails[from].max) + ";stroke-opacity:"+0.8*(d.weight/migrationsFlowsDetails[from].max)+";z-index:-1;";
+                    let weight = 0;
+                    if(typeof(d.weight) === "number") {
+                      weight = d.weight;
+                    } else {
+                      if(viewOption === "immmigration") {
+                        weight = d.weight.out[year];
+                      } else if(viewOption === "emigration") {
+                        weight = d.weight.in[year];
+                      }
+                    }
+
+                    return "fill-opacity:" + 0.8*(weight/migrationsFlowsDetails[from].max) + ";stroke-opacity:"+0.8*(weight/migrationsFlowsDetails[from].max)+";z-index:-1;";
+                  })
+                  .attr("id", function(d) {
+                    let from = d.source.data.name;
+                    let to = d.target.data.name;
+
+                    return "path-" + normalizeClassName(from) + "-" + normalizeClassName(to);
                   })
                   .attr("d", this.line);
       },
@@ -782,7 +849,7 @@
               .append("path")
               .attr("id", "external-path-" + normalizeZoneName(fromCountryName) + "-" + normalizeZoneName(toCountryName))
               .attr("class",function() {
-                return "link-path link external-path link-"+normalizeZoneName(fromCountryName)+" link-"+normalizeZoneName(toCountryName)
+                return "link-path externalLink link external-path link-"+normalizeZoneName(fromCountryName)+" link-"+normalizeZoneName(toCountryName)
                         + " link-" + normalizeClassName(fromCountryName) + " link-" + normalizeClassName(toCountryName)
                         + " link-from-" + normalizeClassName(fromCountryName) + " link-to-" + normalizeClassName(toCountryName);
               })
@@ -864,14 +931,15 @@
               var qPath = d3.path();
               qPath.moveTo(fromLocation.x, fromLocation.y);
               qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y-yOffset);
-
+              
+              let strokeOpacity = multipleSelectionActive ? 0.05 : 0.2;
 
               d3.select("#externalLinks")
                 .append("path")
                 .attr("class",function() {
                   let from = fromCountryName;
                   let to = toCountryName;
-                  return "link-path link external-path link-"+normalizeZoneName(from)+" link-"+normalizeZoneName(to)
+                  return "link-path externalLink link external-path link-"+normalizeZoneName(from)+" link-"+normalizeZoneName(to)
                     + " link-from-"+normalizeZoneName(from)+" link-to-"+normalizeZoneName(to);
                 })
                 .attr("id",function() {
@@ -881,7 +949,7 @@
                 })
                 .attr("d", qPath)
                 .attr("stroke", "black")
-                .attr("style", "fill-opacity:.5;stroke-opacity:.3;z-index:-1;")
+                .attr("style", "fill-opacity:.5;stroke-opacity:" + strokeOpacity + ";z-index:-1;")
                 .attr("fill", "none");
             }
 
@@ -1001,9 +1069,17 @@
         let selectedYear = document.getElementById("yearSlider").value;
 
         Object.keys(externalLinks).forEach(function(externalLink) {
-          console.log(externalLinks[externalLink]);
-          if(externalLinks[externalLink].from === country)
+          let quantity = 0;
+          if(externalLinks[externalLink].from === country) {
+            if(viewOption === "immigration") {
+              if(Object.keys(externalLinks[externalLink].peso.in).length > 0)
+                quantity = externalLinks[externalLink].peso.in[selectedYear];
+            } else if(viewOption === "emigration") {
+              if(Object.keys(externalLinks[externalLink].peso.out).length > 0)
+                quantity = externalLinks[externalLink].peso.out[selectedYear];
+            }
             links.push({"country":externalLinks[externalLink].to,"quantity":externalLinks[externalLink].peso.in[selectedYear]});
+          }
         });
         return links;
       },
@@ -1026,7 +1102,14 @@
         let elements = document.querySelectorAll(cssSelector);
         elements.forEach((el) => {
           el.style.opacity = opacity;
-          el.setAttribute("fill","#aaa");
+          el.setAttribute("stroke","#aaa");
+        });
+      },
+      setColorOffAllLinks(color) {
+        let cssSelector = "path.link";
+        let elements = document.querySelectorAll(cssSelector);
+        elements.forEach((el) => {
+          el.style.stroke = color;
         });
       },
       increaseLinksOpacityOfSelectedCountries(countries,opacity) {
@@ -1112,17 +1195,21 @@
         let reduceOpacityOfAllCountriesFlags = this.reduceOpacityOfAllCountriesFlags;
         let increaseLinksOpacityOfSelectedCountries = this.increaseLinksOpacityOfSelectedCountries;
         let increaseFlagOpacityOfSelectedCountries = this.increaseFlagOpacityOfSelectedCountries;
+        let colorLinksFromCountry = this.colorLinksFromCountry;
 
         if(country2zone_dict[country] === "")
           drawExternalLinksIsolatedNode(overedCountryName);
         else
           drawExternalLinks(overedCountryName);
-
         
         reduceOpacityOfAllCountriesLinks(0.02);
         reduceOpacityOfAllCountriesFlags(0.1);
 
-        increaseLinksOpacityOfSelectedCountries([country],0.7);
+        if(!showDifferenceColors) {
+          increaseLinksOpacityOfSelectedCountries([country],0.7);
+        } else {
+          colorLinksFromCountry(country);
+        }
 
         increaseFlagOpacityOfSelectedCountries([{"country":country}],1);
         increaseFlagOpacityOfSelectedCountries(findLinksOfCountry(country),0.6);
@@ -1150,6 +1237,74 @@
           el.style.opacity = '1'
         });
       },
+      colorLinksFromCountry(countryName) {
+        // for each link of the country I should color each edge
+        let year = document.getElementById("yearSlider").value;
+        let chordDiagrams = this.chordDiagrams;
+        let country2zone_dict = this.country2zone_dict;
+        let normalizeClassName = this.normalizeClassName;
+
+        let countryZone = country2zone_dict[countryName];
+
+        let internalLinks = chordDiagrams[countryZone].nodes[countryName].links;
+
+        // internal links
+        Object.keys(internalLinks).forEach(function(link) {
+          let linkCountryName = link;
+          let linkCountry = internalLinks[link];
+          let idSelector = "path-" + normalizeClassName(countryName) + "-" + normalizeClassName(linkCountryName);
+          let el = document.getElementById(idSelector);
+
+          let migrationsIn = linkCountry.in[year];
+          let migrationsOut = linkCountry.out[year];
+          
+          let balance = migrationsIn - migrationsOut;
+          if(balance>0) {
+            el.style.stroke = "lightblue";
+          } else {
+            el.style.stroke = "red";
+          }
+          el.style.strokeOpacity = 0.8;
+          el.style.opacity = 0.8;
+        });
+
+        // external links
+        this.drawExternalLinksOfSelectedCountries([countryName]);
+        this.colorLinksOfExternalCountry(countryName);
+      },
+      colorLinksOfExternalCountry(country) {
+        let year = document.getElementById("yearSlider").value;
+
+        let normalizeClassName = this.normalizeClassName;
+        let externalLinks = this.externalLinks;
+
+        Object.keys(externalLinks).forEach(function(d) {
+          let fromCountryName = externalLinks[d].from;
+          let toCountryName = externalLinks[d].to;
+          let peso = externalLinks[d].peso;
+          let migrationsIn = peso.in[year];
+          let migrationsOut = peso.out[year];
+          
+          let idSelector = "external-path-" + normalizeClassName(fromCountryName) + "-" + normalizeClassName(toCountryName);
+          let el = document.getElementById(idSelector);
+
+          if(el!==null) {
+            migrationsIn === undefined ? 0 : migrationsIn;
+            migrationsOut === undefined ? 0 : migrationsOut;
+
+            let balance = migrationsIn - migrationsOut;
+
+            if(balance>0) {
+              el.style.stroke = "green";
+            } else {
+              el.style.stroke = "red";
+            }
+            el.style.strokeOpacity = 0.8;
+            el.style.opacity = 0.8;
+          }
+
+        });
+      },
       moveCountryToZone(countryName,zoneTo) {
         let chordDiagrams = this.chordDiagrams;
         let isolatedNodes = this.isolatedNodes;
@@ -1161,6 +1316,7 @@
         let removeElement = this.removeElement;
         let normalizeClassName = this.normalizeClassName;
         let drawChordDiagram = this.drawChordDiagram;
+        let year = document.getElementById("yearSlider").value;
 
         let originalZone = country2continent_dict[countryName];
 
@@ -1174,9 +1330,26 @@
         Object.keys(draggedCountryInternalLinks).forEach(function(internalLinkKey) {
           let from = countryName;
           let to = internalLinkKey;
-          let quantity = draggedCountryInternalLinks[to];
+          let quantity = 0;
 
-          externalLinks[normalizeExternalLinkKey(from,to)] = {"from": from, "to": to, "quantity": quantity};
+          if(viewOption == "immigration") {
+            quantity = draggedCountryInternalLinks[to].in[year];
+          } else if(viewOption == "emigration") {
+            quantity = draggedCountryInternalLinks[to].out[year];
+          }
+
+          let peso = {"in":{},"out":{}};
+          externalLinks[normalizeExternalLinkKey(from,to)] = {"from": from, "to": to, "peso":peso, "quantity": quantity};
+          
+          // specular migration
+          if(viewOption == "immigration") {
+            quantity = draggedCountryInternalLinks[to].out[year];
+          } else if(viewOption == "emigration") {
+            quantity = draggedCountryInternalLinks[to].in[year];
+          }     
+          
+          externalLinks[normalizeExternalLinkKey(to,from)] = {"from": to, "to": from, "peso":peso, "quantity": quantity};
+
         });
         chordDiagrams[zoneTo].nodes[countryName].links = {};
 
@@ -1217,6 +1390,9 @@
 
       drawChordDiagram(zoneTo);
 
+      console.log(chordDiagrams);
+      console.log(externalLinks);
+
       },
       showSidebar() {
         document.getElementById("sidebar").style.display = "block";
@@ -1226,6 +1402,9 @@
       },
       showTooltipCountry(countryName,migrationsIn,migrationsOut,event) {
         this.tooltip.style("opacity", 1);
+
+
+
         this.tooltip
           .html("<h4>" + countryName + "</h4>" + "In: " + migrationsIn + "<br>" + "Out: " + migrationsOut)
           .style("left", this.getFlagLocation(countryName).x + 20 + "px")
@@ -1240,6 +1419,23 @@
         var flagElement = document.getElementById('node-' + normalizeClassName(countryName));
         return flagElement.getBoundingClientRect();        
       },
+      getCircleLocation(zoneName) {
+        let normalizeClassName = this.normalizeClassName; 
+
+        var circleElement = document.getElementById('circle-' + normalizeClassName(zoneName));
+        return circleElement.getBoundingClientRect();  
+      },
+      getDiagramCentreLocation(zoneName) {
+        let normalizeClassName = this.normalizeClassName; 
+
+        var diagramElement = document.getElementById('g-' + normalizeClassName(zoneName)).getBoundingClientRect();
+        let width = diagramElement.width;
+        let height = diagramElement.height;
+        let x = diagramElement.x;
+        let y = diagramElement.y;
+
+        return {"x" : x + width / 2, "y": y + height / 2};
+      },
       removeElement(id) {
         let elem = document.getElementById(id);
         return elem.parentNode.removeChild(elem);
@@ -1249,7 +1445,86 @@
       getIsolatedNodes() {
         return this.isolatedNodes;
       },
+      overlap(elem1,elem2) {        
+        let elem1BR = elem1.getBoundingClientRect();
+        let elem2BR = elem2.getBoundingClientRect();
+        return this.overlapCircleFlag(elem1BR,elem2BR);        
+      },
+      overlapCircleFlag(circle,flag) {
+        let lineSize = 340;
+        if(flag.x >= circle.x && flag.x <= circle.x + circle.width
+          && flag.y >= circle.y && flag.y <= circle.y + circle.height) {     
+            return true;
+        }
+        return false;
+      },
       insertCountryInRegion(node) {
+
+      },
+      hideMigrationDetails() {
+        document.getElementById("sidebarCountryDetailsBoxPlot").innerHTML = "";
+      },
+      showMigrationBarChartForCountry(countryName) {
+        var margin = {top: 20, right: 30, bottom: 40, left: 90},
+        width = 460 - margin.left - margin.right,
+        height = 600;
+
+        let findLinksOfCountry = this.findLinksOfCountry;
+        let showTooltipCountry = this.showTooltipCountry;
+        let hideTooltipCountry = this.hideTooltipCountry;
+
+        let dataDetails = [];
+        let qtymax = 0;
+        findLinksOfCountry(countryName).forEach(function(link) {
+          let country = link.country;
+          let quantity = link.quantity;
+          if(quantity > qtymax) {
+            qtymax = quantity;
+          }
+          if(quantity > 1) {
+            dataDetails.push({"country":country,"quantity":quantity});
+          }
+        });
+
+        document.getElementById("sidebarCountryDetailsBoxPlot").innerHTML = "";
+        let detailsSvg = d3.select("#sidebarCountryDetailsBoxPlot");
+
+        var x = d3.scaleLinear()
+          .domain([0, qtymax])
+          .range([ 0, width]);
+        detailsSvg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x))
+          .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end");
+
+        // Y axis
+        var y = d3.scaleBand()
+          .range([ 0, height ])
+          .domain(dataDetails.map(function(d) { return d.country; }))
+          .padding(.1);
+        detailsSvg.append("g")
+          .call(d3.axisLeft(y));
+
+        detailsSvg.selectAll("rect")
+          .data(dataDetails)
+          .enter()
+          .append("rect")
+          .attr("x", x(0))
+          .attr("y", function(d) { return y(d.country); })
+          .attr("width", function(d) { return x(d.quantity); })
+          .attr("height", y.bandwidth() )
+          .attr("fill", "#69b3a2")          
+          .on("mouseover", function(d,event) {
+            let country_ = d.toElement.__data__.country;
+            showTooltipCountry(country_,migrationsFlowsDetails[country_].in,
+                                  migrationsFlowsDetails[country_].out,event);
+          })
+          .on("mouseout", function() {
+            hideTooltipCountry();
+          })
+          ;
 
       },
       highlightSelectedCountries() {
@@ -1259,6 +1534,19 @@
         selectedCountries.forEach(function(selectedCountry) {
           //highlightLinksFromCountry(selectedCountry);
           highlightCountryFlag(selectedCountry);
+        });
+      },
+      highlightSelectedLinkedCountries(countriesList,opacity) {
+        let findLinksOfCountry = this.findLinksOfCountry;
+        let normalizeClassName = this.normalizeClassName;
+
+        countriesList.forEach(function(countryName) {
+          let countryLinks = findLinksOfCountry(countryName);
+
+          countryLinks.forEach(function(link) {
+            let flagElement = document.getElementById("node-" + normalizeClassName(link.country));
+            flagElement.style.opacity = opacity;
+          });
         });
       }
     }
