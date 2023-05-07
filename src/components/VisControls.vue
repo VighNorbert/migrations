@@ -53,6 +53,8 @@
             v-if="isForceDirected"
             :direction="direction"
             :selection="selection"
+            :startYearId="startYearId"
+            :endYearId="endYearId"
             :migrationThreshold="migrationThreshold"
             @node-clicked="(code) => selection = code"
         ></ForceDirectedGraph>
@@ -115,7 +117,7 @@ export default {
         .ticks(12)
         .tickFormat(d3.format("d"))
         .displayValue(false)
-        .on('onchange', (value) => {
+        .on('end', (value) => {
           this.migrationThreshold = value;
         });
 
@@ -137,7 +139,7 @@ export default {
         .tickValues(timestamps)
         .tickFormat(d3.format("d"))
         .displayValue(false)
-        .on('onchange', (value) => {
+        .on('end', (value) => {
           this.startYear = value[0];
           this.endYear = value[1];
 
