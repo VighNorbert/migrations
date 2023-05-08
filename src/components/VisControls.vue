@@ -91,7 +91,7 @@ export default {
       selection: 'default',
       startYearId: 0,
       endYearId: 6,
-      migrationThreshold: 10000
+      migrationThreshold: 100000
     };
   },
   computed: {
