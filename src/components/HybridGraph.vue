@@ -53,7 +53,6 @@
     direction() {
       //this.nodeClicked(this.root, false);
       // TODO implement difference
-      console.log(this.direction);
       if(this.direction==="i") {
         this.showImmigration();
       } else if(this.direction === "e") {
@@ -67,6 +66,34 @@
       /*if (this.selection !== this.root) {
         this.nodeClicked(this.selection);        
       }*/
+
+      selectedCountries = [];
+
+      let countryName = this.code2country_dict[this.selection];
+      multipleSelectionActive = true;
+
+      // if country in set then remove it, otherwise insert it
+      let elementIndex = selectedCountries.indexOf(countryName);
+      if(elementIndex == -1) {
+        selectedCountries.push(countryName);
+        multipleSelectionActive = true;
+      } else {
+        selectedCountries.splice(elementIndex,1);
+        if(selectedCountries.length == 0)
+          multipleSelectionActive = false;
+      }
+
+      this.reduceOpacityOfAllCountriesLinks(0.05);
+      this.reduceOpacityOfAllCountriesFlags(0.1);
+
+      this.increaseLinksOpacityOfSelectedCountries(selectedCountries,0.7);
+      this.highlightSelectedLinkedCountries(selectedCountries,0.45);
+      let selectedCountriesComposed = [];
+      selectedCountries.forEach(function(countryName) {
+        selectedCountriesComposed.push({"country":countryName});
+      });
+      this.increaseFlagOpacityOfSelectedCountries(selectedCountriesComposed,1);
+      
     },
     startYearId() {
       this.selectedStartYear = this.startYearId*5 + 1990;
@@ -118,6 +145,7 @@
         countries.forEach(function(country) {
           code2country_dict[country.code] = country.name;
         });
+        this.code2country_dict = code2country_dict;
 
         let zones = await d3.json("../../data/config/zones.json");
 
@@ -222,8 +250,6 @@
 
         let summData = this.summarizeData(data,startYear,endYear,minFilter);
 
-        console.log(summData);
-
         //let diagram = await this.loadDiagram();
         let diagram = summData;
         let iso3166 = this.iso3166;
@@ -247,7 +273,6 @@
         this.reduceOpacityOfAllCountriesLinks(0.05);
       },
       summarizeData(fullDiagramData,fromYear,toYear,minFilter) {     
-        console.log("from=" + fromYear + " toYear=" + toYear, " minfilter=" + minFilter);
         
         let fullDiagramDataCopy = fullDiagramData;
         migrationsFlowsDetails = {};
@@ -276,7 +301,6 @@
               let migrationsOut = 0;
               let migrationsIn = 0;
 
-              // console.log(nodeLinks[nodeLink].out);
               if(Object.keys(nodeLinks[nodeLink].out).length > 0) {
                 let linkOut = nodeLinks[nodeLink].out;
 
@@ -286,7 +310,6 @@
                 });
               }
 
-              // console.log(nodeLinks[nodeLink].in);
               if(Object.keys(nodeLinks[nodeLink].in).length > 0) {
                 let linkIn = nodeLinks[nodeLink].in;
 
@@ -295,11 +318,6 @@
                     migrationsIn += linkIn[year];
                 });
               }
-
-              // console.log("nodelink=" + nodeLinkCountry + " in=" + migrationsIn + " out=" + migrationsOut);
-
-              //migrationsOut = nodeLinks[nodeLink].out[toYear] !== undefined ? nodeLinks[nodeLink].out[toYear] : 0;
-              //migrationsIn = nodeLinks[nodeLink].in[toYear] !== undefined? nodeLinks[nodeLink].in[toYear] : 0;
 
               if(migrationsIn > minFilter) {
                 migrationsFlowsDetails[diagramNodeName].in += migrationsIn;
@@ -326,7 +344,6 @@
                 }
                 if(migrationsOut > migrationsFlowsDetails[diagramNodeName].max)
                   migrationsFlowsDetails[diagramNodeName].max = migrationsOut;
-                  console.log("new max = " + migrationsOut);
               }
             });
 
@@ -558,7 +575,6 @@
             let isolatedFlag = document.getElementById("node-" + normalizeClassName(countryName));
 
             if(overlap(currentCircle,isolatedFlag)) {
-              console.log("they overlap");
               moveCountryToZone(countryName,overedChordDiagramZoneName);
             }
           }
@@ -1446,9 +1462,6 @@
 
       drawChordDiagram(zoneTo);
 
-      console.log(chordDiagrams);
-      console.log(externalLinks);
-
       },
       showSidebar() {
         document.getElementById("sidebar").style.display = "block";
@@ -1458,8 +1471,6 @@
       },
       showTooltipCountry(countryName,migrationsIn,migrationsOut,event) {
         this.tooltip.style("opacity", 1);
-
-
 
         this.tooltip
           .html("<h4>" + countryName + "</h4>" + "In: " + migrationsIn + "<br>" + "Out: " + migrationsOut)
