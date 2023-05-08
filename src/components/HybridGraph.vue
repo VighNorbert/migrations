@@ -894,7 +894,7 @@
        ******* CHORD DIAGRAM OPERATIONS *******
        ****************************************/
       drawExternalLinksIsolatedNode(overedCountryName) {
-        let yOffset = 0;
+        let yOffset = 300 - window.scrollY;
 
         let normalizeZoneName = this.normalizeZoneName;
         let normalizeClassName = this.normalizeClassName;
@@ -914,8 +914,8 @@
 
             var qCP = [(fromLocation.x + toLocation.x) /2, (fromLocation.y + toLocation.y) / 2];
             var qPath = d3.path();
-            qPath.moveTo(fromLocation.x, fromLocation.y);
-            qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y-yOffset);
+            qPath.moveTo(fromLocation.x, fromLocation.y - yOffset);
+            qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y - yOffset);
 
             d3.select("#externalLinks")
               .append("path")
@@ -944,8 +944,8 @@
 
             var qCP = [(fromLocation.x + toLocation.x) /2, (fromLocation.y + toLocation.y) / 2];
             var qPath = d3.path();
-            qPath.moveTo(fromLocation.x, fromLocation.y);
-            qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y-yOffset);
+            qPath.moveTo(fromLocation.x, fromLocation.y - yOffset);
+            qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y - yOffset);
 
             d3.select("#externalLinks")
               .append("path")
@@ -1475,7 +1475,7 @@
         this.tooltip
           .html("<h4>" + countryName + "</h4>" + "In: " + migrationsIn + "<br>" + "Out: " + migrationsOut)
           .style("left", this.getFlagLocation(countryName).x + 20 + "px")
-          .style("top", this.getFlagLocation(countryName).y + "px");
+          .style("top", (this.getFlagLocation(countryName).y + window.scrollY) + "px");
       },
       hideTooltipCountry() {
         this.tooltip.style("opacity", 0);
