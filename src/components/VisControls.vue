@@ -60,6 +60,12 @@
         ></ForceDirectedGraph>
         <HybridGraph
             v-if="isHybrid"
+            :startYearId="startYearId"
+            :endYearId="endYearId"
+            :direction="direction"
+            :selection="selection"
+            :migrationThreshold="migrationThreshold"
+            @node-clicked="(code) => selection = code"
         ></HybridGraph>
     </div>
 
