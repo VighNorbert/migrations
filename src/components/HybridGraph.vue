@@ -1,7 +1,5 @@
 <template>
   <div class="sliderDiv">
-    <input type="range" min="1960" max="2010" step="10" v-model="sliderValue" id="yearSlider" @change="updateDiagram"> 
-    <input type="range" min="0" max="1000000" step="5000" v-model="sliderValue" id="filterSlider" @change="updateDiagram"> 
     <button @click="showSidebar()">Show sidebar</button>
   </div>
     <div class="map-canvas">
@@ -31,17 +29,6 @@
     </div>
   </div>
   </template>
-
-  <!-- TODO
-    lunedì
-  - bug: etichetta sovrappone diagramma
-  - bug: mostra numeri corretti di in/out
-    mercoledì
-    End: Aestetically beautiful!
-
-  - (animations) 
-
-  -->
   
   <script>
   import * as d3 from 'd3';
