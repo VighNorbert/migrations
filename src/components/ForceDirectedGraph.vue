@@ -3,11 +3,11 @@
         <h6>Legend:</h6>
         <ul>
             <li v-for="group in uniqueGroups" :key="group">
-                <span class="legend-circle" :style="{backgroundColor: color(group)}"></span> {{group}}
+                <span class="legend-circle" :style="{backgroundColor: color(group)}"></span> {{ group }}
             </li>
         </ul>
     </div>
-    <div class="map-canvas border border-secondary">
+    <div class="map-canvas card" id="force">
     </div>
 </template>
 
@@ -15,9 +15,6 @@
 import * as d3 from 'd3';
 import * as bootstrap from 'bootstrap';
 import * as zoom from 'd3-zoom';
-
-// TODO implement sliders for forces
-// TODO implement force presets
 
 export default {
   name: 'ForceDirectedGraph',
@@ -104,27 +101,21 @@ export default {
       this.updateMap();
     },
     linkForceScaling() {
-      console.log("updated", this.linkForceScaling);
       this.updateMap();
     },
     linkForceMultiplier() {
-      console.log("updated", this.linkForceMultiplier);
       this.updateMap();
     },
     chargeForceMultiplier() {
-      console.log("updated", this.chargeForceMultiplier);
       this.updateMap();
     },
     radialForceMultiplier() {
-      console.log("updated", this.radialForceMultiplier);
       this.updateMap();
     },
     centeringForceMultiplier() {
-      console.log("updated", this.centeringForceMultiplier);
       this.updateMap();
     },
     radius() {
-      console.log("updated", this.radius);
       this.updateMap();
     }
   },
@@ -632,6 +623,7 @@ export default {
 circle {
     cursor: pointer;
 }
+
 .legend {
     position: absolute;
     margin: 16px 32px;
@@ -640,11 +632,13 @@ circle {
     box-shadow: 0 0 8px #00000055;
     border-radius: 8px;
 }
+
 .legend ul {
     padding: 0;
     margin: 0;
     list-style: none;
 }
+
 .legend ul .legend-circle {
     display: inline-block;
     width: 12px;

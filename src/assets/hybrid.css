@@ -1,68 +1,70 @@
 .node {
     font: 300 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
     fill: #bbb;
-  }
-  
-  .node:hover {
+}
+
+.node:hover {
     fill: #000;
-  }
-  
-  .link {
+}
+
+.link {
     stroke: steelblue;
     stroke-opacity: 0.4;
     fill: none;
     pointer-events: none;
-  }
-  
-  .externalLink {
+}
+
+.externalLink {
     stroke: rgb(59, 59, 59);
     stroke-opacity: 0.4;
     fill: none;
     pointer-events: none;
     position: absolute;
-  }
-  
-  .node:hover,
-  .node--source,
-  .node--target {
+}
+
+.node:hover,
+.node--source,
+.node--target {
     font-weight: 700;
-  }
-  
-  .node--source {
+}
+
+.node--source {
     fill: #2ca02c;
-  }
-  
-  .node--target {
+}
+
+.node--target {
     fill: #d62728;
-  }
-  
-  .link--source,
-  .link--target {
+}
+
+.link--source,
+.link--target {
     stroke-opacity: 1;
     stroke-width: 2px;
-  }
-  
-  .link--source {
+}
+
+.link--source {
     stroke: #d62728;
-  }
-  
-  .link--target {
+}
+
+.link--target {
     stroke: #2ca02c;
-  }
+}
 
-  .container {
+.container {
     width: 100%;
-  }
+}
 
-  .sidebar {
+.sidebar {
     position: fixed;
     top: 0;
     right: 0;
     height: 100%;
-    width: 25%; /* Set the width of the sidebar */
-    background-color: #f1f1f1;
-  }
+    padding: 0 16px;
+    width: 332px; /* Set the width of the sidebar */
+    background-color: white;
+    box-shadow: 0 0 16px #00000055;
+}
 
-  .main-content {
+.main-content {
     margin-right: 25%;
-  }
+}

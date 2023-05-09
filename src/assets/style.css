@@ -3,7 +3,6 @@ nav {
     width: 100%;
     background: #d7e5ff;
     border-bottom: 3px solid var(--bs-primary);
-    box-shadow: 0 0 16px #00000033;
     padding: 0 max(16px, calc(50% - 944px));
     height: 80px;
     display: flex;
@@ -24,32 +23,49 @@ h1 {
     font-size: 28px;
 }
 
-.map-canvas {
-    width: calc(100% - 32px);
+.map-canvas.card {
+    position: static;
+    overflow: hidden;
     background-color: white;
     border-radius: 16px;
     margin: 0 16px 16px 16px;
-    box-shadow: 0 0 16px #00000033;
+    padding: 0;
+    aspect-ratio: 16/9;
+}
+
+.map-canvas#force svg, .canvas svg {
+    width: 100%;
+    height: 100% !important;
 }
 
 .map-canvas svg, .canvas svg {
-    width: 100%;
     border-radius: 16px;
 }
 
 .map-section {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 50fr 1fr;
+    width: 100%;
 }
 
 .map-legend {
-  margin-left: -7rem;
+    position: absolute;
+    margin: 16px 32px;
+    border-radius: 8px;
 }
 
-.countries-list {
-  margin-right: -7rem;
+
+#itemList {
+    width: 350px;
+    position: absolute;
+    padding: 16px;
+    right: 32px;
+    margin-top: 16px;
+    background-color: rgb(44, 44, 135);
+    color: white;
+    border-radius: 8px;
+}
+
+#itemList li {
+    cursor: pointer;
 }
 
 
@@ -58,7 +74,6 @@ h1 {
     width: calc(100% - 32px);
     border-radius: 16px;
     margin: 0 16px 16px 16px;
-    box-shadow: 0 0 16px #00000033;
 }
 
 body {
@@ -122,4 +137,15 @@ body {
 
 label {
     font-weight: 600;
+}
+
+#sidebar-toggler {
+    position: absolute;
+    margin-top: -40px;
+    right: 32px;
+    z-index: 999;
+}
+
+#sidebar {
+    z-index: 9999;
 }

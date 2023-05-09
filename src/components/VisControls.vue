@@ -1,11 +1,10 @@
 <template>
     <nav>
         <h1 class="m-0"><strong>Migration</strong>Visualization</h1>
-        <button class="btn py-3">Show sidepanel</button>
     </nav>
     <main>
         <div class="d-flex">
-            <section class="card border border-secondary" id="filtersCard">
+            <section class="card" id="filtersCard">
                 <h2>Filters and Selection</h2>
                 <div class="row">
                     <div class="col-3 d-flex align-items-center">
@@ -18,7 +17,8 @@
                                 v-model="selection" v-if="nodesData">
                             <option value="default" selected="selected">No selection</option>
                             <optgroup v-for="r in regionsData" :key="r" :label="r">
-                                <option v-for="c in nodesData.filter(n => n.region === r)" :key="c.code" :value="c.code">
+                                <option v-for="c in nodesData.filter(n => n.region === r)" :key="c.code"
+                                        :value="c.code">
                                     {{ c.name }}
                                 </option>
                             </optgroup>
@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </section>
-            <section class="card border border-secondary" id="about">
+            <section class="card d-none d-xl-block" id="about">
 
                 <h2>About</h2>
 
@@ -88,9 +88,9 @@
 
                 <h3 class="fs-4">Authors</h3>
                 <ul>
-                <li>Norbert Vígh @VighNorbert</li>
-                <li>Hanna Balaka @Annchovy</li>
-                <li>Daniele Fippi @phi998</li>
+                    <li>Norbert Vígh @VighNorbert</li>
+                    <li>Hanna Balaka @Annchovy</li>
+                    <li>Daniele Fippi @phi998</li>
                 </ul>
                 <p>
                     This work was done at the <a href="https://uib.no/">University of Bergen</a>, Norway, as part of
@@ -117,7 +117,8 @@
             </div>
         </div>
 
-        <svg v-if="isForceDirected && !forceSetup" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16" @click="toggleForceSetup()">
+        <svg v-if="isForceDirected && !forceSetup" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+             fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16" @click="toggleForceSetup()">
             <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
             <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
         </svg>
@@ -134,7 +135,8 @@
                     <label for="linkForceScaling">Scaling of Link Force</label>
                 </div>
                 <div class="col-7">
-                    <select id="linkForceScaling" name="linkForceScaling" v-model="linkForceScaling" class="form-select">
+                    <select id="linkForceScaling" name="linkForceScaling" v-model="linkForceScaling"
+                            class="form-select">
                         <option value="equal">All equal</option>
                         <option value="log">Log scaling</option>
                         <option value="log10">Log10 scaling</option>
@@ -189,12 +191,12 @@
 
         <div>
             <WorldMap
-                v-if="isWorldMap"
-                :direction="direction"
-                :selection="selection"
-                :startYearId="startYearId"
-                :endYearId="endYearId"
-                :migrationThreshold="migrationThreshold"
+                    v-if="isWorldMap"
+                    :direction="direction"
+                    :selection="selection"
+                    :startYearId="startYearId"
+                    :endYearId="endYearId"
+                    :migrationThreshold="migrationThreshold"
             ></WorldMap>
             <ForceDirectedGraph
                     v-if="isForceDirected"
@@ -362,21 +364,25 @@ export default {
 #filtersCard {
     width: 1000px;
 }
+
 #about {
     width: calc(100% - 1000px - 64px);
 }
+
 .tabs {
     z-index: 999;
     position: relative;
     margin: 16px 16px 0 16px;
     padding: 8px 16px 0 16px;
 }
+
 .tabs .btns button {
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     margin: 0 4px;
     border-bottom: 0;
 }
+
 #force-setup .form-group {
     min-height: 45px;
 }
@@ -386,17 +392,19 @@ export default {
     position: absolute;
     padding: 16px;
     right: 32px;
-    margin-top: 32px;
+    margin-top: 16px;
     background-color: #f8f8ffaa;
     box-shadow: 0 0 8px #00000055;
     border-radius: 8px;
 }
+
 .bi-gear {
     right: 32px;
     margin-top: 16px;
     position: absolute;
     color: #ccc;
 }
+
 .bi-gear:hover {
     cursor: pointer;
     color: black;
@@ -407,6 +415,7 @@ export default {
     justify-content: space-between;
     align-items: center;
 }
+
 .btn-outline-secondary {
     background: white;
 }
