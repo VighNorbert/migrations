@@ -46,8 +46,11 @@
     <div>
         <WorldMap
             v-if="isWorldMap"
+            :direction="direction"
+            :selection="selection"
             :startYearId="startYearId"
             :endYearId="endYearId"
+            :migrationThreshold="migrationThreshold"
         ></WorldMap>
         <ForceDirectedGraph
             v-if="isForceDirected"

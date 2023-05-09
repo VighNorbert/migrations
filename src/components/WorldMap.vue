@@ -1,27 +1,16 @@
 <template>
 
-  <div id="map">
+  <div class="map-section">
 
-    <form id="form" class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-secondary">
-        <input type="radio" name="controlHeatmapType" value="emigrations" checked>Emigrations<br>
-      </label>
-      <label class="btn btn-secondary active">
-        <input type="radio" name="controlHeatmapType" value="immigrations">Immigrations<br>
-      </label>
-      <label class="btn btn-secondary">
-        <input type="radio" name="controlHeatmapType" value="differences">Differences<br>
-      </label>
-    </form>
-
-    <svg class="canvas" :viewBox="`0, 0, ${width}, ${height}`">
-      <g id="basemap"></g>
-      <text id="tooltip" x="150" y="150">{{displayedCountry}}</text>
-    </svg>
-
-    <p id='value'></p>
-    <div id="slider" style="margin: 0; width: 950px;"></div>
-
+    <svg id="legend" class="map-legend"></svg>
+    <div id="map">
+      <svg class="canvas" :viewBox="`0, 0, ${width}, ${height}`">
+        <g id="basemap"></g>
+        <text id="tooltip" x="150" y="150">{{displayedCountry}}</text>
+      </svg>
+    </div>
+    <div id='itemList' class='countries-list'></div>
+    
   </div>
 
 </template>
@@ -42,7 +31,22 @@ export default {
       myJson: feature(json, json.objects["countries"]),
       displayedCountry: "",
       width: 950,
-      height: 550
+      height: 550,
+      selectedCountries: new Set(),
+      amountsImmigrations: [],
+      amountsEmigrations: [],
+      differencesAmounts: [],
+      maxAmount: [],
+      flows: [],
+      flowColors: [d3.rgb(0, 255, 255), 'orange'],
+      emigrations: new Object(),
+      immigrations: new Object(),
+      differences: new Object(),
+      directionMap: 'e',
+      countries: [],
+      countriesName: new Object(),
+      edges: [],
+      timestampsIds: {1990: 0, 1995: 1, 2000: 2, 2005: 3, 2010: 4, 2015: 5}
     };
   },
   computed: {
@@ -59,10 +63,33 @@ export default {
       return selection.select(".canvas");
     },
     zoom() {
-      return zoom
-        .zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", this.zoomed);
+      return zoom.zoom().scaleExtent([1, 8]).on("zoom", this.zoomed);
+    }
+  },
+  props: {
+    direction: String,
+    selection: String,
+    startYearId: Number,
+    endYearId: Number,
+    migrationThreshold: Number
+  },
+   watch: {
+    direction() {
+    },
+    selection() {
+      let code = parseInt(this.selection);
+      if (this.countriesNames[code] && !this.selectedCountries.has(code)) {
+        this.addCountry(code);
+      }
+    },
+    startYearId() {
+      this.filterBasedOnPeriod()
+    },
+    endYearId() {
+      this.filterBasedOnPeriod()
+    },
+    migrationThreshold() {
+      this.filterBasedOnThreshold()
     }
   },
   methods: {
@@ -102,7 +129,230 @@ export default {
             .invert([this.width / 2, this.height / 2])
         );
     },
-     async loadCountries() {
+    showLegend(width, height) {
+      let svg = selection.select("#legend");
+      let directions = ['immigrations', 'emigrations'];
+      let colors = this.flowColors;
+      const color = d3.scaleOrdinal(directions, colors);
+
+      svg.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 150)
+        .attr("height", directions.length * 25 + 50)
+        .attr("fill", "rgb(44, 44, 135)")
+        .attr("opacity", "1")
+        .attr("stroke", "black")
+        .attr("stroke-width", 1)
+        .attr("rx", 4)
+        .attr("ry", 4)
+        .attr("id", "legend");
+
+      svg.append("text")
+        .attr("x", 10)
+        .attr("y", 20)
+        .text("Legend:")
+        .attr("font-weight", "bold")
+        .style("fill", "white")
+        .attr("alignment-baseline", "middle");
+
+      svg.append("circle")
+        .attr("cx", 10)
+        .attr("cy", 50)
+        .attr("r", 6)
+        .style("fill", this.flowColors[1])
+      svg.append("circle")
+        .attr("cx", 10)
+        .attr("cy", 80)
+        .attr("r", 6)
+        .style("fill", this.flowColors[0])
+      svg.append("text")
+        .attr("x", 20)
+        .attr("y", 50)
+        .text("emigrations")
+        .style("font-size", "15px")
+        .style("fill", "white")
+        .attr("alignment-baseline","middle")
+      svg.append("text")
+        .attr("x", 20)
+        .attr("y", 80)
+        .text("immigrations")
+        .style("font-size", "15px")
+        .style("fill", "white")
+        .attr("alignment-baseline","middle")
+    },
+    addCountry(code) {
+      if (this.direction === 'e') this.flows = this.emigrations;
+      else if (this.direction === 'i') this.flows = this.immigrations;
+      else this.flows = this.differences;
+
+      this.selectedCountries.add(code);
+      this.addItem(code);
+
+      this.svg.select('#' + "Country-" + code)
+      .style("opacity", 1)
+      .attr("stroke-width", 0.5)
+      .style("stroke", "black")
+
+      let targets = this.flows[code] || [];
+      for (let target of targets) {
+        let colorFlows, amount;
+        let key = code + '-' + target;
+
+        if (this.direction === 'e') {
+          amount = this.amountsEmigrations[key] || 0;
+          colorFlows = this.flowColors[1];
+        }
+        else if (this.direction === 'i') {
+          amount = this.amountsImmigrations[key] || 0;
+          colorFlows = this.flowColors[0];
+        }
+        else {
+          amount = this.differencesAmounts[key] || 0;
+          colorFlows = (amount > 0) ? this.flowColors[0] : this.flowColors[1];
+        }
+
+        let opacity;
+        let width;
+
+        if (Math.abs(amount) > this.migrationThreshold) {
+          opacity = 0.3 + (amount / this.maxAmount) * 0.7;
+          width = 0.8;
+        }
+        else {
+          opacity = 0.07;
+          width = 0.5;
+          colorFlows = "lightgrey";
+        }
+
+        let codes = [code, target];
+        codes.sort();
+        let idLine = 'id_' + codes[0] + '_' + codes[1];
+
+        this.svg.select("#" + idLine)
+          .attr("stroke-width", width)
+          .attr("stroke-opacity", opacity)
+          .style("stroke", colorFlows)
+      }
+    },
+    select(event, d) {
+      let code = d.id;
+      if (this.selectedCountries.has(code)) {   
+        document.getElementById('list-' + code).remove();
+        this.selectedCountries.delete(code);
+
+        event.currentTarget.style.opacity = 0.8;
+        event.currentTarget.style.stroke = "rgb(200, 0, 50)";
+        event.currentTarget.style.width = 0.8;
+
+        this.g.selectAll('.' + "country_" + code)
+        .attr("stroke-opacity", 0.07)
+        .attr("stroke-width", 0.5)
+        .style("stroke", "lightgrey")
+      }
+      else {
+        this.addCountry(code);
+      }
+    },
+    mouseOver(event, d) {
+      let code = d.id;
+      if (!this.selectedCountries.has(code)) {
+        event.currentTarget.style.opacity = 0.8;
+        event.currentTarget.style.stroke = "rgb(200, 0, 50)";
+      }
+    },
+    mouseLeave(event, d) {
+      let code = d.id;
+      if (!this.selectedCountries.has(code)) {
+        event.currentTarget.style.opacity = 0.5;
+        event.currentTarget.style.stroke = "transparent";
+      }
+    },
+    calculateDifferences() {
+      for (let country of this.countries) {
+        let countryImmigrations = this.immigrations[country.code] || [];
+        let countryEmigrations = this.emigrations[country.code] || [];
+        let targets = [...new Set([...countryImmigrations, ...countryEmigrations])];
+
+        if (!this.differences[country.code]) this.differences[country.code] = [];
+
+        for (let target of targets) {
+          let immigrationAmount = this.amountsImmigrations[(country.code + '-' + target)] || 0;
+          let emigrationAmount = this.amountsEmigrations[(country.code + '-' + target)] || 0;
+          let differenceCountry = immigrationAmount - emigrationAmount;
+          
+          this.differences[country.code].push(target);
+          this.differencesAmounts[country.code + '-' + target] = differenceCountry;
+        }
+      }
+    },
+    update() {
+      for (let code of this.selectedCountries) {
+
+        if (this.direction === 'e') this.flows = this.emigrations;
+        else if (this.direction === 'i') this.flows = this.immigrations;
+        else this.flows = this.differences;
+    
+        let targets = this.flows[code] || [];
+        for (let target of targets) {
+          let colorFlows, amount;
+          let key = code + '-' + target;
+
+          if (this.direction === 'e') {
+            amount = this.amountsEmigrations[key] || 0;
+            colorFlows = this.flowColors[1];
+          }
+          else if (this.direction === 'i') {
+            amount = this.amountsImmigrations[key] || 0;
+            colorFlows = this.flowColors[0];
+          }
+          else {
+            amount = this.differencesAmounts[key] || 0;
+            colorFlows = (amount > 0) ? this.flowColors[0] : this.flowColors[1];
+          }
+
+          let opacity;
+          let width;
+
+          if (amount > this.migrationThreshold) {
+            opacity = 0.3 + (amount / this.maxAmount) * 0.7;
+            width = 0.8;
+          }
+          else {
+            opacity = 0.07;
+            width = 0.5;
+            colorFlows = "lightgrey";
+          }
+
+          let codes = [code, target];
+          codes.sort();
+          let idLine = 'id_' + codes[0] + '_' + codes[1];
+
+          d3.select("#" + idLine)
+            .attr("stroke-width", width)
+            .attr("stroke-opacity", opacity)
+            .style("stroke", colorFlows)
+        }
+      }
+    },
+    calculateSum(arr) {
+      return arr.reduce((total, current) => {
+          return total + current;
+      }, 0);
+    },
+    filterBasedOnPeriod() {
+      this.amountsEmigrations = Object.assign({}, ...this.edges.map((x) => ({[(x.source + '-' + x.target)]: this.calculateSum(x.total.slice(this.startYearId, this.endYearId + 1))})));
+      this.amountsImmigrations = Object.assign({}, ...this.edges.map((x) => ({[(x.target + '-' + x.source)]: this.calculateSum(x.total.slice(this.startYearId, this.endYearId + 1))})));
+      this.calculateDifferences();
+      this.update();
+    },
+    filterBasedOnThreshold() {
+      this.amountsEmigrations = Object.assign({}, ...this.edges.map((x) => ({[(x.source + '-' + x.target)]: this.calculateSum(x.total.slice(this.startYearId, this.endYearId + 1))})));
+      this.amountsImmigrations = Object.assign({}, ...this.edges.map((x) => ({[(x.target + '-' + x.source)]: this.calculateSum(x.total.slice(this.startYearId, this.endYearId + 1))})));
+      this.calculateDifferences();
+      this.update();
+    },
+    async loadCountries() {
       let c = await d3.json("../../data/countries.json");
       c.map(d => {
         d.group = d.region;
@@ -116,142 +366,51 @@ export default {
       c = c.filter(d => d.total[5] > 10000);
       return c;
     },
+    populateList(){
+      for (let code of this.selectedCountries) {
+          this.addItem(code);
+      }
+    },
+    addItem(code) {
+      let listItem = document.createElement('li');
+      listItem.id = 'list-' + code;
+      listItem.innerHTML = this.countriesNames[code] || 'No countries on this territory';
+      listItem.innerHTML += ("<span id='close-"+code+"' class='close' style='color:red;'> X</span>");
+      listItem.addEventListener('click', (event) => {
+        this.removeItem(code);
+      });
+      document.getElementById('itemList').appendChild(listItem);
+    },
+    removeItem(code) {
+      document.getElementById('list-' + code).remove();
+      this.selectedCountries.delete(code);
+
+      this.svg.select('#' + "Country-" + code)
+      .style("opacity", 0.5)
+      .attr("stroke-width", 0.5)
+      .style("stroke", "transparent")
+
+      this.g.selectAll('.' + "country_" + code)
+      .attr("stroke-opacity", 0.07)
+      .attr("stroke-width", 0.5)
+      .style("stroke", "lightgrey")
+    }
   },
-
+ 
   async mounted() {
-    let countries = await this.loadCountries();
-    let edges = await this.loadEdges();
-    let selectedCountries = new Set();
-  
-    let mouseOver = function(d) {
-      let code = d.srcElement.__data__.id;
-      if (!selectedCountries.has(code)) {
-        d3.select(this)
-          .transition()
-          .duration(100)
-          .style("opacity", 0.8)
-          .style("stroke", "rgb(200, 0, 50)")
-      }
-    };
-
-    let mouseLeave = function(d) {
-      let code = d.srcElement.__data__.id;
-      if (!selectedCountries.has(code)) {
-        d3.select(this)
-          .transition()
-          .duration(100)
-          .style("opacity", 0.5)
-          .style("stroke", "transparent")
-      }
-    };
-
-    let selected = function(d) {
-      let code = d.srcElement.__data__.id;
-
-      if (selectedCountries.has(code)) {
-        selectedCountries.delete(code);
-        d3.select(this)
-        .transition()
-        .duration(100)
-        .style("opacity", 0.8)
-        .style("stroke", "rgb(200, 0, 50)")
-
-        d3.selectAll('.' + "country_" + code)
-        .attr("stroke-opacity", 0.07)
-        .attr("stroke-width", 0.5)
-        .style("stroke", "lightgrey")
-      }
-
-      else {
-        selectedCountries.add(code);
-        d3.select(this) 
-          .attr("stroke-width", 0.5)
-          .style("opacity", 1)
-          .style("stroke", "black");
-
-        let targets = flows[code] || [];
-        for (let target of targets) {
-          let colorFlows, amount;
-          let key = code + '-' + target;
-
-          if (colorFlag == 'emigrations') {
-            amount = amountsEmigrations[key] || 0;
-            colorFlows = flowColors[1];
-          }
-          else if (colorFlag == 'immigrations') {
-            amount = amountsImmigrations[key] || 0;
-            colorFlows = flowColors[0];
-          }
-          else {
-            amount = differencesAmounts[key] || 0;
-            colorFlows = (amount > 0) ? flowColors[0] : flowColors[1];
-          }
-
-          let opacity = 0.3 + (amount / maxAmount) * 0.7;
-
-          let codes = [code, target];
-          codes.sort();
-          let idLine = 'id_' + codes[0] + '_' + codes[1]; 
-
-          d3.select("#" + idLine)
-          .attr("stroke-width", 0.8)
-          .attr("stroke-opacity", opacity)
-          .style("stroke", colorFlows)
-        }
-      }
-    };
-
-     let update = function() {
-      for (let code of selectedCountries) {
-        let targets = flows[code] || [];
-        for (let target of targets) {
-          let colorFlows, amount;
-          let key = code + '-' + target;
-
-          if (colorFlag == 'emigrations') {
-            amount = amountsEmigrations[key] || 0;
-            colorFlows = flowColors[1];
-          }
-          else if (colorFlag == 'immigrations') {
-            amount = amountsImmigrations[key] || 0;
-            colorFlows = flowColors[0];
-          }
-          else {
-            amount = differencesAmounts[key] || 0;
-            colorFlows = (amount > 0) ? flowColors[0] : flowColors[1];
-          }
-
-          let opacity = 0.3 + (amount / maxAmount) * 0.7;
-
-          let codes = [code, target];
-          codes.sort();
-          let idLine = 'id_' + codes[0] + '_' + codes[1]; 
-
-          d3.select("#" + idLine)
-          .attr("stroke-width", 0.8)
-          .attr("stroke-opacity", opacity)
-          .style("stroke", colorFlows)
-        }
-      }
-    };
+    this.countries = await this.loadCountries();
+    this.countriesNames = Object.assign({}, ...this.countries.map((x) => ({[x.code]: x.name})));
+    this.edges = await this.loadEdges();
 
     let colorScale = d3.scaleThreshold()
     .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
     .range(d3.schemePurples[7]);
 
-    let calculateSum = (arr) => {
-      return arr.reduce((total, current) => {
-          return total + current;
-      }, 0);
-    };
+    let populations = Object.assign({}, ...this.countries.map((x) => ({[x.code]: x.population})));
 
-    let populations = Object.assign({}, ...countries.map((x) => ({[x.code]: x.population})));
-    let amountsEmigrations = Object.assign({}, ...edges.map((x) => ({[(x.source + '-' + x.target)]: calculateSum(x.total)})));
-    let amountsImmigrations = Object.assign({}, ...edges.map((x) => ({[(x.target + '-' + x.source)]: calculateSum(x.total)})));
-    let maxAmount = Math.max(...Object.values(amountsEmigrations));
-    let flowColors = [d3.rgb(0, 255, 255), 'orange'];
-    let timestamps = [1990, 1995, 2000, 2005, 2010, 2015];
-    let timestampsIds = {1990: 0, 1995: 1, 2000: 2, 2005: 3, 2010: 4, 2015: 5};
+    this.amountsEmigrations = Object.assign({}, ...this.edges.map((x) => ({[(x.source + '-' + x.target)]: this.calculateSum(x.total)})));
+    this.amountsImmigrations = Object.assign({}, ...this.edges.map((x) => ({[(x.target + '-' + x.source)]: this.calculateSum(x.total)})));
+    this.maxAmount = Math.max(...Object.values(this.amountsEmigrations));
 
     this.g
     .selectAll("path")
@@ -263,22 +422,24 @@ export default {
         let population = populations[d.id] || 0;
         return colorScale(population);
       })
+      .attr("id", function (d) {
+        return "Country-" + d.id;
+      })
       .style("stroke", "transparent")
       .attr("class", "Country")
       .style("opacity", .5)
-      .on("mouseover", mouseOver)
-      .on("mouseleave", mouseLeave)
-      .on("click", selected)
+      .on("mouseover", this.mouseOver)
+      .on("mouseleave", this.mouseLeave)
+      .on("click", this.select)
 
     this.svg
     .on("dblclick", this.reset).call(this.zoom)
     .on("dblclick", this.clicked);
 
-    let citiesCoordinates = Object.assign({}, ...countries.map((x) => ({[x.code]: x.location})));
-
+    let citiesCoordinates = Object.assign({}, ...this.countries.map((x) => ({[x.code]: x.location})));
     let citiesToDisplay = [];
 
-    for (let country of countries) {
+    for (let country of this.countries) {
       let city = {
             "type": "Feature",
             "properties": {
@@ -300,17 +461,14 @@ export default {
       .style('opacity', 1)
       .style("fill", "grey")
       .style("stroke", "grey");
-
-    let emigrations = new Object();
-    let immigrations = new Object();
     
-    for (let edge of edges) {
+    for (let edge of this.edges) {
 
-      if (!emigrations[edge.source]) emigrations[edge.source] = [];
-      if (!immigrations[edge.target]) immigrations[edge.target] = [];
+      if (!this.emigrations[edge.source]) this.emigrations[edge.source] = [];
+      if (!this.immigrations[edge.target]) this.immigrations[edge.target] = [];
 
-      emigrations[edge.source].push(edge.target);
-      immigrations[edge.target].push(edge.source);
+      this.emigrations[edge.source].push(edge.target);
+      this.immigrations[edge.target].push(edge.source);
 
       let coordinatesSource = citiesCoordinates[edge.source],
           coordinatesTarget = citiesCoordinates[edge.target];
@@ -336,73 +494,11 @@ export default {
         .style("stroke", "lightgrey")
     }
 
-
     let differences = new Object();
-    let differencesAmounts = new Object();
+    this.differencesAmounts = new Object();
+    this.calculateDifferences();
 
-    let calculateDifferences = function() {
-      for (let country of countries) {
-        let countryImmigrations = immigrations[country.code] || [];
-        let countryEmigrations = emigrations[country.code] || [];
-        let targets = [...new Set([...countryImmigrations, ...countryEmigrations])];
-
-        if (!differences[country.code]) differences[country.code] = [];
-
-        for (let target of targets) {
-          let immigrationAmount = amountsImmigrations[(country.code + '-' + target)] || 0;
-          let emigrationAmount = amountsEmigrations[(country.code + '-' + target)] || 0;
-          let differenceCountry = immigrationAmount - emigrationAmount;
-          
-          differences[country.code].push(target);
-          differencesAmounts[country.code + '-' + target] = differenceCountry;
-        }
-      }
-    }
-
-    calculateDifferences();
-
-    let flows = emigrations;
-    let colorFlag = 'emigrations';
-
-    let buttons = d3.selectAll('input');
-    buttons.on('change', function() {
-      colorFlag = this.value;
-      if (this.value == 'emigrations') {
-        flows = emigrations;
-      } else if (this.value == 'immigrations') {
-        flows = immigrations;
-      } else {
-        flows = differences;
-      }
-    });
-
-    var slider = sliderHorizontal()
-    .min(1990)
-    .max(2015)
-    .value([1990, 2015])
-    .width(1400)
-    .step(5)
-    .tickValues(timestamps)
-    .tickFormat(d3.format("d"))
-    .displayValue(false)
-    .on('onchange', (value) => {
-      let startYearId = timestampsIds[value[0]];
-      let endYearId = timestampsIds[value[1]];
-
-      amountsEmigrations = Object.assign({}, ...edges.map((x) => ({[(x.source + '-' + x.target)]: calculateSum(x.total.slice(startYearId, endYearId + 1))})));
-      amountsImmigrations = Object.assign({}, ...edges.map((x) => ({[(x.target + '-' + x.source)]: calculateSum(x.total.slice(startYearId, endYearId + 1))})));
-
-      calculateDifferences();
-
-      update();
-    });
-  
-  d3.select('#slider')
-    .append('svg')
-    .attr('width', 1450)
-    .append('g')
-    .attr('transform', 'translate(30,30)')
-    .call(slider);
+    this.showLegend(this.width, this.height);
   }
 };
 
