@@ -1,7 +1,5 @@
 <template>
   <div class="sliderDiv">
-    <input type="range" min="1960" max="2010" step="10" v-model="sliderValue" id="yearSlider" @change="updateDiagram"> 
-    <input type="range" min="0" max="1000000" step="5000" v-model="sliderValue" id="filterSlider" @change="updateDiagram"> 
     <button @click="showSidebar()">Show sidebar</button>
   </div>
     <div class="map-canvas">
@@ -11,19 +9,7 @@
       <!-- Sidebar content goes here -->
       <span id="close-sidebar" style="padding: 10px; float: left; cursor:pointer;" @click="closeSidebar()">X</span>
       <h2>Migrations</h2>
-      
-      <!--
-
-        two buttons: immigration and emigrations views
-
-      -->
-
-      <div>
-      <button v-on:click="showImmigration">Show immigration</button>
-      <button v-on:click="showEmigration">Show emigration</button>
-      <button v-on:click="showDifference">Show difference</button>
-      </div>
-
+     
       <!--
 
         selected country migration details
@@ -31,7 +17,6 @@
       -->
 
       <div id="selected-country-details">
-        <h2>Details</h2>
         <div id="details-list-div">
           <ul id="details-list">
 
@@ -44,17 +29,6 @@
     </div>
   </div>
   </template>
-
-  <!-- TODO
-    lunedì
-  - bug: etichetta sovrappone diagramma
-  - bug: mostra numeri corretti di in/out
-    mercoledì
-    End: Aestetically beautiful!
-
-  - (animations) 
-
-  -->
   
   <script>
   import * as d3 from 'd3';
@@ -69,9 +43,79 @@
   let viewOption = "emigration";
   let lastOveredZone = "";
   let showDifferenceColors = false;
+  let selectedStartYear = 0;
+  let selectedEndYear = 5;
+  let selectedThreshold = 0;
 
   export default {
     name: 'HybridGraph',
+    watch: {
+    direction() {
+      //this.nodeClicked(this.root, false);
+      // TODO implement difference
+      if(this.direction==="i") {
+        this.showImmigration();
+      } else if(this.direction === "e") {
+        this.showEmigration();
+      } else {
+        this.showDifference();
+      }
+      this.updateDiagram();
+    },
+    selection() {
+      /*if (this.selection !== this.root) {
+        this.nodeClicked(this.selection);        
+      }*/
+
+      selectedCountries = [];
+
+      let countryName = this.code2country_dict[this.selection];
+      multipleSelectionActive = true;
+
+      // if country in set then remove it, otherwise insert it
+      let elementIndex = selectedCountries.indexOf(countryName);
+      if(elementIndex == -1) {
+        selectedCountries.push(countryName);
+        multipleSelectionActive = true;
+      } else {
+        selectedCountries.splice(elementIndex,1);
+        if(selectedCountries.length == 0)
+          multipleSelectionActive = false;
+      }
+
+      this.reduceOpacityOfAllCountriesLinks(0.05);
+      this.reduceOpacityOfAllCountriesFlags(0.1);
+
+      this.increaseLinksOpacityOfSelectedCountries(selectedCountries,0.7);
+      this.highlightSelectedLinkedCountries(selectedCountries,0.45);
+      let selectedCountriesComposed = [];
+      selectedCountries.forEach(function(countryName) {
+        selectedCountriesComposed.push({"country":countryName});
+      });
+      this.increaseFlagOpacityOfSelectedCountries(selectedCountriesComposed,1);
+      
+    },
+    startYearId() {
+      this.selectedStartYear = this.startYearId*5 + 1990;
+      this.updateDiagram();
+    },
+    endYearId() {
+      this.selectedEndYear = this.endYearId*5 + 1990;
+      this.updateDiagram();
+
+    },
+    migrationThreshold() {
+      this.selectedThreshold = this.migrationThreshold;
+      this.updateDiagram();
+    }
+  },
+  props: {
+    direction: String,
+    selection: String,
+    startYearId: Number,
+    endYearId: Number,
+    migrationThreshold: Number
+  },
     async mounted() {
       let dataAsync = await this.loadData();
       data = dataAsync;
@@ -95,12 +139,13 @@
       },
       async loadData() {
         let countries = await d3.json("../../data/countries.json");
-        let years = [1960,1970,1980,1990,2000,2010];
+        let years = [1990,1995,2000,2005,2010,2015,2020];
 
         let code2country_dict = {};
         countries.forEach(function(country) {
           code2country_dict[country.code] = country.name;
         });
+        this.code2country_dict = code2country_dict;
 
         let zones = await d3.json("../../data/config/zones.json");
 
@@ -191,10 +236,19 @@
         return from + "-" + to;
       },
       updateDiagram() {
-        let year = document.getElementById("yearSlider").value;
-        let minFilter = document.getElementById("filterSlider").value;
+        let startYear = this.selectedStartYear;
+        let endYear = this.selectedEndYear; // document.getElementById("yearSlider").value;
 
-        let summData = this.summarizeData(data,0,year,minFilter);
+        let minFilter = this.selectedThreshold; // document.getElementById("filterSlider").value;
+
+        if(startYear === undefined)
+          startYear = 1990;
+        if(endYear === undefined)
+          endYear = 2020;
+        if(minFilter === undefined)
+          minFilter = 0;
+
+        let summData = this.summarizeData(data,startYear,endYear,minFilter);
 
         //let diagram = await this.loadDiagram();
         let diagram = summData;
@@ -218,7 +272,8 @@
         this.updateDiagram();
         this.reduceOpacityOfAllCountriesLinks(0.05);
       },
-      summarizeData(fullDiagramData,fromYear,toYear,minFilter) {        
+      summarizeData(fullDiagramData,fromYear,toYear,minFilter) {     
+        
         let fullDiagramDataCopy = fullDiagramData;
         migrationsFlowsDetails = {};
         //fullDiagramDataCopy = JSON.parse(JSON.stringify(fullDiagramData));
@@ -243,8 +298,26 @@
                 migrationsFlowsDetails[nodeLinkCountry] = {"in":0,"out":0,"max":0};
               }
 
-              let migrationsOut = nodeLinks[nodeLink].out[toYear] !== undefined ? nodeLinks[nodeLink].out[toYear] : 0;
-              let migrationsIn = nodeLinks[nodeLink].in[toYear] !== undefined? nodeLinks[nodeLink].in[toYear] : 0;
+              let migrationsOut = 0;
+              let migrationsIn = 0;
+
+              if(Object.keys(nodeLinks[nodeLink].out).length > 0) {
+                let linkOut = nodeLinks[nodeLink].out;
+
+                Object.keys(linkOut).forEach(function(year) {
+                  if(year >= fromYear && year <= toYear)
+                    migrationsOut += linkOut[year];
+                });
+              }
+
+              if(Object.keys(nodeLinks[nodeLink].in).length > 0) {
+                let linkIn = nodeLinks[nodeLink].in;
+
+                Object.keys(linkIn).forEach(function(year) {
+                  if(year >= fromYear && year <= toYear)
+                    migrationsIn += linkIn[year];
+                });
+              }
 
               if(migrationsIn > minFilter) {
                 migrationsFlowsDetails[diagramNodeName].in += migrationsIn;
@@ -502,7 +575,6 @@
             let isolatedFlag = document.getElementById("node-" + normalizeClassName(countryName));
 
             if(overlap(currentCircle,isolatedFlag)) {
-              console.log("they overlap");
               moveCountryToZone(countryName,overedChordDiagramZoneName);
             }
           }
@@ -747,7 +819,7 @@
               let normalizeClassName = this.normalizeClassName;
               let country2continent_dict = this.country2continent_dict;
               let chordDiagrams = this.chordDiagrams;
-              let year = document.getElementById("yearSlider").value;
+              let year = this.selectedEndYear; // document.getElementById("yearSlider").value;
 
               this.link[chordDiagramZone] = this.svg.select("#g-" + normalizeClassName(chordDiagramZone)).append("g").selectAll(".link");
           
@@ -822,7 +894,7 @@
        ******* CHORD DIAGRAM OPERATIONS *******
        ****************************************/
       drawExternalLinksIsolatedNode(overedCountryName) {
-        let yOffset = 0;
+        let yOffset = 300 - window.scrollY;
 
         let normalizeZoneName = this.normalizeZoneName;
         let normalizeClassName = this.normalizeClassName;
@@ -842,8 +914,8 @@
 
             var qCP = [(fromLocation.x + toLocation.x) /2, (fromLocation.y + toLocation.y) / 2];
             var qPath = d3.path();
-            qPath.moveTo(fromLocation.x, fromLocation.y);
-            qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y-yOffset);
+            qPath.moveTo(fromLocation.x, fromLocation.y - yOffset);
+            qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y - yOffset);
 
             d3.select("#externalLinks")
               .append("path")
@@ -872,8 +944,8 @@
 
             var qCP = [(fromLocation.x + toLocation.x) /2, (fromLocation.y + toLocation.y) / 2];
             var qPath = d3.path();
-            qPath.moveTo(fromLocation.x, fromLocation.y);
-            qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y-yOffset);
+            qPath.moveTo(fromLocation.x, fromLocation.y - yOffset);
+            qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y - yOffset);
 
             d3.select("#externalLinks")
               .append("path")
@@ -898,7 +970,7 @@
 
         let zone = country2zone_dict[overedCountryName];
 
-        let yOffset = 0;
+        let yOffset = 300 - window.scrollY;
 
         let i = 0;
         let triangles = {};
@@ -929,8 +1001,8 @@
             if(country2zone_dict[fromCountryName] !== country2zone_dict[toCountryName]) {
               var qCP = [(fromLocation.x + toLocation.x) /2, (fromLocation.y + toLocation.y) / 2];
               var qPath = d3.path();
-              qPath.moveTo(fromLocation.x, fromLocation.y);
-              qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y-yOffset);
+              qPath.moveTo(fromLocation.x, fromLocation.y - yOffset);
+              qPath.quadraticCurveTo(qCP[0],qCP[1], toLocation.x, toLocation.y - yOffset);
               
               let strokeOpacity = multipleSelectionActive ? 0.05 : 0.2;
 
@@ -1066,7 +1138,7 @@
       findExternalLinksOfCountry(country) {
         let links = [];
         let externalLinks = this.externalLinks;
-        let selectedYear = document.getElementById("yearSlider").value;
+        let selectedYear = this.selectedEndYear; // document.getElementById("yearSlider").value;
 
         Object.keys(externalLinks).forEach(function(externalLink) {
           let quantity = 0;
@@ -1239,7 +1311,7 @@
       },
       colorLinksFromCountry(countryName) {
         // for each link of the country I should color each edge
-        let year = document.getElementById("yearSlider").value;
+        let year = this.selectedEndYear; // document.getElementById("yearSlider").value;
         let chordDiagrams = this.chordDiagrams;
         let country2zone_dict = this.country2zone_dict;
         let normalizeClassName = this.normalizeClassName;
@@ -1273,7 +1345,7 @@
         this.colorLinksOfExternalCountry(countryName);
       },
       colorLinksOfExternalCountry(country) {
-        let year = document.getElementById("yearSlider").value;
+        let year = this.selectedEndYear; // document.getElementById("yearSlider").value;
 
         let normalizeClassName = this.normalizeClassName;
         let externalLinks = this.externalLinks;
@@ -1316,7 +1388,7 @@
         let removeElement = this.removeElement;
         let normalizeClassName = this.normalizeClassName;
         let drawChordDiagram = this.drawChordDiagram;
-        let year = document.getElementById("yearSlider").value;
+        let year = this.selectedEndYear; // document.getElementById("yearSlider").value;
 
         let originalZone = country2continent_dict[countryName];
 
@@ -1390,9 +1462,6 @@
 
       drawChordDiagram(zoneTo);
 
-      console.log(chordDiagrams);
-      console.log(externalLinks);
-
       },
       showSidebar() {
         document.getElementById("sidebar").style.display = "block";
@@ -1403,12 +1472,10 @@
       showTooltipCountry(countryName,migrationsIn,migrationsOut,event) {
         this.tooltip.style("opacity", 1);
 
-
-
         this.tooltip
           .html("<h4>" + countryName + "</h4>" + "In: " + migrationsIn + "<br>" + "Out: " + migrationsOut)
           .style("left", this.getFlagLocation(countryName).x + 20 + "px")
-          .style("top", this.getFlagLocation(countryName).y + "px");
+          .style("top", (this.getFlagLocation(countryName).y + window.scrollY) + "px");
       },
       hideTooltipCountry() {
         this.tooltip.style("opacity", 0);

@@ -5,13 +5,11 @@
 
 <script>
 import * as d3 from 'd3';
-import * as jsnx from 'jsnetworkx';
 import * as bootstrap from 'bootstrap';
 import * as zoom from 'd3-zoom';
 
 // TODO implement sliders for forces
 // TODO implement force presets
-// TODO add legend
 
 export default {
   name: 'ForceDirectedGraph',
@@ -26,7 +24,7 @@ export default {
       links: null,
       allLinksData: null,
       allDifferenceLinksData: null,
-      G: null,
+      isDrag: false,
       forceLink: null,
       simulationRunning: true,
       simulation: null,
@@ -52,11 +50,12 @@ export default {
   watch: {
     direction() {
       this.updateMap();
-      this.nodeClicked(this.root, false);
+      // if (this.direction === '')
+      // this.nodeClicked(this.root, false);
     },
     selection() {
       if (this.selection !== this.root && this.selection !== 'default') {
-        this.nodeClicked(this.selection);
+        this.switchToRadial(this.selection);
       }
       if (this.selection === 'default') {
         this.switchToForce();
@@ -141,14 +140,6 @@ export default {
     },
 
     updateMap() {
-      this.G = new jsnx.DiGraph();
-      this.G.addNodesFrom(this.nodesData.map(d => [d.code, d]));
-      this.G.addEdgesFrom(this.linksData.map(d => [d.source, d.target, d]));
-
-      this.diffG = new jsnx.DiGraph();
-      this.diffG.addNodesFrom(this.nodesData.map(d => [d.code, d]));
-      this.diffG.addEdgesFrom(this.differenceLinksData.map(d => [d.source, d.target, d]));
-
       document.querySelector(".map-canvas").innerHTML = "";
 
       this.drawGraph();
@@ -254,51 +245,51 @@ export default {
     },
 
     showLegend(width, height) {
-        let colors = d3.schemeTableau10;
-        const color = d3.scaleOrdinal(d3.sort(d3.map(this.nodesData, d => d.group)), colors);
+      let colors = d3.schemeTableau10;
+      const color = d3.scaleOrdinal(d3.sort(d3.map(this.nodesData, d => d.group)), colors);
 
-        let uniqueGroups = [...new Set(this.nodesData.map(d => d.group))];
+      let uniqueGroups = [...new Set(this.nodesData.map(d => d.group))];
 
-        let legend = this.svg.append("g")
-            .attr("transform", `translate(${-width / 2 + 5}, ${-height / 2 + 5})`)
-            .attr("class", "legend");
+      let legend = this.svg.append("g")
+          .attr("transform", `translate(${-width / 2 + 5}, ${-height / 2 + 5})`)
+          .attr("class", "legend");
 
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 20)
-            .attr("width", 150)
-            .attr("height", uniqueGroups.length * 25 + 40)
-            .attr("fill", "#ffffffaa")
-            .attr("stroke", "black")
-            .attr("stroke-width", 1)
-            .attr("rx", 4)
-            .attr("ry", 4);
+      legend.append("rect")
+          .attr("x", 0)
+          .attr("y", 20)
+          .attr("width", 150)
+          .attr("height", uniqueGroups.length * 25 + 40)
+          .attr("fill", "#ffffffaa")
+          .attr("stroke", "black")
+          .attr("stroke-width", 1)
+          .attr("rx", 4)
+          .attr("ry", 4);
 
-        legend.append("text")
-            .attr("x", 10)
-            .attr("y", 40)
-            .text("Legend:")
-            .attr("font-weight", "bold")
-            .attr("alignment-baseline", "middle");
+      legend.append("text")
+          .attr("x", 10)
+          .attr("y", 40)
+          .text("Legend:")
+          .attr("font-weight", "bold")
+          .attr("alignment-baseline", "middle");
 
-        let legendItems = legend.selectAll("g")
-            .data(uniqueGroups)
-            .enter().append("g")
-            .attr("transform", (d, i) => `translate(10, ${i * 25 + 55})`);
+      let legendItems = legend.selectAll("g")
+          .data(uniqueGroups)
+          .enter().append("g")
+          .attr("transform", (d, i) => `translate(10, ${i * 25 + 55})`);
 
-        legendItems.append("circle")
-            .attr("cx", 10)
-            .attr("cy", 10)
-            .attr("r", 8)
-            .attr("fill", d => color(d))
-            .attr("stroke", d => color(d))
-            .attr("stroke-width", 2);
+      legendItems.append("circle")
+          .attr("cx", 10)
+          .attr("cy", 10)
+          .attr("r", 8)
+          .attr("fill", d => color(d))
+          .attr("stroke", d => color(d))
+          .attr("stroke-width", 2);
 
-        legendItems.append("text")
-            .attr("x", 25)
-            .attr("y", 10)
-            .text(d => d)
-            .attr("alignment-baseline", "middle");
+      legendItems.append("text")
+          .attr("x", 25)
+          .attr("y", 10)
+          .text(d => d)
+          .attr("alignment-baseline", "middle");
     },
 
 
@@ -337,18 +328,42 @@ export default {
           .join("circle");
       this.nodes = nodes;
 
-      // TODO fix when radial layout is selected
+      if (this.simulation !== null) {
+        this.simulation
+            .force("link", null)
+            .force("charge", null)
+            .force("collide", null)
+            .force("radial", null)
+            .force("x", null)
+            .force("y", null);
+      }
 
       this.simulation = d3.forceSimulation(this.nodesData)
           .force("link", this.forceLink)
           .force("charge", d3.forceManyBody().strength(-50))
+          .force("collide", d3.forceCollide().radius(d => Math.log10(d.population) - 1))
           .force("x", d3.forceX().strength(0.05))
-          .force("y", d3.forceY().strength(0.05))
-          .on("tick", function () {
+          .force("y", d3.forceY().strength(0.05));
+      this.simulation
+          .on("tick", () => {
             links
                 .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
                 .attr("x2", d => d.target.x).attr("y2", d => d.target.y)
                 .attr("d", linkArc);
+            this.simulation.nodes()
+                .forEach(d => {
+                  if (!this.isDrag) {
+                    if (d.code === this.root) {
+                      d.fx = 0;
+                      d.fy = 0;
+                    } else {
+                      d.fx = undefined;
+                      d.fy = undefined;
+                    }
+                  }
+                  d.x = Math.max(-2000, Math.min(2000, d.x));
+                  d.y = Math.max(-2000, Math.min(2000, d.y));
+                });
             nodes
                 .attr("cx", d => d.x).attr("cy", d => d.y);
           });
@@ -358,7 +373,7 @@ export default {
           .attr("stroke", d => color(d.group))
           .attr("data-bs-toggle", "tooltip").attr("title", d => d.name)
           .attr("r", d => Math.log10(d.population))
-          .call(drag(this.simulation, this.layout === "force"))
+          .call(drag(this.simulation))
           .on("click", (event, node) => this.nodeClicked(node.code));
 
       this.showLegend(width, height);
@@ -369,28 +384,24 @@ export default {
                 A${r},${r} 0 0,1 ${d.target.x},${d.target.y}`;
       }
 
-      function drag(simulation, enabled) {
+      function drag(simulation) {
         function dragstarted(event) {
-          if (enabled) {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            event.subject.fx = event.subject.x;
-            event.subject.fy = event.subject.y;
-          }
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          event.subject.fx = event.subject.x;
+          event.subject.fy = event.subject.y;
+          this.isDrag = true;
         }
 
         function dragged(event) {
-          if (enabled) {
-            event.subject.fx = event.x;
-            event.subject.fy = event.y;
-          }
+          event.subject.fx = event.x;
+          event.subject.fy = event.y;
         }
 
         function dragended(event) {
-          if (enabled) {
-            if (!event.active) simulation.alphaTarget(0);
-            event.subject.fx = null;
-            event.subject.fy = null;
-          }
+          if (!event.active) simulation.alphaTarget(0);
+          event.subject.fx = null;
+          event.subject.fy = null;
+          this.isDrag = false;
         }
 
         return d3.drag()
@@ -400,22 +411,27 @@ export default {
       }
 
       if (this.selection !== 'default') {
-        this.nodeClicked(this.selection);
+        this.switchToRadial(this.selection);
       }
 
       return Object.assign(this.svg.node(), {scales: {color}});
     },
 
     switchToForce() {
+      this.forceLink = d3.forceLink(this.direction === 'd' ? this.differenceLinksData : this.linksData).id(({index: i}) => d3.map(this.nodesData, d => d.code)[i]);
+      this.forceLink.strength(d => Math.log10(this.getData(d)) / 100);
       this.root = null;
       this.links.attr("stroke-opacity", 0.2)
           .attr("marker-end", `url(${new URL(`#arrow`, location)})`);
       this.simulation
+          .force("link", null)
+          .force("x", null)
+          .force("y", null)
+          .force("radial", null)
           .force("link", this.forceLink)
           .force("x", d3.forceX().strength(0.05))
-          .force("y", d3.forceY().strength(0.05))
-          .force("radial", null);
-      this.simulation.restart();
+          .force("y", d3.forceY().strength(0.05));
+      this.simulation.restart().alpha(1).alphaTarget(0);
     },
 
     switchToRadial(nodeCode) {
@@ -423,25 +439,30 @@ export default {
       let {layers, tree} = this.buildTree(nodeCode);
       this.links
           .attr("stroke-opacity", i => (
-                  (this.direction === 'e' && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
-                  || (this.direction === 'i' && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
+                  ((this.direction === 'e' || this.direction === 'd') && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
+                  || ((this.direction === 'i' || this.direction === 'd') && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
               ) ? 1 : 0.05
           )
           .attr("marker-end", i => {
             if (
-                (this.direction === 'e' && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
-                || (this.direction === 'i' && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
+                ((this.direction === 'e' || this.direction === 'd') && tree.has(i.source.code) && tree.get(i.source.code).includes(i.target.code))
+                || ((this.direction === 'i' || this.direction === 'd') && tree.has(i.target.code) && tree.get(i.target.code).includes(i.source.code))
             ) {
               return `url(${new URL(`#arrow-full`, location)})`;
             }
             return `url(${new URL(`#arrow-faded`, location)})`;
           });
+
       this.simulation
+          .force("link", null)
+          .force("x", null)
+          .force("y", null)
+          .force("radial", null)
           .force("link", d3.forceLink(this.direction === 'd' ? this.differenceLinksData : this.linksData)
               .id(({index: i}) => d3.map(this.nodesData, d => d.code)[i])
               .strength(link => (
-                      (this.direction === 'e' && tree.has(link.source.code) && tree.get(link.source.code).includes(link.target.code))
-                      || (this.direction === 'i' && tree.has(link.target.code) && tree.get(link.target.code).includes(link.source.code))
+                      ((this.direction === 'e' || this.direction === 'd') && tree.has(link.source.code) && tree.get(link.source.code).includes(link.target.code))
+                      || ((this.direction === 'i' || this.direction === 'd') && tree.has(link.target.code) && tree.get(link.target.code).includes(link.source.code))
                   ) ? 0.2 : 0
               ))
           .force("x", d3.forceX().strength(i => (i.code === nodeCode) ? .5 : 0))
@@ -470,13 +491,15 @@ export default {
     getNeighbors(node) {
       let neighbors = [];
       if (this.direction === 'd') {
-        for (let link of this.diffG.edges()) {
+        for (let link of this.differenceLinksData.map(d => [d.source.code, d.target.code])) {
           if (link[0] === node) {
             neighbors.push(link[1]);
+          } else if (link[1] === node) {
+            neighbors.push(link[0]);
           }
         }
       } else {
-        for (let link of this.G.edges()) {
+        for (let link of this.linksData.map(d => [d.source.code, d.target.code])) {
           if (this.direction === 'i' && link[1] === node) {
             neighbors.push(link[0]);
           } else if (this.direction === 'e' && link[0] === node) {

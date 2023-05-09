@@ -63,6 +63,12 @@
         ></ForceDirectedGraph>
         <HybridGraph
             v-if="isHybrid"
+            :startYearId="startYearId"
+            :endYearId="endYearId"
+            :direction="direction"
+            :selection="selection"
+            :migrationThreshold="migrationThreshold"
+            @node-clicked="(code) => selection = code"
         ></HybridGraph>
     </div>
 
@@ -88,7 +94,7 @@ export default {
       selection: 'default',
       startYearId: 0,
       endYearId: 6,
-      migrationThreshold: 10000
+      migrationThreshold: 100000
     };
   },
   computed: {
