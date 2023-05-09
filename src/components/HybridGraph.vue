@@ -2,7 +2,7 @@
   <div class="sliderDiv">
     <button @click="showSidebar()">Show sidebar</button>
   </div>
-    <div class="map-canvas">
+    <div class="map-canvas border border-secondary">
     </div>
     <div class="container">
     <div id="sidebar" class="sidebar" style="display: none;">
