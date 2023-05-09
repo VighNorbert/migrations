@@ -1,5 +1,13 @@
 <template>
-    <div class="map-canvas">
+    <div class="legend" v-if="uniqueGroups.length">
+        <h6>Legend:</h6>
+        <ul>
+            <li v-for="group in uniqueGroups" :key="group">
+                <span class="legend-circle" :style="{backgroundColor: color(group)}"></span> {{group}}
+            </li>
+        </ul>
+    </div>
+    <div class="map-canvas border border-secondary">
     </div>
 </template>
 
@@ -25,9 +33,12 @@ export default {
       allLinksData: null,
       allDifferenceLinksData: null,
       isDrag: false,
-      forceLink: null,
       simulationRunning: true,
       simulation: null,
+      radialCircles: null,
+      uniqueGroups: [],
+      colors: d3.schemeTableau10,
+      color: null,
       svg: null,
       root: null
     };
@@ -37,7 +48,13 @@ export default {
     selection: String,
     startYearId: Number,
     endYearId: Number,
-    migrationThreshold: Number
+    migrationThreshold: Number,
+    linkForceScaling: String,
+    linkForceMultiplierInput: String,
+    chargeForceMultiplierInput: String,
+    radialForceMultiplierInput: String,
+    centeringForceMultiplierInput: String,
+    radiusInput: String
   },
   computed: {
     zoom() {
@@ -45,13 +62,26 @@ export default {
           .zoom()
           .scaleExtent([0.25, 8])
           .on("zoom", this.zoomed);
-    }
+    },
+    linkForceMultiplier() {
+      return parseFloat(this.linkForceMultiplierInput);
+    },
+    chargeForceMultiplier() {
+      return parseFloat(this.chargeForceMultiplierInput);
+    },
+    radialForceMultiplier() {
+      return parseFloat(this.radialForceMultiplierInput);
+    },
+    centeringForceMultiplier() {
+      return parseFloat(this.centeringForceMultiplierInput);
+    },
+    radius() {
+      return parseFloat(this.radiusInput);
+    },
   },
   watch: {
     direction() {
       this.updateMap();
-      // if (this.direction === '')
-      // this.nodeClicked(this.root, false);
     },
     selection() {
       if (this.selection !== this.root && this.selection !== 'default') {
@@ -72,11 +102,37 @@ export default {
     migrationThreshold() {
       this.filterLinks();
       this.updateMap();
+    },
+    linkForceScaling() {
+      console.log("updated", this.linkForceScaling);
+      this.updateMap();
+    },
+    linkForceMultiplier() {
+      console.log("updated", this.linkForceMultiplier);
+      this.updateMap();
+    },
+    chargeForceMultiplier() {
+      console.log("updated", this.chargeForceMultiplier);
+      this.updateMap();
+    },
+    radialForceMultiplier() {
+      console.log("updated", this.radialForceMultiplier);
+      this.updateMap();
+    },
+    centeringForceMultiplier() {
+      console.log("updated", this.centeringForceMultiplier);
+      this.updateMap();
+    },
+    radius() {
+      console.log("updated", this.radius);
+      this.updateMap();
     }
   },
   async mounted() {
-
     this.nodesData = await this.loadNodes();
+    this.uniqueGroups = [...new Set(this.nodesData.map(d => d.group))];
+    this.color = d3.scaleOrdinal(d3.sort(d3.map(this.nodesData, d => d.group)), this.colors);
+
     let l = await this.loadLinks();
     this.allLinksData = l.links;
     this.allDifferenceLinksData = l.diffs;
@@ -194,7 +250,7 @@ export default {
 
       defs.append("marker")
           .attr("id", "arrow-faded")
-          .attr("viewBox", "0 -5 10 10")
+          .attr("viewBox", "-5 -6 10 10")
           .attr("refX", 15)
           .attr("refY", -0.5)
           .attr("markerWidth", 5)
@@ -238,6 +294,7 @@ export default {
           .attr("x", "0")
           .attr("y", "0")
           .attr("preserveAspectRatio", "xMidYMid meet")
+          .attr("image-rendering", "pixelated")
           .attr("height", "1")
           .attr("width", "1")
           .attr("xlink:href", d => require('@/assets/img/w20/' + d.iso3316.toString().toLowerCase() + '.png'));
@@ -295,18 +352,21 @@ export default {
 
     ForceGraph() {
       let width = 1200, height = 800;
-      let colors = d3.schemeTableau10;
 
-      const color = d3.scaleOrdinal(d3.sort(d3.map(this.nodesData, d => d.group)), colors);
-      this.forceLink = d3.forceLink(this.direction === 'd' ? this.differenceLinksData : this.linksData).id(({index: i}) => d3.map(this.nodesData, d => d.code)[i]);
-
-      this.forceLink.strength(d => Math.log10(this.getData(d)) / 100);
+      const color = d3.scaleOrdinal(d3.sort(d3.map(this.nodesData, d => d.group)), this.colors);
 
       this.createSvg(width, height);
 
       this.svg.call(this.zoom);
 
+      this.radialCircles = this.svg.append("g")
+          .attr("id", "radial-circles")
+          .attr("stroke", "#000")
+          .attr("stroke-opacity", 0.2)
+          .attr("stroke-width", 1);
+
       const links = this.svg.append("g")
+          .attr("id", "links")
           .attr("class", "apply-zoom")
           .attr("fill", "none")
           .attr("stroke-width", 1.5)
@@ -314,12 +374,11 @@ export default {
           .data(this.direction === 'd' ? this.differenceLinksData : this.linksData)
           .join("path")
           .attr("stroke", "#000")
-          .attr("stroke-opacity", 0.2)
-          .attr("stroke-width", d => Math.log10(this.getData(d)) - 3)
-          .attr("marker-end", `url(${new URL(`#arrow`, location)})`);
+          .attr("stroke-width", d => Math.log10(this.getData(d)) - 3);
       this.links = links;
 
       const nodes = this.svg.append("g")
+          .attr("id", "nodes")
           .attr("class", "apply-zoom")
           .attr("stroke", "#000")
           .attr("stroke-width", 1.5)
@@ -339,11 +398,8 @@ export default {
       }
 
       this.simulation = d3.forceSimulation(this.nodesData)
-          .force("link", this.forceLink)
-          .force("charge", d3.forceManyBody().strength(-50))
-          .force("collide", d3.forceCollide().radius(d => Math.log10(d.population) - 1))
-          .force("x", d3.forceX().strength(0.05))
-          .force("y", d3.forceY().strength(0.05));
+          .force("charge", d3.forceManyBody().strength(-50 * this.chargeForceMultiplier))
+          .force("collide", d3.forceCollide().radius(d => Math.log10(d.population) - 1));
       this.simulation
           .on("tick", () => {
             links
@@ -361,8 +417,8 @@ export default {
                       d.fy = undefined;
                     }
                   }
-                  d.x = Math.max(-2000, Math.min(2000, d.x));
-                  d.y = Math.max(-2000, Math.min(2000, d.y));
+                  d.x = Math.max(-20 * this.radius, Math.min(20 * this.radius, d.x));
+                  d.y = Math.max(-20 * this.radius, Math.min(20 * this.radius, d.y));
                 });
             nodes
                 .attr("cx", d => d.x).attr("cy", d => d.y);
@@ -376,7 +432,7 @@ export default {
           .call(drag(this.simulation))
           .on("click", (event, node) => this.nodeClicked(node.code));
 
-      this.showLegend(width, height);
+      // this.showLegend(width, height);
 
       function linkArc(d) {
         const r = 2 * Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
@@ -412,25 +468,40 @@ export default {
 
       if (this.selection !== 'default') {
         this.switchToRadial(this.selection);
+      } else {
+        this.switchToForce();
       }
 
       return Object.assign(this.svg.node(), {scales: {color}});
     },
 
+    mapForceLinkStrength(d) {
+      if (this.linkForceScaling === 'equal') {
+        return 0.01 * this.linkForceMultiplier;
+      } else if (this.linkForceScaling === 'log') {
+        return Math.log(this.getData(d)) / 100 * this.linkForceMultiplier;
+      } else {
+        return Math.log10(this.getData(d)) / 100 * this.linkForceMultiplier;
+      }
+    },
+
     switchToForce() {
-      this.forceLink = d3.forceLink(this.direction === 'd' ? this.differenceLinksData : this.linksData).id(({index: i}) => d3.map(this.nodesData, d => d.code)[i]);
-      this.forceLink.strength(d => Math.log10(this.getData(d)) / 100);
       this.root = null;
       this.links.attr("stroke-opacity", 0.2)
           .attr("marker-end", `url(${new URL(`#arrow`, location)})`);
+      this.radialCircles
+          .attr("class", "apply-zoom d-none")
+          .data([]);
       this.simulation
           .force("link", null)
           .force("x", null)
           .force("y", null)
           .force("radial", null)
-          .force("link", this.forceLink)
-          .force("x", d3.forceX().strength(0.05))
-          .force("y", d3.forceY().strength(0.05));
+          .force("link", d3.forceLink(this.direction === 'd' ? this.differenceLinksData : this.linksData)
+              .id(({index: i}) => d3.map(this.nodesData, d => d.code)[i])
+              .strength(d => this.mapForceLinkStrength(d)))
+          .force("x", d3.forceX().strength(0.05 * this.centeringForceMultiplier))
+          .force("y", d3.forceY().strength(0.05 * this.centeringForceMultiplier));
       this.simulation.restart().alpha(1).alphaTarget(0);
     },
 
@@ -452,7 +523,17 @@ export default {
             }
             return `url(${new URL(`#arrow-faded`, location)})`;
           });
+      const radiuses = [...layers.map((d, i) => (i + 1) * this.radius)];
 
+      this.radialCircles
+          .attr("class", "apply-zoom")
+          .selectAll("circle")
+          .data(radiuses)
+          .join("circle")
+          .attr("r", d => d)
+          .attr("x", 0)
+          .attr("y", 0)
+          .attr("fill", "none");
       this.simulation
           .force("link", null)
           .force("x", null)
@@ -463,15 +544,17 @@ export default {
               .strength(link => (
                       ((this.direction === 'e' || this.direction === 'd') && tree.has(link.source.code) && tree.get(link.source.code).includes(link.target.code))
                       || ((this.direction === 'i' || this.direction === 'd') && tree.has(link.target.code) && tree.get(link.target.code).includes(link.source.code))
-                  ) ? 0.2 : 0
+                  ) ? 0.2 * this.linkForceMultiplier : 0
               ))
-          .force("x", d3.forceX().strength(i => (i.code === nodeCode) ? .5 : 0))
-          .force("y", d3.forceY().strength(i => (i.code === nodeCode) ? .5 : 0))
-          .force("radial", d3.forceRadial().strength(3).radius(i => {
-            let n = layers.findIndex(e => e.includes(i.code));
-            (n === -1) ? n = layers.length : n;
-            return n * 100;
-          }));
+          .force("x", d3.forceX().strength(i => (i.code === nodeCode) ? .5 * this.centeringForceMultiplier : 0))
+          .force("y", d3.forceY().strength(i => (i.code === nodeCode) ? .5 * this.centeringForceMultiplier : 0))
+          .force("radial", d3.forceRadial()
+              .strength(3 * this.radialForceMultiplier)
+              .radius(i => {
+                let n = layers.findIndex(e => e.includes(i.code));
+                (n === -1) ? n = layers.length : n;
+                return n * this.radius;
+              }));
       this.simulation.restart().alpha(0.7);
     },
 
@@ -548,5 +631,25 @@ export default {
 <style>
 circle {
     cursor: pointer;
+}
+.legend {
+    position: absolute;
+    margin: 16px 32px;
+    padding: 16px;
+    background-color: #f8f8ffaa;
+    box-shadow: 0 0 8px #00000055;
+    border-radius: 8px;
+}
+.legend ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.legend ul .legend-circle {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    border-radius: 50%;
 }
 </style>
