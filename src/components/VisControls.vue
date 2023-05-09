@@ -239,7 +239,7 @@ export default {
   components: {HybridGraph, WorldMap, ForceDirectedGraph},
   data() {
     return {
-      layout: 'force',
+      layout: 'map',
       direction: 'e',
       nodesData: null,
       regionsData: [],
