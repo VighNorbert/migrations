@@ -797,8 +797,8 @@ export default {
         highlightLinksFromCountry(overedCountryName);
         highlightSelectedCountries();
 
-        showTooltipCountry(overedCountryName, migrationsFlowsDetails[overedCountryName].in,
-            migrationsFlowsDetails[overedCountryName].out, event);
+        //showTooltipCountry(overedCountryName, migrationsFlowsDetails[overedCountryName].in,
+        //    migrationsFlowsDetails[overedCountryName].out, event);
 
         //showMigrationDetailsList(overedCountryName);
         showMigrationBarChartForCountry(overedCountryName);
@@ -1493,7 +1493,7 @@ export default {
       document.getElementById("sidebar").style.visibility = "hidden";
     },
     showTooltipCountry(countryName, migrationsIn, migrationsOut, event) {
-      //this.tooltip.style("opacity", 1);
+      this.tooltip.style("opacity", 1);
 
       this.tooltip
           .html("<h4>" + countryName + "</h4>" + "In: " + migrationsIn + "<br>" + "Out: " + migrationsOut)
