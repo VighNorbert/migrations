@@ -797,8 +797,8 @@ export default {
         highlightLinksFromCountry(overedCountryName);
         highlightSelectedCountries();
 
-        //showTooltipCountry(overedCountryName, migrationsFlowsDetails[overedCountryName].in,
-        //    migrationsFlowsDetails[overedCountryName].out, event);
+        showTooltipCountry(overedCountryName, migrationsFlowsDetails[overedCountryName].in,
+            migrationsFlowsDetails[overedCountryName].out, event);
 
         //showMigrationDetailsList(overedCountryName);
         showMigrationBarChartForCountry(overedCountryName);
@@ -1495,10 +1495,29 @@ export default {
     showTooltipCountry(countryName, migrationsIn, migrationsOut, event) {
       this.tooltip.style("opacity", 1);
 
+      let tooltipX = this.getFlagLocation(countryName).x + 5;
+      let tooltipY = this.getFlagLocation(countryName).y + window.scrollY - 200;
+
+      let regionX = this.getRegionCenter(this.country2zone_dict[countryName]).x;
+      let regionY = this.getRegionCenter(this.country2zone_dict[countryName]).y;
+
+      let deltaX = regionX - tooltipX;
+      let deltaY = regionY - tooltipY;
+
+      if(deltaX > 0) {
+        tooltipX -= 150;
+      }
+
+      if(deltaY < 0) {
+        tooltipY += 50;
+      }
+
+      console.log([deltaX,deltaY]);
+
       this.tooltip
           .html("<h4>" + countryName + "</h4>" + "In: " + migrationsIn + "<br>" + "Out: " + migrationsOut)
-          .style("left", this.getFlagLocation(countryName).x + 5 + "px")
-          .style("top", (this.getFlagLocation(countryName).y) + "px");
+          .style("left", tooltipX + "px")
+          .style("top", tooltipY + "px");
     },
     hideTooltipCountry() {
       this.tooltip.style("opacity", 0);
@@ -1549,7 +1568,15 @@ export default {
       return false;
     },
     insertCountryInRegion(node) {
+      
+    },
+    getRegionCenter(zoneName) {
+      let rect = document.getElementById("g-" + this.normalizeClassName(zoneName)).getBoundingClientRect();
+      let boundLen = 200;
+      let rectX = rect.x;
+      let rectY = rect.y + window.scrollY;
 
+      return {"x": rectX + boundLen/2, "y": rectY + boundLen/2};
     },
     hideMigrationDetails() {
       document.getElementById("sidebarCountryDetailsBoxPlot").innerHTML = "";
