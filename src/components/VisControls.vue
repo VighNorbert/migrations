@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-3 d-flex align-items-center">
                         <label for="filterSlider">
-                            Filter by migration threshold
+                            Migration threshold
                         </label>
                     </div>
                     <div class="col-9 p-0">
