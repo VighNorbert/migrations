@@ -1,48 +1,20 @@
 
-
-.header {
-    max-height: 100%;
-    display: inline-block;
-    width: 100%;
-    margin: auto;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 12%, rgba(85, 189, 155, 1) 40%, rgba(76, 153, 128, 1) 88%);
-}
-
 nav {
     width: 100%;
-}
-
-nav ul {
-    width: 100%;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-nav ul li {
-    width: calc(100% / 3);
-    float: left;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-    text-align: center;
-    font-size: 30px;
-    padding: 20px 0;
-    display: block;
-    width: 100%;
-    background-color: lightskyblue;
-}
-
-nav ul li a:hover {
-    text-decoration: none;
-    background-color: cornflowerblue;
+    background: #d7e5ff;
+    border-bottom: 3px solid var(--bs-primary);
+    padding: 0 max(16px, calc(50% - 944px));
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 main {
-    width: 80%;
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 1920px;
     margin: 3rem auto;
 }
 
@@ -51,81 +23,129 @@ h1 {
     font-size: 28px;
 }
 
-.map-canvas {
+.map-canvas.card {
+    position: static;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 16px;
+    margin: 0 16px 16px 16px;
+    padding: 0;
+    aspect-ratio: 16/9;
+}
+
+.map-canvas#force svg, .canvas svg {
     width: 100%;
-    height: 50%;
-    background-color: ghostwhite;
+    height: 100% !important;
+}
+
+.map-canvas svg, .canvas svg {
+    border-radius: 16px;
 }
 
 .map-section {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 50fr 1fr;
+    width: 100%;
 }
 
 .map-legend {
-  margin-left: -7rem;
+    position: absolute;
+    margin: 16px 32px;
+    border-radius: 8px;
 }
 
-.countries-list {
-  margin-right: -7rem;
+
+#itemList {
+    width: 350px;
+    position: absolute;
+    padding: 16px;
+    right: 32px;
+    margin-top: 16px;
+    background-color: rgb(44, 44, 135);
+    color: white;
+    border-radius: 8px;
+}
+
+#itemList li {
+    cursor: pointer;
 }
 
 
 .canvas {
-  background-color: rgb(0, 20, 56);
+    background-color: rgb(0, 20, 56);
+    width: calc(100% - 32px);
+    border-radius: 16px;
+    margin: 0 16px 16px 16px;
 }
 
 body {
-    background-color: white;
-    text-align: center;
+    background-color: ghostwhite;
     font-family: sans-serif;
-  }
-  
-  .land {
+}
+
+.land {
     fill: #dddddd;
-  }
-  
-  .border {
+}
+
+.border {
     fill: none;
     stroke-width: 1px;
-  }
-  
-  .interior {
+}
+
+.interior {
     stroke: white;
-  }
-  
-  .exterior {
+}
+
+.exterior {
     stroke: #bbbbbb;
-  }
-  
-  .airport {
+}
+
+.airport {
     fill: white;
     opacity: 0.6;
     stroke: #252525;
-  }
-  
-  .flight {
+}
+
+.flight {
     fill: none;
     stroke: #252525;
     stroke-width: 1px;
     stroke-opacity: 0.1;
-  }
-  
-  
-  .highlight {
+}
+
+
+.highlight {
     opacity: 1 !important;
     stroke: red !important;
     stroke-width: 2px !important;
     stroke-opacity: 0.8 !important;
-  }
+}
 
-  
-  /* shadow trick from bl.ocks.org */
-  #tooltip {
+
+/* shadow trick from bl.ocks.org */
+#tooltip {
     font-size: 10pt;
     font-weight: 900;
     fill: white;
     text-shadow: 1px 1px 0 #252525, 1px -1px 0 #252525, -1px 1px 0 #252525, -1px -1px 0 #252525;
-  }
+}
+
+.card {
+    background-color: white;
+    margin: 16px;
+    padding: 16px;
+    border-radius: 16px;
+}
+
+label {
+    font-weight: 600;
+}
+
+#sidebar-toggler {
+    position: absolute;
+    margin-top: -40px;
+    right: 32px;
+    z-index: 999;
+}
+
+#sidebar {
+    z-index: 9999;
+}

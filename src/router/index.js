@@ -1,29 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import AboutView from "@/views/AboutView.vue";
-import MigrationsView from "@/views/MigrationsView.vue";
-import HybridView from "@/views/HybridView.vue";
+import VisControls from "@/components/VisControls.vue";
 
 const routes = [
     {
         path: '/',
-        name: 'about',
-        component: AboutView,
-        meta: {
-          title: 'About'
-        },
-    },
-    {
-        path: '/migrations',
         name: 'migrations',
-        component: MigrationsView
-    },
-    {
-        path: '/hybrid',
-        name: 'hybrid',
-        component: HybridView,
-        meta: {
-          title: 'Hybrid'
-        },
+        component: VisControls,
     }
 ]
 
