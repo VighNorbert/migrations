@@ -216,11 +216,11 @@ export default {
         let width;
 
         if (Math.abs(amount) > this.migrationThreshold) {
-          opacity = 0.3 + (amount / this.maxAmount) * 0.7;
-          width = 0.8;
+          opacity = 0.4;
+          width = Math.log10(amount);
         }
         else {
-          opacity = 0.07;
+          opacity = 0.1;
           width = 0.5;
           colorFlows = "lightgrey";
         }
@@ -246,7 +246,7 @@ export default {
         event.currentTarget.style.width = 0.8;
 
         this.g.selectAll('.' + "country_" + code)
-        .attr("stroke-opacity", 0.07)
+        .attr("stroke-opacity", 0.1)
         .attr("stroke-width", 0.5)
         .style("stroke", "lightgrey")
       }
@@ -314,12 +314,12 @@ export default {
           let opacity;
           let width;
 
-          if (amount > this.migrationThreshold) {
-            opacity = 0.3 + (amount / this.maxAmount) * 0.7;
-            width = 0.8;
+          if (Math.abs(amount) > this.migrationThreshold) {
+            opacity = 0.4;
+            width = Math.log10(amount);
           }
           else {
-            opacity = 0.07;
+            opacity = 0.1;
             width = 0.5;
             colorFlows = "lightgrey";
           }
@@ -391,7 +391,7 @@ export default {
       .style("stroke", "transparent")
 
       this.g.selectAll('.' + "country_" + code)
-      .attr("stroke-opacity", 0.07)
+      .attr("stroke-opacity", 0.1)
       .attr("stroke-width", 0.5)
       .style("stroke", "lightgrey")
     }
@@ -437,19 +437,26 @@ export default {
     .on("dblclick", this.clicked);
 
     let citiesCoordinates = Object.assign({}, ...this.countries.map((x) => ({[x.code]: x.location})));
+    
+    let edgesSet = new Set();
+    for (let edge of this.edges) {
+      edgesSet.add(edge.source);
+      edgesSet.add(edge.target);
+    }
+    
     let citiesToDisplay = [];
 
     for (let country of this.countries) {
       let city = {
-            "type": "Feature",
-            "properties": {
-                "country": country.name,
-            },
-            "geometry": {
-                "coordinates": country.location.reverse(),
-                "type": "Point"
-            },
-        };
+        "type": "Feature",
+        "properties": {
+            "country": country.name,
+        },
+        "geometry": {
+            "coordinates": country.location.reverse(),
+            "type": "Point"
+        },
+      };
       citiesToDisplay.push(city);
     }
 
@@ -478,7 +485,7 @@ export default {
 
       let codes = [edge.target, edge.source];
       codes.sort();
-      let idLine = 'id_' + codes[0] + '_' + codes[1]; 
+      let idLine = 'id_' + codes[0] + '_' + codes[1];
       let class1 = "country_" + edge.target;
       let class2 = "country_" + edge.source;
 
@@ -489,7 +496,7 @@ export default {
         .attr("x2", p2[0])
         .attr("y1", p1[1])
         .attr("y2", p2[1])
-        .attr("stroke-opacity", 0.07)
+        .attr("stroke-opacity", 0.1)
         .attr("stroke-width", 0.5)
         .style("stroke", "lightgrey")
     }
