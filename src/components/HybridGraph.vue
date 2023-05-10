@@ -1493,12 +1493,12 @@ export default {
       document.getElementById("sidebar").style.visibility = "hidden";
     },
     showTooltipCountry(countryName, migrationsIn, migrationsOut, event) {
-      this.tooltip.style("opacity", 1);
+      //this.tooltip.style("opacity", 1);
 
       this.tooltip
           .html("<h4>" + countryName + "</h4>" + "In: " + migrationsIn + "<br>" + "Out: " + migrationsOut)
-          .style("left", this.getFlagLocation(countryName).x + 20 + "px")
-          .style("top", (this.getFlagLocation(countryName).y + window.scrollY) + "px");
+          .style("left", this.getFlagLocation(countryName).x + 5 + "px")
+          .style("top", (this.getFlagLocation(countryName).y) + "px");
     },
     hideTooltipCountry() {
       this.tooltip.style("opacity", 0);
