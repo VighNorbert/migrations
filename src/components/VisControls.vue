@@ -167,6 +167,17 @@
             </div>
             <div class="form-group row">
                 <div class="col-5">
+                    <label for="centeringForceMultiplier">Centering</label>
+                    <small>{{ centeringForceMultiplier }}x</small>
+                </div>
+                <div class="col-7">
+                    <input type="range" id="centeringForceMultiplier" class="form-range"
+                           name="centeringForceMultiplier" min="0.01" max="10" step="0.01"
+                           v-model="centeringForceMultiplier">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-5">
                     <label for="radialForceMultiplier">Radial</label>
                     <small>{{ radialForceMultiplier }}x</small>
                 </div>
@@ -245,7 +256,7 @@ export default {
       regionsData: [],
       linksData: null,
       selection: 'default',
-      linkForceScaling: 'log',
+      linkForceScaling: 'log10',
       linkForceMultiplier: '1',
       chargeForceMultiplier: '1',
       radialForceMultiplier: '1',
