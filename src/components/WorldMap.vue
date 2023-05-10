@@ -1,7 +1,7 @@
 <template>
 
     <svg id="legend" class="map-legend"></svg>
-    <div id="itemList" :class="selectedCountries.size ? '' : 'd-none hidden'">
+    <div id="itemList" :class="Object.keys(selectedCountries).length ? '' : 'd-none hidden'">
         <div class="d-flex justify-content-between">
             <h2 class="fs-6">Selected countries:</h2>
         </div>
@@ -33,7 +33,7 @@ export default {
       displayedCountry: "",
       width: 950,
       height: 550,
-      selectedCountries: new Set(),
+      selectedCountries: new Object(),
       amountsImmigrations: [],
       amountsEmigrations: [],
       differencesAmounts: [],
@@ -79,7 +79,7 @@ export default {
     },
     selection() {
       let code = parseInt(this.selection);
-      if (this.countriesNames[code] && !this.selectedCountries.has(code)) {
+      if (this.countriesNames[code] && this.selectedCountries[code] === undefined) {
         this.addCountry(code);
       }
     },
@@ -187,7 +187,7 @@ export default {
       else if (this.direction === 'i') this.flows = this.immigrations;
       else this.flows = this.differences;
 
-      this.selectedCountries.add(code);
+      this.selectedCountries[code] = this.direction;
       this.addItem(code);
 
       this.svg.select('#' + "Country-" + code)
@@ -236,9 +236,9 @@ export default {
     },
     select(event, d) {
       let code = d.id;
-      if (this.selectedCountries.has(code)) {
+      if (this.selectedCountries[code] !== undefined) {
         document.getElementById('list-' + code).remove();
-        this.selectedCountries.delete(code);
+        delete this.selectedCountries[code]
 
         event.currentTarget.style.opacity = 0.8;
         event.currentTarget.style.stroke = "rgb(200, 0, 50)";
@@ -255,14 +255,14 @@ export default {
     },
     mouseOver(event, d) {
       let code = d.id;
-      if (!this.selectedCountries.has(code)) {
+      if (this.selectedCountries[code] === undefined) {
         event.currentTarget.style.opacity = 0.8;
         event.currentTarget.style.stroke = "rgb(200, 0, 50)";
       }
     },
     mouseLeave(event, d) {
       let code = d.id;
-      if (!this.selectedCountries.has(code)) {
+      if (this.selectedCountries[code] === undefined) {
         event.currentTarget.style.opacity = 0.5;
         event.currentTarget.style.stroke = "transparent";
       }
@@ -286,10 +286,10 @@ export default {
       }
     },
     update() {
-      for (let code of this.selectedCountries) {
+      for (const [code, value] of Object.entries(this.selectedCountries)) {
 
-        if (this.direction === 'e') this.flows = this.emigrations;
-        else if (this.direction === 'i') this.flows = this.immigrations;
+        if (value === 'e') this.flows = this.emigrations;
+        else if (value === 'i') this.flows = this.immigrations;
         else this.flows = this.differences;
 
         let targets = this.flows[code] || [];
@@ -297,10 +297,10 @@ export default {
           let colorFlows, amount;
           let key = code + '-' + target;
 
-          if (this.direction === 'e') {
+          if (value === 'e') {
             amount = this.amountsEmigrations[key] || 0;
             colorFlows = this.flowColors[1];
-          } else if (this.direction === 'i') {
+          } else if (value === 'i') {
             amount = this.amountsImmigrations[key] || 0;
             colorFlows = this.flowColors[0];
           } else {
@@ -366,7 +366,7 @@ export default {
       return c;
     },
     populateList() {
-      for (let code of this.selectedCountries) {
+      for (const [code, value] of Object.entries(this.selectedCountries)) {
         this.addItem(code);
       }
     },
@@ -382,7 +382,7 @@ export default {
     },
     removeItem(code) {
       document.getElementById('list-' + code).remove();
-      this.selectedCountries.delete(code);
+      delete this.selectedCountries[code];
 
       this.svg.select('#' + "Country-" + code)
           .style("opacity", 0.5)
